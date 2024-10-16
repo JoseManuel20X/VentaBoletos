@@ -3,6 +3,7 @@ package main;
 
 import Usuario.GUIUsuario;
 import Cliente.GUICliente;
+import Login.Loggin;
 
 /**
  *
@@ -94,6 +95,10 @@ public class Admin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        Loggin log = new Loggin();
+        log.setVisible(true);
+        log.setResizable(false);
+        log.setLocationRelativeTo(null);
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 

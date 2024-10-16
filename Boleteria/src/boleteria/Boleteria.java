@@ -11,7 +11,7 @@ public class Boleteria {
 
     public static void main(String[] args) {
         
-        System.out.println("Rober(Chupeta) mi lider");
+        System.out.println("Rober mi lider");
         Loggin log = new Loggin();
         log.setVisible(true);
         log.setResizable(false);
