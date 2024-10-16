@@ -1,20 +1,29 @@
 package boleteria;
 
+import Login.Loggin;
+import main.Admin;
 /**
  *
  * @author Manuel
  */
 public class Boleteria {
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String[] args) {
         
         System.out.println("Rober(Chupeta) mi lider");
-        
-        
-        
+        Loggin log = new Loggin();
+        log.setVisible(true);
+        log.setResizable(false);
+        log.setLocationRelativeTo(null);
+
+ 
+        /**
+        Admin log = new Admin();
+        log.setVisible(true);
+        log.setResizable(false);
+        log.setLocationRelativeTo(null);
+        */
     }
     
 }
