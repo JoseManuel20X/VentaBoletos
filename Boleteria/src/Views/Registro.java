@@ -1,8 +1,8 @@
-package Login;
+package Views;
 
 import Cliente.CRUDCliente;
-import Cliente.Cliente;
-import Usuario.ClaseUsuario;
+import Models.Cliente;
+import Models.ClaseUsuario;
 import Usuario.UsuarioCRUD;
 import javax.swing.JOptionPane;
 
@@ -161,27 +161,46 @@ public void agregarUsuarioDesdeRegistro() {
         txtCorreo = new javax.swing.JTextField();
         btnConfirmar = new javax.swing.JButton();
         txtContraseña = new javax.swing.JPasswordField();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setForeground(new java.awt.Color(204, 204, 204));
 
+        lblMensaje.setBackground(new java.awt.Color(0, 0, 0));
+        lblMensaje.setForeground(new java.awt.Color(0, 0, 0));
         lblMensaje.setText("Por favor ingrese sus datos para registrarse");
 
         lblNombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre:");
 
         lblCorreo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo electronico:");
 
         lblContraseña.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblContraseña.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseña.setText("Contraseña:");
 
+        btnConfirmar.setForeground(new java.awt.Color(0, 0, 0));
         btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                btnCancelarStateChanged(evt);
+            }
+        });
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -217,7 +236,9 @@ public void agregarUsuarioDesdeRegistro() {
                         .addGap(37, 37, 37))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(108, 108, 108))))
+                        .addGap(37, 37, 37)
+                        .addComponent(btnCancelar)
+                        .addGap(61, 61, 61))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,7 +258,9 @@ public void agregarUsuarioDesdeRegistro() {
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblContraseña))
                 .addGap(33, 33, 33)
-                .addComponent(btnConfirmar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConfirmar)
+                    .addComponent(btnCancelar))
                 .addContainerGap(243, Short.MAX_VALUE))
         );
 
@@ -291,6 +314,14 @@ public void agregarUsuarioDesdeRegistro() {
      agregarUsuarioDesdeRegistro();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
+    private void btnCancelarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnCancelarStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarStateChanged
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+      this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
    private boolean validarCampos() {
     boolean estado = true;
 
@@ -304,6 +335,7 @@ public void agregarUsuarioDesdeRegistro() {
     return estado; 
    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblContraseña;

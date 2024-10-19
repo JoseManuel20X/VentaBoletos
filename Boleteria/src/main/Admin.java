@@ -2,8 +2,8 @@
 package main;
 
 import Usuario.GUIUsuario;
-import Cliente.GUICliente;
-import Login.Loggin;
+import Views.GUICliente;
+import Views.Loggin;
 
 /**
  *

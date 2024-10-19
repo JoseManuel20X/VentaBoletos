@@ -1,6 +1,7 @@
 package Cliente;
 
-import Usuario.ClaseUsuario;
+import Models.Cliente;
+import Models.ClaseUsuario;
 import com.fasterxml.jackson.core.type.TypeReference;//Con esta clase, puedes convertir cadenas JSON A objetos de Java
 import com.fasterxml.jackson.databind.ObjectMapper;//Con esta clase, puedes convertir objetos Java en cadenas JSON
 import java.io.File;//Se utiliza para representar un archivo o directorio en el sistema de archivos

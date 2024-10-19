@@ -1,12 +1,13 @@
-package rol;
+package Models;
 
 import Cliente.CRUDCliente;
-import Cliente.Cliente;
+import Models.Cliente;
 import javax.swing.JOptionPane;
 import main.Admin;
-import Usuario.ClaseUsuario;
+import Models.ClaseUsuario;
 import Usuario.UsuarioCRUD;
-import Login.Loggin;
+import Views.Loggin;
+import Views.TicketSales;
 
 /**
  * @author Manuel
@@ -19,6 +20,8 @@ public class ClaseRol {
     private Admin formularioAdministrador;
     private UsuarioCRUD gestionUsuarios;
     private CRUDCliente clienteCrud;
+    private TicketSales ticketSales;
+    
 
     public ClaseRol() {
     this.clienteCrud = new CRUDCliente(gestionUsuarios);
@@ -57,6 +60,8 @@ public class ClaseRol {
                     if (cliente != null) {
                         System.out.println("Formulario Cliente Abierto");
                         loggedIn = true;
+                        
+                        
                     } else {
                         System.out.println("Cliente no encontrado.");
                         abrirLogin();

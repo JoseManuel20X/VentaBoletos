@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package Cliente;
+package Views;
 
+import Cliente.CRUDCliente;
+import Models.Cliente;
 import javax.swing.JOptionPane;
 
 /**

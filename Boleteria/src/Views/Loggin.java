@@ -1,11 +1,11 @@
 
-package Login;
+package Views;
 import Cliente.CRUDCliente;
-import Cliente.Cliente;
+import Models.Cliente;
 import Usuario.UsuarioCRUD;
 import javax.swing.JOptionPane;
 import main.Admin;
-import rol.ClaseRol;
+import Models.ClaseRol;
 /**
  *
  * @author Manuel
@@ -63,10 +63,11 @@ public Loggin() {
         getContentPane().add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 200, 30));
 
         lblContraseña.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        lblContraseña.setForeground(new java.awt.Color(153, 153, 153));
+        lblContraseña.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseña.setText("Contraseña:");
         getContentPane().add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 110, 40));
 
+        btnIngresar.setForeground(new java.awt.Color(0, 0, 0));
         btnIngresar.setText("INGRESAR");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,6 +77,7 @@ public Loggin() {
         getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
 
         btnRegistrarse.setBackground(new java.awt.Color(51, 255, 51));
+        btnRegistrarse.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrarse.setText("REGISTRARSE");
         btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,12 +91,14 @@ public Loggin() {
 
         lblCorreo.setBackground(new java.awt.Color(255, 255, 255));
         lblCorreo.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        lblCorreo.setForeground(new java.awt.Color(102, 102, 102));
+        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo:");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Bienvenido a la boleteria");
 
+        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,9 +161,7 @@ public Loggin() {
             JOptionPane.showMessageDialog(this, "Ingreso exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             roles.iniciarSesion(Correo, contraseña, cliente);
         Admin ad = new Admin();
-        ad.setVisible(true);
-        ad.setResizable(false);
-        ad.setLocationRelativeTo(null);
+        
         this.dispose();
        
         } else {

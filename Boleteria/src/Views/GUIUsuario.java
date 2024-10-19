@@ -1,7 +1,9 @@
 package Usuario;
 
+import Models.ClaseUsuario;
+import Views.EditarUsuario;
 import Cliente.CRUDCliente;
-import Login.Registro;
+import Views.Registro;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;

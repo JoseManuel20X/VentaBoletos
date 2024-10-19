@@ -1,10 +1,15 @@
-package Cliente;
+package Views;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-import Login.Registro;
+import Cliente.CRUDCliente;
+import Cliente.CRUDCliente;
+import Models.Cliente;
+import Models.Cliente;
+import Views.EditarCliente;
+import Views.Registro;
 import Usuario.UsuarioCRUD;
 import java.awt.event.KeyAdapter;// Importa la clase KeyAdapter, que es un adaptador abstracto para recibir eventos de teclado. 
 import java.awt.event.KeyEvent;// Importa la clase KeyEvent, que encapsula información sobre un evento de teclado.

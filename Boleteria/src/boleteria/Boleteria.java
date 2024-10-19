@@ -1,6 +1,6 @@
 package boleteria;
 
-import Login.Loggin;
+import Views.Loggin;
 import main.Admin;
 /**
  *
