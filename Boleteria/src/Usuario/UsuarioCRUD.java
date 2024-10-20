@@ -1,7 +1,7 @@
 package Usuario;
 
 import Models.ClaseUsuario;
-import Cliente.CRUDCliente;
+import Controller.CRUDCliente;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;

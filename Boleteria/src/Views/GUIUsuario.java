@@ -2,7 +2,7 @@ package Usuario;
 
 import Models.ClaseUsuario;
 import Views.EditarUsuario;
-import Cliente.CRUDCliente;
+import Controller.CRUDCliente;
 import Views.Registro;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

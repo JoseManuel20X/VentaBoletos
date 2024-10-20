@@ -1,4 +1,4 @@
-package Cliente;
+package Controller;
 
 import Models.Cliente;
 import Models.ClaseUsuario;

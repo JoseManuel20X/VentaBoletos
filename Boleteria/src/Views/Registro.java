@@ -1,6 +1,6 @@
 package Views;
 
-import Cliente.CRUDCliente;
+import Controller.CRUDCliente;
 import Models.Cliente;
 import Models.ClaseUsuario;
 import Usuario.UsuarioCRUD;
@@ -261,7 +261,7 @@ public void agregarUsuarioDesdeRegistro() {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConfirmar)
                     .addComponent(btnCancelar))
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -320,6 +320,10 @@ public void agregarUsuarioDesdeRegistro() {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
       this.dispose();
+        TicketSales ticket = new TicketSales();
+        ticket.setVisible(true);
+        ticket.setResizable(false);
+        ticket.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
    private boolean validarCampos() {

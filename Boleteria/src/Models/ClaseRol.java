@@ -1,6 +1,6 @@
 package Models;
 
-import Cliente.CRUDCliente;
+import Controller.CRUDCliente;
 import Models.Cliente;
 import javax.swing.JOptionPane;
 import main.Admin;
