@@ -4,28 +4,28 @@
  */
 package Models;
 
-import Obejects.Usuario;
+import Models.ClaseUsuario;
 
 /**
  *
  * @author Robert Granados
  */
 public class Tickect {
-    private Usuario usuario;
+    private ClaseUsuario usuario;
     private Event evento;
     private int cantidad;
 
-    public Tickect(Usuario usuario, Event evento, int cantidad) {
+    public Tickect(ClaseUsuario usuario, Event evento, int cantidad) {
         this.usuario = usuario;
         this.evento = evento;
         this.cantidad = cantidad;
     }
 
-    public Usuario getUsuario() {
+    public ClaseUsuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(ClaseUsuario usuario) {
         this.usuario = usuario;
     }
 
