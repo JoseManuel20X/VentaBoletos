@@ -11,7 +11,7 @@ public class Boleteria {
 
 
     public static void main(String[] args) {
-        
+        /**
         System.out.println("Rober mi lider");
         TicketSales ticket = new TicketSales();
         ticket.setVisible(true);
@@ -23,12 +23,10 @@ public class Boleteria {
         log.setResizable(false);
         log.setLocationRelativeTo(null);*/
 
-        /**
         Admin log = new Admin();
         log.setVisible(true);
         log.setResizable(false);
         log.setLocationRelativeTo(null);
-        */
     }
     
 }

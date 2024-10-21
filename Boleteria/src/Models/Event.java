@@ -22,6 +22,9 @@ public class Event {
         this.enclosure = enclosure;
         this.price = price;
     }
+    
+    public Event() {
+    }
 
     public int getId() {
         return id;
