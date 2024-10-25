@@ -14,16 +14,19 @@ public class Event {
     private String date;
     private String enclosure;
     private double price;
-
-    public Event(int id, String name, String date, String enclosure, double price) {
+    private int numberTickets;
+    private String description;
+    
+    public Event(){};
+    
+    public Event(int id, String name, String date, String enclosure, double price, int numberTickets, String description) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.enclosure = enclosure;
         this.price = price;
-    }
-    
-    public Event() {
+        this.numberTickets = numberTickets;
+        this.description = description;
     }
 
     public int getId() {
@@ -65,6 +68,23 @@ public class Event {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public int getNumberTickets() {
+        return numberTickets;
+    }
+
+    public void setNumberTickets(int numberTickets) {
+        this.numberTickets = numberTickets;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     
     
     

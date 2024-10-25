@@ -27,60 +27,13 @@ public class TicketSales extends javax.swing.JFrame {
         this.gestionEventos = new EventController();
         
         // Define los nombres de las columnas sin el campo ID
-        String[] nombreColumnas = new String[]{"Nombre", "Fecha", "Enclosure", "Precio"};
+        String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha", "Recinto", "Precio","Tickets Disp","Descripción"};
         this.modelo = new NonEditableTableModel(nombreColumnas, 0);
         this.tbEventosDispo.setModel(modelo);
         
         cargarDatosEnTabla(); // Carga los datos de los eventos en la tabla
-    }
-
-    // Método para cargar los datos en la tabla sin el campo ID
-    private void cargarDatosEnTabla() {
-        List<Event> eventos = gestionEventos.leerEventos();
-        System.out.println("Eventos en GUI: " + eventos);
-
-        if (eventos != null && !eventos.isEmpty()) {
-            for (Event evento : eventos) {
-                Object[] fila = new Object[]{
-                    evento.getName(),
-                    evento.getDate(),
-                    evento.getEnclosure(),
-                    evento.getPrice()
-                };
-                modelo.addRow(fila);
-            }
         }
-    }
-
-    // Método para actualizar la tabla (reemplaza todos los datos actuales)
-    private void actualizarTabla() {
-        this.modelo.setRowCount(0); // Limpia la tabla antes de actualizar
-        List<Event> eventos = gestionEventos.leerEventos();
-
-        if (eventos != null) {
-            for (Event evento : eventos) {
-                this.modelo.addRow(new Object[]{
-                    evento.getName(),
-                    evento.getDate(),
-                    evento.getEnclosure(),
-                    evento.getPrice()
-                });
-            }
-        }
-    }
-
-    // Método para agregar un nuevo evento a la tabla
-    private void agregarEvento(Event nuevoEvento) {
-        gestionEventos.crearEvento(nuevoEvento);
-        Object[] fila = new Object[]{
-            nuevoEvento.getName(),
-            nuevoEvento.getDate(),
-            nuevoEvento.getEnclosure(),
-            nuevoEvento.getPrice()
-        };
-        modelo.addRow(fila);
-    }
-
+    
     // Clase interna que extiende DefaultTableModel para hacer la tabla no editable
     private class NonEditableTableModel extends DefaultTableModel {
         public NonEditableTableModel(Object[] columnNames, int rowCount) {
@@ -92,6 +45,64 @@ public class TicketSales extends javax.swing.JFrame {
             return false; // Las celdas no son editables
         }
     }
+
+    // Método para cargar los datos en la tabla sin el campo ID
+    private void cargarDatosEnTabla() {
+        List<Event> eventos = gestionEventos.leerEventos();
+        System.out.println("Eventos en GUI: " + eventos );
+        
+        if (eventos != null && !eventos.isEmpty()) {
+            for (Event evento : eventos) {
+                Object[] fila = new Object[]{
+                    evento.getId(),
+                    evento.getName(),
+                    evento.getDate(),
+                    evento.getEnclosure(),
+                    evento.getPrice(),
+                    evento.getNumberTickets(),
+                    evento.getDescription()
+                };
+                modelo.addRow(fila);
+            }
+        }
+    }
+
+    // Método para actualizar la tabla (reemplaza todos los datos actuales)
+    private void actualizarTabla() {
+        this.modelo.setRowCount(0);
+         List<Event> eventos = this.gestionEventos.leerEventos();
+
+        if (eventos != null) {
+            for (Event evento : eventos) {
+                this.modelo.addRow(new Object[]{
+                   evento.getId(),
+                    evento.getName(),
+                    evento.getDate(),
+                    evento.getEnclosure(),
+                    evento.getPrice(),
+                    evento.getNumberTickets(),
+                    evento.getDescription()
+                });
+            }
+        } 
+    }
+
+    // Método para agregar un nuevo evento a la tabla
+    private void agregarEvento(Event nuevoEvento) {
+        gestionEventos.crearEvento(nuevoEvento);
+        Object[] fila = new Object[]{
+            nuevoEvento.getId(),
+            nuevoEvento.getName(),
+            nuevoEvento.getDate(),
+            nuevoEvento.getEnclosure(),
+            nuevoEvento.getPrice(),
+            nuevoEvento.getNumberTickets(),
+            nuevoEvento.getDescription()
+        };
+        modelo.addRow(fila);
+    }
+
+    
     
     
     

@@ -2,6 +2,9 @@ package Views;
 
 import Controller.EventController;
 import Models.Event;
+import static java.lang.Integer.parseInt;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,34 +35,47 @@ public class FormularioEvento extends javax.swing.JDialog {
     public boolean confirmacion() {
         return this.confirmar;
     }
-
-
-
-    // Valida que los campos de nombre, fecha, recinto y precio no estén vacíos.
-    private boolean validarEspaciosVacios() {
-        return !txtNombre.getText().trim().isEmpty() &&
-               !txtEnclosure.getText().trim().isEmpty() &&
-               !txtFecha.getText().trim().isEmpty() &&
-               !txtPrecio.getText().trim().isEmpty();
+    
+    
+    private boolean soloLetras(String texto) {
+    //Verifica si el texto contiene solo letras
+    for (char c : texto.toCharArray()) {
+        if (!Character.isLetter(c)) {
+            return false;
+        }
+    }
+    return true;
+    }
+    
+    private boolean validarFecha(String fechaTexto) {
+    try {
+        LocalDate.parse(fechaTexto); // Intenta parsear la fecha.
+        return true; // Si es correcta, retorna true.
+        } catch (DateTimeParseException e) {
+            // Muestra un mensaje de error si la fecha no es válida.
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. El formato correcto es: AAAA-MM-DD. Ejemplo : 2006-10-08 ", "Error", JOptionPane.ERROR_MESSAGE);
+            return false; // Retorna false si hay un error en el formato.
+        }
+    }
+    
+    private boolean soloNumerosNueve(String texto) {
+    // Verifica si el texto tiene exactamente 8 caracteres
+    if (texto.length() != 9) {
+        return false;
     }
 
-    // Método para consultar un evento, validar entradas y retornar el objeto Event.
-    public Event consultarEvento() {
-        if (!validarEspaciosVacios()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos deben ser completados.", "Error", JOptionPane.ERROR_MESSAGE);
-            return null;
+    // Verifica si el texto contiene solo dígitos
+    for (char c : texto.toCharArray()) {
+        if (!Character.isDigit(c)) {
+            return false;
         }
+    }
+
+    return true;
+    }
+    
  
 
-        // Crea un nuevo evento basado en los datos ingresados.
-        Event eventoConsultado = new Event();
-        eventoConsultado.setName(txtNombre.getText());
-        eventoConsultado.setDate(txtFecha.getText());
-        eventoConsultado.setEnclosure(txtEnclosure.getText());
-        eventoConsultado.setPrice(Double.parseDouble(txtPrecio.getText()));
-
-        return eventoConsultado;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,7 +85,6 @@ public class FormularioEvento extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtPrecio = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         txtFecha = new javax.swing.JTextField();
@@ -80,11 +95,16 @@ public class FormularioEvento extends javax.swing.JDialog {
         btnGuardar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         lblFecha = new javax.swing.JLabel();
+        lblHora1 = new javax.swing.JLabel();
+        txtDescripción = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        txtTickects = new javax.swing.JTextField();
+        lblHora2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 160, 30));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -93,55 +113,99 @@ public class FormularioEvento extends javax.swing.JDialog {
                 txtNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 160, 30));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 160, 30));
 
         txtFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaActionPerformed(evt);
             }
         });
-        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 160, -1));
+        jPanel1.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 160, 30));
 
         txtEnclosure.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEnclosureActionPerformed(evt);
             }
         });
-        jPanel1.add(txtEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 160, -1));
+        jPanel1.add(txtEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 160, 30));
 
+        lblEnclosure.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         lblEnclosure.setForeground(new java.awt.Color(0, 0, 0));
         lblEnclosure.setText("Enclosure");
-        jPanel1.add(lblEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        jPanel1.add(lblEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
 
+        lblNombre.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(0, 0, 0));
-        lblNombre.setText("Nombre");
-        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, -1));
+        lblNombre.setText("Nombre:");
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
 
+        lblHora.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         lblHora.setForeground(new java.awt.Color(0, 0, 0));
-        lblHora.setText("Precio");
-        jPanel1.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
+        lblHora.setText("Descripción:");
+        jPanel1.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 20));
 
+        btnGuardar.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 12)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setText("Guardar ");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 87, 41));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 390, 87, 50));
 
+        btnCerrar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 84, 47));
+        jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 84, 50));
 
+        lblFecha.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         lblFecha.setForeground(new java.awt.Color(0, 0, 0));
-        lblFecha.setText("Fecha");
-        jPanel1.add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
+        lblFecha.setText("Fecha:");
+        jPanel1.add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 380, 380));
+        lblHora1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblHora1.setForeground(new java.awt.Color(0, 0, 0));
+        lblHora1.setText("Precio:");
+        jPanel1.add(lblHora1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, -1, -1));
+
+        txtDescripción.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDescripciónActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtDescripción, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 160, 30));
+
+        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 160, 30));
+
+        txtTickects.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTickectsActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txtTickects, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 160, 30));
+
+        lblHora2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblHora2.setForeground(new java.awt.Color(0, 0, 0));
+        lblHora2.setText("Tickects:");
+        jPanel1.add(lblHora2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, -1, 20));
+
+        jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Agendar Evento");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 510));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -151,30 +215,42 @@ public class FormularioEvento extends javax.swing.JDialog {
     }//GEN-LAST:event_txtFechaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // Verificar si el controlador de eventos está inicializado
-        if (this.gestionEventos == null) {
-            JOptionPane.showMessageDialog(this, "Error: gestionEventos no está inicializado.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!validarCampos()) {
             return;
         }
-
-        // Consultar los datos del evento desde el formulario
-        Event evento = consultarEvento();
-        if (evento == null) {
-            // Si hubo un error en la validación (evento es null), no se guarda
+        String recinto = txtEnclosure.getText();
+        String fecha = txtFecha.getText();
+        String nombre = txtNombre.getText();
+        String precio = txtPrecio.getText();
+        String tickects = txtTickects.getText();
+        String descripción = txtDescripción.getText();
+        int tickectsCast = Integer.parseInt(tickects);
+        double precioCast = Double.parseDouble(precio);
+        
+        if (!soloLetras(recinto)) {
+            JOptionPane.showMessageDialog(this, "El Recinto solo debe contener letras.");
             return;
         }
-
-        // Si el ID del evento es mayor a 0, se trata de una actualización
-        if (this.eventoId > 0) {
-            evento.setId(this.eventoId); // Asignar el ID al evento para actualizar
-            gestionEventos.actualizarEvento(evento); // Actualizar el evento existente
-        } else {
-            // Si el ID es 0, es un nuevo evento, lo creamos
-            gestionEventos.crearEvento(evento); // Crear un nuevo evento
+        
+        if (!soloLetras(nombre)) {
+            JOptionPane.showMessageDialog(this, "El Nombre solo debe contener letras.");
+            return;
         }
-
-        confirmar = true; // Indica que la acción ha sido confirmada
-        dispose(); // Cerrar el formulario
+        
+        if (!soloLetras(descripción)) {
+            JOptionPane.showMessageDialog(this, "La Descripción solo debe contener letras.");
+            return;
+        }
+        
+        if (!validarFecha(txtFecha.getText())) {
+            return;
+        }
+        
+        
+        Event nuevoEvent = new Event(1, nombre, fecha, recinto, precioCast, tickectsCast, descripción);
+        gestionEventos.crearEvento(nuevoEvent);
+        JOptionPane.showMessageDialog(this, "Se a registrado correctamente el Evento", "Registrado correctamente", JOptionPane.INFORMATION_MESSAGE);
+        this.setVisible(false);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -190,17 +266,46 @@ public class FormularioEvento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
+    private void txtDescripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripciónActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripciónActionPerformed
+
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecioActionPerformed
+
+    private void txtTickectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTickectsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTickectsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblEnclosure;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
+    private javax.swing.JLabel lblHora1;
+    private javax.swing.JLabel lblHora2;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JTextField txtDescripción;
     private javax.swing.JTextField txtEnclosure;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtTickects;
     // End of variables declaration//GEN-END:variables
+
+    private boolean validarCampos() {
+        boolean estado = false;
+        if(!this.txtEnclosure.getText().isBlank()||!this.txtFecha.getText().isBlank()||!this.txtNombre.getText().isBlank()||!this.txtPrecio.getText().isBlank()||!this.txtTickects.getText().isBlank()||!this.txtDescripción.getText().isBlank()){
+            estado = true;
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos con la información correspondiente", "No se pudo registrar el evento correctamente", JOptionPane.ERROR_MESSAGE);
+        }
+        return estado;
+    }
+
+    
 }

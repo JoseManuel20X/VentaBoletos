@@ -24,7 +24,7 @@ public class GUIEvent extends javax.swing.JFrame {
         this.gestionEventos = new EventController();
 
         // Define los nombres de las columnas para la tabla de eventos
-        String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha", "Enclosure", "Precio"};
+        String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha", "Recinto", "Precio","Tickets Disp","Descripción"};
         this.modelo = new NonEditableTableModel(nombreColumnas, 0);
         this.tbEventos.setModel(modelo);
 
@@ -61,7 +61,9 @@ public class GUIEvent extends javax.swing.JFrame {
                     evento.getName(),
                     evento.getDate(),
                     evento.getEnclosure(),
-                    evento.getPrice()
+                    evento.getPrice(),
+                    evento.getNumberTickets(),
+                    evento.getDescription()
                 };
                 modelo.addRow(fila);
             }
@@ -79,7 +81,9 @@ public class GUIEvent extends javax.swing.JFrame {
                     evento.getName(),
                     evento.getDate(),
                     evento.getEnclosure(),
-                    evento.getPrice()
+                    evento.getPrice(),
+                    evento.getNumberTickets(),
+                    evento.getDescription()
                 });
             }
         } 
@@ -92,7 +96,9 @@ public class GUIEvent extends javax.swing.JFrame {
             nuevoEvento.getName(),
             nuevoEvento.getDate(),
             nuevoEvento.getEnclosure(),
-            nuevoEvento.getPrice()
+            nuevoEvento.getPrice(),
+            nuevoEvento.getNumberTickets(),
+            nuevoEvento.getDescription()
         };
         modelo.addRow(fila);
     }
@@ -213,8 +219,9 @@ public class GUIEvent extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbEventos);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 452, 160));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 640, 170));
 
+        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setText("Agregar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,6 +230,7 @@ public class GUIEvent extends javax.swing.JFrame {
         });
         jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, -1, -1));
 
+        btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,6 +239,7 @@ public class GUIEvent extends javax.swing.JFrame {
         });
         jPanel1.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, -1, -1));
 
+        btnEditar.setForeground(new java.awt.Color(0, 0, 0));
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,10 +248,10 @@ public class GUIEvent extends javax.swing.JFrame {
         });
         jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, -1, -1));
 
-        lblBusqueda.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
-        lblBusqueda.setForeground(new java.awt.Color(51, 51, 51));
+        lblBusqueda.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblBusqueda.setForeground(new java.awt.Color(0, 0, 0));
         lblBusqueda.setText("Búsqueda Filtrada");
-        jPanel1.add(lblBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, -1, -1));
+        jPanel1.add(lblBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, -1, -1));
         jPanel1.add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 339, -1));
 
         btnSalir.setText("Salir");

@@ -16,9 +16,9 @@ public class Admin extends javax.swing.JFrame {
         initComponents();
     }
 
-    private void AGUIUsuario() {
+    private void GUIUsuario() {
         GUIUsuario Usu = new GUIUsuario();
-       Usu.setVisible(true);
+        Usu.setVisible(true);
         Usu.setResizable(false);
         Usu.setLocationRelativeTo(null);
     }
@@ -149,7 +149,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEventosActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        AGUIUsuario();
+        GUIUsuario();
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
     private void btnCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliente1ActionPerformed
