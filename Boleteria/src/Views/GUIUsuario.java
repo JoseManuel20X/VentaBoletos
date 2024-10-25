@@ -1,6 +1,7 @@
 package Usuario;
 
-import Models.ClaseUsuario;
+import Controller.UsuarioCRUD;
+import ENTITY.ClaseUsuario;
 import Views.EditarUsuario;
 import Controller.CRUDCliente;
 import Views.Registro;

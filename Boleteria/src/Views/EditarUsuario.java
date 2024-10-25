@@ -5,8 +5,8 @@
 package Views;
 
 
-import Models.ClaseUsuario;
-import Usuario.UsuarioCRUD;
+import ENTITY.ClaseUsuario;
+import Controller.UsuarioCRUD;
 import javax.swing.JOptionPane;
 
 /**

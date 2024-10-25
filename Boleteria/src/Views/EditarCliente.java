@@ -5,7 +5,7 @@
 package Views;
 
 import Controller.CRUDCliente;
-import Models.Cliente;
+import ENTITY.Cliente;
 import javax.swing.JOptionPane;
 
 /**

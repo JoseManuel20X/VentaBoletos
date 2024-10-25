@@ -1,6 +1,7 @@
 package Usuario;
 
-import Models.ClaseUsuario;
+import Controller.UsuarioCRUD;
+import ENTITY.ClaseUsuario;
 import javax.swing.JOptionPane;
 
 public class FormularioUsuario extends javax.swing.JDialog {

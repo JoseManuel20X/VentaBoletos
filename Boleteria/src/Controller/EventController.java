@@ -4,7 +4,7 @@
  */
 package Controller;
 
-import Models.Event;
+import ENTITY.Event;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

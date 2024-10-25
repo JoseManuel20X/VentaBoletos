@@ -4,8 +4,8 @@
  */
 package Controller;
 
-import Models.Event;
-import Models.Tickect;
+import ENTITY.Event;
+import ENTITY.Tickect;
 import java.util.ArrayList;
 import java.util.List;
 

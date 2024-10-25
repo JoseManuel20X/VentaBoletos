@@ -1,11 +1,11 @@
 
 package Views;
 import Controller.CRUDCliente;
-import Models.Cliente;
-import Usuario.UsuarioCRUD;
+import ENTITY.Cliente;
+import Controller.UsuarioCRUD;
 import javax.swing.JOptionPane;
 import main.Admin;
-import Models.ClaseRol;
+import ENTITY.ClaseRol;
 /**
  *
  * @author Manuel

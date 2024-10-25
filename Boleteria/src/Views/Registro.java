@@ -1,9 +1,9 @@
 package Views;
 
 import Controller.CRUDCliente;
-import Models.Cliente;
-import Models.ClaseUsuario;
-import Usuario.UsuarioCRUD;
+import ENTITY.Cliente;
+import ENTITY.ClaseUsuario;
+import Controller.UsuarioCRUD;
 import javax.swing.JOptionPane;
 
 /**

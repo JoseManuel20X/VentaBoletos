@@ -1,7 +1,7 @@
 package Views;
 
 import Controller.EventController;
-import Models.Event;
+import ENTITY.Event;
 import static java.lang.Integer.parseInt;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

@@ -1,6 +1,6 @@
-package Usuario;
+package Controller;
 
-import Models.ClaseUsuario;
+import ENTITY.ClaseUsuario;
 import Controller.CRUDCliente;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

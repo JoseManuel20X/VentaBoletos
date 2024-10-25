@@ -1,11 +1,11 @@
-package Models;
+package ENTITY;
 
 import Controller.CRUDCliente;
-import Models.Cliente;
+import ENTITY.Cliente;
 import javax.swing.JOptionPane;
 import main.Admin;
-import Models.ClaseUsuario;
-import Usuario.UsuarioCRUD;
+import ENTITY.ClaseUsuario;
+import Controller.UsuarioCRUD;
 import Views.Loggin;
 import Views.TicketSales;
 

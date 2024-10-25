@@ -6,8 +6,8 @@ package Views;
 
 import Controller.CRUDCliente;
 import Controller.EventController;
-import Usuario.UsuarioCRUD;
-import Models.Event;
+import Controller.UsuarioCRUD;
+import ENTITY.Event;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 

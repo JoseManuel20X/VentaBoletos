@@ -2,7 +2,7 @@ package Views;
 
 
 import Controller.EventController;
-import Models.Event;
+import ENTITY.Event;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;

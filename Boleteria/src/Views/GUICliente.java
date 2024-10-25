@@ -6,11 +6,11 @@ package Views;
  */
 import Controller.CRUDCliente;
 import Controller.CRUDCliente;
-import Models.Cliente;
-import Models.Cliente;
+import ENTITY.Cliente;
+import ENTITY.Cliente;
 import Views.EditarCliente;
 import Views.Registro;
-import Usuario.UsuarioCRUD;
+import Controller.UsuarioCRUD;
 import java.awt.event.KeyAdapter;// Importa la clase KeyAdapter, que es un adaptador abstracto para recibir eventos de teclado. 
 import java.awt.event.KeyEvent;// Importa la clase KeyEvent, que encapsula información sobre un evento de teclado.
 import javax.swing.*;
