@@ -13,7 +13,7 @@ public class Boleteria {
     public static void main(String[] args) {
         
        System.out.println("Rober mi lider");
-        TicketSales ticket = new TicketSales();
+        Admin ticket = new Admin();
         ticket.setVisible(true);
         ticket.setResizable(false);
         ticket.setLocationRelativeTo(null);

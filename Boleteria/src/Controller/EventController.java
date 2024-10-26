@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -115,4 +116,32 @@ public class EventController {
         }
         return null;  // Si no se encuentra el evento, retorna null
     }
+    
+    
+    
+    
+    public synchronized boolean buyTicket(int eventId, int numberOfTicketsToBuy, String creditCardNumber) {
+        
+
+        
+
+        for (Event event : eventos) {
+            if (event.getId() == eventId) {
+                if (event.getNumberTickets() >= numberOfTicketsToBuy) {
+                    // Descontar los tiquetes
+                    event.setNumberTickets(event.getNumberTickets() - numberOfTicketsToBuy);
+                    System.out.println("Compra exitosa! Quedan " + event.getNumberTickets() + " tiquetes.");
+                    return true;
+                } else {
+                    System.out.println("No hay suficientes tiquetes disponibles.");
+                    return false;
+                }
+            }
+        }
+        System.out.println("Evento no encontrado.");
+        return false;
+    }
+    
+     
+    
 }

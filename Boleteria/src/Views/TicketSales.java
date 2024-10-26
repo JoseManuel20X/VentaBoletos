@@ -28,7 +28,7 @@ public class TicketSales extends javax.swing.JFrame {
         this.gestionEventos = new EventController();
         
         // Define los nombres de las columnas sin el campo ID
-        String[] nombreColumnas = new String[]{"ID","Nombre","Tickets Disp"};
+        String[] nombreColumnas = new String[]{"ID","Nombre","Fecha"};
         this.modelo = new NonEditableTableModel(nombreColumnas, 0);
         this.tbEventosDispo.setModel(modelo);
         
@@ -47,22 +47,24 @@ public class TicketSales extends javax.swing.JFrame {
         }
     }
 
-private void buscarEventoSeleccionadoEnTabla() {
-    int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
-    if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
-        int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
-        EventController eve = new EventController();
-        Event evento = eve.leerEvento(idEvento);  // Busca el evento por ID
-        if (evento != null) {
-            DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
-            detallesEventFrame.mostrarDetallesEvento(evento); // Muestra los detalles en el nuevo frame
-            detallesEventFrame.setVisible(true); // Muestra la ventana de detalles
-        } else {
-            // Manejo de error si no se encuentra el evento
-            JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+    private void buscarEventoSeleccionadoEnTabla() {
+        int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
+        if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
+            int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
+            EventController eve = new EventController();
+            Event evento = eve.leerEvento(idEvento);  // Busca el evento por ID
+            if (evento != null) {
+                DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
+                detallesEventFrame.mostrarDetallesEvento(evento); // Muestra los detalles en el nuevo frame
+                detallesEventFrame.setVisible(true); // Muestra la ventana de detalles
+                detallesEventFrame.setResizable(false);
+                detallesEventFrame.setLocationRelativeTo(null);
+            } else {
+                // Manejo de error si no se encuentra el evento
+                JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
-}
 
 
     
@@ -122,18 +124,27 @@ private void buscarEventoSeleccionadoEnTabla() {
         modelo.addRow(fila);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
+    
+    private void buscarEventoSeleccionadoEnTablaParaComprar() {
+        int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
+        if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
+            int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
+            EventController eve = new EventController();
+            Event evento = eve.leerEvento(idEvento);  // Busca el evento por ID
+            if (evento != null) {
+                BuyTickects buy = new BuyTickects();
+                buy.setVisible(true); 
+                buy.setResizable(false);
+                buy.setLocationRelativeTo(null);
+            } else {
+                // Manejo de error si no se encuentra el evento
+                JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    
  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -321,7 +332,9 @@ private void buscarEventoSeleccionadoEnTabla() {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
-     buscarEventoSeleccionadoEnTabla();
+        buscarEventoSeleccionadoEnTabla();
+        
+        
     }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void btnIniciarSeciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSeciónActionPerformed
@@ -342,7 +355,7 @@ private void buscarEventoSeleccionadoEnTabla() {
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-        // TODO add your handling code here:
+        buscarEventoSeleccionadoEnTablaParaComprar();
     }//GEN-LAST:event_btnComprarActionPerformed
 
     /**
