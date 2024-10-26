@@ -9,6 +9,7 @@ import Controller.EventController;
 import Controller.UsuarioCRUD;
 import ENTITY.Event;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,7 +28,7 @@ public class TicketSales extends javax.swing.JFrame {
         this.gestionEventos = new EventController();
         
         // Define los nombres de las columnas sin el campo ID
-        String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha", "Recinto", "Precio","Tickets Disp","Descripción"};
+        String[] nombreColumnas = new String[]{"ID","Nombre","Tickets Disp"};
         this.modelo = new NonEditableTableModel(nombreColumnas, 0);
         this.tbEventosDispo.setModel(modelo);
         
@@ -46,6 +47,25 @@ public class TicketSales extends javax.swing.JFrame {
         }
     }
 
+private void buscarEventoSeleccionadoEnTabla() {
+    int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
+    if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
+        int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
+        EventController eve = new EventController();
+        Event evento = eve.leerEvento(idEvento);  // Busca el evento por ID
+        if (evento != null) {
+            DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
+            detallesEventFrame.mostrarDetallesEvento(evento); // Muestra los detalles en el nuevo frame
+            detallesEventFrame.setVisible(true); // Muestra la ventana de detalles
+        } else {
+            // Manejo de error si no se encuentra el evento
+            JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+
+    
     // Método para cargar los datos en la tabla sin el campo ID
     private void cargarDatosEnTabla() {
         List<Event> eventos = gestionEventos.leerEventos();
@@ -301,7 +321,7 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
-        // TODO add your handling code here:
+     buscarEventoSeleccionadoEnTabla();
     }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void btnIniciarSeciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSeciónActionPerformed
