@@ -170,23 +170,38 @@ public Loggin() {
     }//GEN-LAST:event_txtContraseñaActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        // Validar campos
         if (!validarCampos()) {
             return;
         }
+
         String Correo = txtCorreo.getText();
         String contraseña = new String(txtContraseña.getPassword());
+
+        // Credenciales del administrador
+        String adminEmail = "admin@saico.com"; 
+        String adminPassword = "admin123";
+
+        // Validar cliente
         CRUDCliente crudCliente = new CRUDCliente(usuarioCrud);
         Cliente cliente = crudCliente.validar(Correo, contraseña);
-        if (roles !=null){
-            JOptionPane.showMessageDialog(this, "Ingreso exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        // Verificar si las credenciales corresponden a un administrador
+        if (Correo.equals(adminEmail) && contraseña.equals(adminPassword)) {
+            JOptionPane.showMessageDialog(this, "Ingreso exitoso como Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            Admin adminWindow = new Admin(); // Crear la ventana de Admin
+            adminWindow.setVisible(true);
+            adminWindow.setResizable(false);
+            adminWindow.setLocationRelativeTo(null);
+            this.dispose(); // Cierra la ventana de login
+        } else if (cliente != null) { // Si las credenciales son de un cliente
+            JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             roles.iniciarSesion(Correo, contraseña, cliente);
-        Admin ad = new Admin();
-        
-        this.dispose();
-       
+            // Aquí puedes abrir la ventana de cliente si tienes una
         } else {
             JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
