@@ -1,40 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Views;
 
+import Controller.BuyTickect;
 import Controller.CRUDCliente;
 import Controller.EventController;
 import Controller.UsuarioCRUD;
+import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author Robert Granados
  */
 public class TicketSales extends javax.swing.JFrame {
-   private UsuarioCRUD usuarioCrud;
+  private UsuarioCRUD usuarioCrud;
     private DefaultTableModel modelo;
     private EventController gestionEventos;
 
     public TicketSales() {
         initComponents();
-        
-        // Inicializa la instancia del controlador de eventos
+
+        // Inicialización de CRUDCliente primero y luego UsuarioCRUD
+        CRUDCliente clienteCRUD = new CRUDCliente(null); // Pasamos null temporalmente
+        this.usuarioCrud = new UsuarioCRUD(clienteCRUD);
+        clienteCRUD.setUsuarioCrud(this.usuarioCrud); // Establecemos la referencia en CRUDCliente
+
         this.gestionEventos = new EventController();
-        
-        // Define los nombres de las columnas sin el campo ID
-        String[] nombreColumnas = new String[]{"ID","Nombre","Fecha"};
-        this.modelo = new NonEditableTableModel(nombreColumnas, 0);
-        this.tbEventosDispo.setModel(modelo);
-        
-        cargarDatosEnTabla(); // Carga los datos de los eventos en la tabla
+
+        // Verificar que tbEventosDispo está correctamente inicializado antes de asignar el modelo
+        if (tbEventosDispo != null) {
+            String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha"};
+            this.modelo = new NonEditableTableModel(nombreColumnas, 0);
+            this.tbEventosDispo.setModel(modelo);
+        } else {
+            System.err.println("Error: tbEventosDispo no está inicializado.");
         }
-    
+
+        // Cargar datos en la tabla
+        cargarDatosEnTabla();
+    }
+
     // Clase interna que extiende DefaultTableModel para hacer la tabla no editable
     private class NonEditableTableModel extends DefaultTableModel {
         public NonEditableTableModel(Object[] columnNames, int rowCount) {
@@ -51,8 +59,7 @@ public class TicketSales extends javax.swing.JFrame {
         int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
         if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
             int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
-            EventController eve = new EventController();
-            Event evento = eve.leerEvento(idEvento);  // Busca el evento por ID
+            Event evento = gestionEventos.leerEvento(idEvento);  // Busca el evento por ID
             if (evento != null) {
                 DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
                 detallesEventFrame.mostrarDetallesEvento(evento); // Muestra los detalles en el nuevo frame
@@ -66,12 +73,10 @@ public class TicketSales extends javax.swing.JFrame {
         }
     }
 
-
-    
     // Método para cargar los datos en la tabla sin el campo ID
     private void cargarDatosEnTabla() {
         List<Event> eventos = gestionEventos.leerEventos();
-        System.out.println("Eventos en GUI: " + eventos );
+        System.out.println("Eventos en GUI: " + eventos);
         
         if (eventos != null && !eventos.isEmpty()) {
             for (Event evento : eventos) {
@@ -89,15 +94,14 @@ public class TicketSales extends javax.swing.JFrame {
         }
     }
 
-    // Método para actualizar la tabla (reemplaza todos los datos actuales)
     private void actualizarTabla() {
         this.modelo.setRowCount(0);
-         List<Event> eventos = this.gestionEventos.leerEventos();
+        List<Event> eventos = this.gestionEventos.leerEventos();
 
         if (eventos != null) {
             for (Event evento : eventos) {
                 this.modelo.addRow(new Object[]{
-                   evento.getId(),
+                    evento.getId(),
                     evento.getName(),
                     evento.getDate(),
                     evento.getEnclosure(),
@@ -124,26 +128,23 @@ public class TicketSales extends javax.swing.JFrame {
         modelo.addRow(fila);
     }
 
-
-    
     private void buscarEventoSeleccionadoEnTablaParaComprar() {
-        int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
-        if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
-            int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
-            EventController eve = new EventController();
-            Event evento = eve.leerEvento(idEvento);  // Busca el evento por ID
+        int selectedRow = this.tbEventosDispo.getSelectedRow();
+        if (selectedRow != -1) {
+            int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);
+            Event evento = gestionEventos.leerEvento(idEvento);
+
             if (evento != null) {
-                BuyTickects buy = new BuyTickects();
-                buy.setVisible(true); 
-                buy.setResizable(false);
-                buy.setLocationRelativeTo(null);
+                ClaseUsuario usuarioActual = usuarioCrud.obtenerUsuarioActual(); // Obtiene el usuario actual
+                BuyTickects buyTickects = new BuyTickects(evento, usuarioActual, new BuyTickect(gestionEventos));
+                buyTickects.setVisible(true);
+                buyTickects.setResizable(false);
+                buyTickects.setLocationRelativeTo(null);
             } else {
-                // Manejo de error si no se encuentra el evento
                 JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
     
  
     @SuppressWarnings("unchecked")
@@ -222,7 +223,7 @@ public class TicketSales extends javax.swing.JFrame {
 
         btnIniciarSeción.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnIniciarSeción.setForeground(new java.awt.Color(0, 0, 0));
-        btnIniciarSeción.setText("Iniciae Seción");
+        btnIniciarSeción.setText("Iniciar Seción");
         btnIniciarSeción.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarSeciónActionPerformed(evt);

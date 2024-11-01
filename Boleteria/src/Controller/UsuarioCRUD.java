@@ -1,7 +1,6 @@
 package Controller;
 
 import ENTITY.ClaseUsuario;
-import Controller.CRUDCliente;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -10,27 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioCRUD {
-    // Lista para almacenar objetos de tipo ClaseUsuario.
     private List<ClaseUsuario> usuarios;
-
-    // Ruta del archivo JSON donde se almacenarán los datos de los usuarios.
     private final String filePath = "usuarios.json";
-
-    // Instancia de ObjectMapper para la conversión entre JSON y objetos Java.
     private ObjectMapper objectMapper;
-
-    // Instancia del CRUD de clientes.
     private CRUDCliente clienteCRUD;
 
     // Constructor de la clase UsuarioCRUD.
     public UsuarioCRUD(CRUDCliente clienteCRUD) {
-        this.clienteCRUD = clienteCRUD;
-        objectMapper = new ObjectMapper();
-        usuarios = cargarUsuarios();
+        this.objectMapper = new ObjectMapper();
+        this.usuarios = cargarUsuarios();
     }
-    
+    public void setClienteCRUD(CRUDCliente clienteCRUD) {
+        this.clienteCRUD = clienteCRUD;
+    }
     // Método para inicializar CRUDCliente cuando sea necesario
-    private CRUDCliente getClienteCRUD() {
+   private CRUDCliente getClienteCRUD() {
         if (clienteCRUD == null) {
             clienteCRUD = new CRUDCliente(this);
         }
@@ -38,22 +31,16 @@ public class UsuarioCRUD {
     }
 
     // Método para cargar los usuarios desde el archivo JSON.
-    public List<ClaseUsuario> cargarUsuarios() {
+     public List<ClaseUsuario> cargarUsuarios() {
         try {
-            // Crea un objeto File con la ruta especificada.
             File file = new File(filePath);
-            // Verifica si el archivo existe.
             if (file.exists()) {
-                // Lee el contenido del archivo JSON y lo convierte en una lista de ClaseUsuario.
                 return objectMapper.readValue(file, new TypeReference<List<ClaseUsuario>>() {});
             } else {
-                // Si el archivo no existe, retorna una lista vacía.
                 return new ArrayList<>();
             }
         } catch (IOException e) {
-            // Maneja excepciones de entrada/salida y muestra el error.
             e.printStackTrace();
-            // Retorna una lista vacía en caso de error.
             return new ArrayList<>();
         }
     }
@@ -163,4 +150,20 @@ public class UsuarioCRUD {
         return usuarios.size();
     }
 
+    
+    
+   private Integer usuarioActualId; // Almacena el ID del usuario activo.
+
+   public void setUsuarioActual(int id) {
+    this.usuarioActualId = id; // Método para establecer el usuario actual al iniciar sesión.
+   }
+    
+    public ClaseUsuario obtenerUsuarioActual() {
+    if (usuarioActualId == null) {
+        return null;
+    }
+    return obtenerUsuario(usuarioActualId); // Retorna el usuario activo
+}
+    
+    
 }

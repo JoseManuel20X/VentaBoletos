@@ -312,6 +312,11 @@ public void agregarUsuarioDesdeRegistro() {
         JOptionPane.showMessageDialog(this, "Se a registrado correctamente el cliente", "Registrado correctamente", JOptionPane.INFORMATION_MESSAGE);
         this.setVisible(false);
      agregarUsuarioDesdeRegistro();
+     this.dispose();
+      TicketSales log = new TicketSales();
+        log.setVisible(true);
+        log.setResizable(false);
+        log.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnCancelarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_btnCancelarStateChanged

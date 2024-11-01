@@ -1,22 +1,21 @@
 package Controller;
 
 import ENTITY.Cliente;
-import ENTITY.ClaseUsuario;
-import com.fasterxml.jackson.core.type.TypeReference;//Con esta clase, puedes convertir cadenas JSON A objetos de Java
-import com.fasterxml.jackson.databind.ObjectMapper;//Con esta clase, puedes convertir objetos Java en cadenas JSON
-import java.io.File;//Se utiliza para representar un archivo o directorio en el sistema de archivos
+import ENTITY.ClaseUsuario; // Asegúrate de importar ClaseUsuario
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase para gestionar los clientes utilizando un archivo JSON.
+ * 
  * 
  * @autor Robert Granados
  */
 public class CRUDCliente {
-    
-    private List<Cliente> clientes;
+   private List<Cliente> clientes;
     private final String filePath = "clientes.json";
     private ObjectMapper objectMapper;
     private UsuarioCRUD usuarioCrud;
@@ -27,6 +26,10 @@ public class CRUDCliente {
         clientes = cargarClientes();
     }
     
+    public void setUsuarioCrud(UsuarioCRUD usuarioCrud) {
+        this.usuarioCrud = usuarioCrud;
+    }
+     
     public UsuarioCRUD getUsuarioCrud() {
         if (usuarioCrud == null) {
             usuarioCrud = new UsuarioCRUD(this);
@@ -35,14 +38,17 @@ public class CRUDCliente {
     }
     
     public Cliente obtenerClienteActual(ClaseUsuario usuario) {
-        int clienteId = usuario.getId();
-        for (Cliente cliente : clientes) {
-            if (cliente.getId() == clienteId) {
-                return cliente;
-            }
-        }
-        return null;
+    if (usuario == null) {
+        return null; // Manejo de caso nulo
     }
+    int clienteId = usuario.getId();
+    for (Cliente cliente : clientes) {
+        if (cliente.getId() == clienteId) {
+            return cliente;
+        }
+    }
+    return null;
+}
 
     private List<Cliente> cargarClientes() {
         try {

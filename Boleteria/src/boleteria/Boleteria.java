@@ -13,15 +13,22 @@ public class Boleteria {
     public static void main(String[] args) {
         
        System.out.println("Rober mi lider");
-        Admin ticket = new Admin();
+        TicketSales log = new TicketSales();
+        log.setVisible(true);
+        log.setResizable(false);
+        log.setLocationRelativeTo(null);
+       
+       
+       
+        /**Admin ticket = new Admin();
         ticket.setVisible(true);
         ticket.setResizable(false);
         ticket.setLocationRelativeTo(null);
         
-        /**Loggin log = new Loggin();
+        Loggin log = new Loggin();
         log.setVisible(true);
         log.setResizable(false);
-        log.setLocationRelativeTo(null);*/
+        log.setLocationRelativeTo(null);
 
       /** Admin log = new Admin();
         log.setVisible(true);

@@ -197,7 +197,10 @@ public Loggin() {
         } else if (cliente != null) { // Si las credenciales son de un cliente
             JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             roles.iniciarSesion(Correo, contraseña, cliente);
-            // Aquí puedes abrir la ventana de cliente si tienes una
+           TicketSales log = new TicketSales();
+           log.setVisible(true);
+           log.setResizable(false);
+           log.setLocationRelativeTo(null);
         } else {
             JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
         }

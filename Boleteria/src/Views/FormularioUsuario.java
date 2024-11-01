@@ -127,17 +127,16 @@ private boolean soloLetrasNumerosArroba(String texto) {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblCorreo.setForeground(new java.awt.Color(255, 255, 255));
+        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo:");
         jPanel1.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 59, -1, -1));
 
-        lblContraseña.setForeground(new java.awt.Color(255, 255, 255));
+        lblContraseña.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseña.setText("Contraseña:");
         jPanel1.add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 108, -1, -1));
         jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 104, 160, -1));
@@ -150,6 +149,7 @@ private boolean soloLetrasNumerosArroba(String texto) {
         });
         jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 171, -1, -1));
 
+        btnCerrar.setForeground(new java.awt.Color(255, 0, 0));
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,30 +158,27 @@ private boolean soloLetrasNumerosArroba(String texto) {
         });
         jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 171, -1, -1));
 
-        lblAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        lblAgregar.setForeground(new java.awt.Color(51, 51, 51));
         lblAgregar.setText("Agregar Usuario");
-        jPanel1.add(lblAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 6, -1, -1));
+        jPanel1.add(lblAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
 
-        lblContraseña1.setForeground(new java.awt.Color(255, 255, 255));
+        lblContraseña1.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseña1.setText("Asigne el rol");
         jPanel1.add(lblContraseña1, new org.netbeans.lib.awtextra.AbsoluteConstraints(288, 137, -1, -1));
         jPanel1.add(txtID_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(374, 133, 20, -1));
         jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 55, 160, -1));
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("ID ROL");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 6, 81, -1));
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("1 = Administrador");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(288, 34, -1, -1));
 
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("2 = Operador ");
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("2 =  Cliente");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(288, 59, -1, -1));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuarios.jpg"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 200));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,7 +226,6 @@ private boolean soloLetrasNumerosArroba(String texto) {
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;

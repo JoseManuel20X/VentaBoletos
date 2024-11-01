@@ -1,27 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Views;
+
+import Controller.BuyTickect;
+import Controller.EventController;
+import ENTITY.ClaseUsuario;
 import ENTITY.Event;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Robert Granados
+ * @author Manuel
  */
 public class BuyTickects extends javax.swing.JFrame {
+private Event eventoSeleccionado;
+    private BuyTickect buyTickect;
+    private ClaseUsuario usuarioActual;
 
-    /**
-     * Creates new form BuyTickects
-     */
-    public BuyTickects() {
+    public BuyTickects(Event evento, ClaseUsuario usuario, BuyTickect buyTickect) {
         initComponents();
+        this.eventoSeleccionado = evento;
+        this.usuarioActual = usuario;
+        this.buyTickect = buyTickect;
+
+        mostrarDetallesEvento(evento);
     }
 
+    // Muestra los detalles del evento seleccionado en los campos de texto
     public void mostrarDetallesEvento(Event evento) {
-        Object[] datos = new Object[]{evento.getId(), evento.getEnclosure(), evento.getDescription(), evento.getPrice(), evento.getNumberTickets()};
-        
+        txtEventoResumen.setText(evento.getName());
+        txtTotalResumen.setText(String.valueOf(evento.getPrice()));
     }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,6 +103,11 @@ public class BuyTickects extends javax.swing.JFrame {
         btnComprar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnComprar.setForeground(new java.awt.Color(0, 0, 0));
         btnComprar.setText("Comprar");
+        btnComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComprarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
@@ -197,41 +210,24 @@ public class BuyTickects extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BuyTickects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BuyTickects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BuyTickects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BuyTickects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
+int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
+        String numeroTarjeta = txtTarjeta.getText();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BuyTickects().setVisible(true);
-            }
-        });
-    }
+        if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de tarjeta válido de 16 dígitos.");
+            return;
+        }
+
+        boolean compraExitosa = buyTickect.comprarTique(usuarioActual, eventoSeleccionado.getId(), cantidad, numeroTarjeta);
+        if (compraExitosa) {
+            JOptionPane.showMessageDialog(this, "Compra realizada con éxito.");
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnComprarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
