@@ -37,7 +37,7 @@ public class TicketSales extends javax.swing.JFrame {
 
         // Verificar que tbEventosDispo está correctamente inicializado antes de asignar el modelo
         if (tbEventosDispo != null) {
-            String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha"};
+            String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha","Recinto"};
             this.modelo = new NonEditableTableModel(nombreColumnas, 0);
             this.tbEventosDispo.setModel(modelo);
         } else {
@@ -211,6 +211,12 @@ public class TicketSales extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Evento:");
+
+        txtRecinto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRecintoKeyTyped(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -389,16 +395,28 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEventoKeyTyped
 
     private void txtFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyTyped
-        txtEvento.addKeyListener(new KeyAdapter(){
+        txtFecha.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e) {
-                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtEvento.getText(), 2));
+                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtFecha.getText(), 2));
             } 
         });
         
         trs = new TableRowSorter(modelo);
         tbEventosDispo.setRowSorter(trs);
     }//GEN-LAST:event_txtFechaKeyTyped
+
+    private void txtRecintoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRecintoKeyTyped
+        txtRecinto.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtRecinto.getText(), 3));
+            } 
+        });
+        
+        trs = new TableRowSorter(modelo);
+        tbEventosDispo.setRowSorter(trs);
+    }//GEN-LAST:event_txtRecintoKeyTyped
 
     /**
      * @param args the command line arguments
