@@ -121,9 +121,6 @@ public class EventController {
     
     
     public synchronized boolean buyTicket(int eventId, int numberOfTicketsToBuy, String creditCardNumber) {
-        
-
-        
 
         for (Event event : eventos) {
             if (event.getId() == eventId) {
@@ -142,6 +139,20 @@ public class EventController {
         return false;
     }
     
-     
+    public boolean editarEvento(int id, Event eventoActualizado) {
+    for (Event evento : eventos) { // Recorrer la lista de eventos
+        if (evento.getId() == id) { // Verificar si el ID coincide
+                // Actualizar los atributos del evento encontrado
+                evento.setName(eventoActualizado.getName());
+                evento.setDate(eventoActualizado.getDate());
+                evento.setEnclosure(eventoActualizado.getEnclosure());
+                evento.setPrice(eventoActualizado.getPrice());
+                evento.setNumberTickets(eventoActualizado.getNumberTickets());
+                evento.setDescription(eventoActualizado.getDescription());
+                return true; // Indicar que la edición fue exitosa
+            }
+        }
+        return false; // Indicar que no se encontró el evento con el ID especificado
+    } 
     
 }

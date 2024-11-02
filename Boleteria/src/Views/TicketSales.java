@@ -6,9 +6,13 @@ import Controller.EventController;
 import Controller.UsuarioCRUD;
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 
 /**
@@ -16,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Robert Granados
  */
 public class TicketSales extends javax.swing.JFrame {
-  private UsuarioCRUD usuarioCrud;
+    TableRowSorter trs;
+    private UsuarioCRUD usuarioCrud;
     private DefaultTableModel modelo;
     private EventController gestionEventos;
 
@@ -187,9 +192,21 @@ public class TicketSales extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Buscar por");
 
+        txtFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFechaKeyTyped(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Fecha:");
+
+        txtEvento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtEventoKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -358,6 +375,30 @@ public class TicketSales extends javax.swing.JFrame {
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
         buscarEventoSeleccionadoEnTablaParaComprar();
     }//GEN-LAST:event_btnComprarActionPerformed
+
+    private void txtEventoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEventoKeyTyped
+        txtEvento.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtEvento.getText(), 1));
+            } 
+        });
+        
+        trs = new TableRowSorter(modelo);
+        tbEventosDispo.setRowSorter(trs);
+    }//GEN-LAST:event_txtEventoKeyTyped
+
+    private void txtFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyTyped
+        txtEvento.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtEvento.getText(), 2));
+            } 
+        });
+        
+        trs = new TableRowSorter(modelo);
+        tbEventosDispo.setRowSorter(trs);
+    }//GEN-LAST:event_txtFechaKeyTyped
 
     /**
      * @param args the command line arguments

@@ -211,21 +211,21 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
+        int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
         String numeroTarjeta = txtTarjeta.getText();
 
         if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de tarjeta válido de 16 dígitos.");
             return;
-        }
+            }
 
         boolean compraExitosa = buyTickect.comprarTique(usuarioActual, eventoSeleccionado.getId(), cantidad, numeroTarjeta);
         if (compraExitosa) {
             JOptionPane.showMessageDialog(this, "Compra realizada con éxito.");
             dispose();
-        } else {
+            }else {
             JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
-        }        // TODO add your handling code here:
+            }        // TODO add your handling code here:
     }//GEN-LAST:event_btnComprarActionPerformed
 
 
