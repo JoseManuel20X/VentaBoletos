@@ -176,11 +176,9 @@ public class TicketSales extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Eventos Disponibles");
 
         btnSalir.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,7 +187,6 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Buscar por");
 
         txtFecha.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -199,7 +196,6 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Fecha:");
 
         txtEvento.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -209,7 +205,6 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Evento:");
 
         txtRecinto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -219,7 +214,6 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Recinto:");
 
         tbEventosDispo.setModel(new javax.swing.table.DefaultTableModel(
@@ -236,7 +230,6 @@ public class TicketSales extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbEventosDispo);
 
         btnDetalles.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnDetalles.setForeground(new java.awt.Color(0, 0, 0));
         btnDetalles.setText("Ver  Detalles");
         btnDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,8 +238,7 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         btnIniciarSeción.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnIniciarSeción.setForeground(new java.awt.Color(0, 0, 0));
-        btnIniciarSeción.setText("Iniciar Seción");
+        btnIniciarSeción.setText("Iniciar Sesión");
         btnIniciarSeción.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarSeciónActionPerformed(evt);
@@ -254,7 +246,6 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         btnRegistrarse.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnRegistrarse.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrarse.setText("Registrarse");
         btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,7 +254,6 @@ public class TicketSales extends javax.swing.JFrame {
         });
 
         btnComprar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnComprar.setForeground(new java.awt.Color(0, 0, 0));
         btnComprar.setText("Comprar");
         btnComprar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,11 +291,11 @@ public class TicketSales extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(btnDetalles)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(btnIniciarSeción)
                 .addGap(18, 18, 18)
                 .addComponent(btnRegistrarse)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnComprar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir)

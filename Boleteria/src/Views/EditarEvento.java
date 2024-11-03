@@ -19,69 +19,128 @@ public class EditarEvento extends javax.swing.JFrame {
     private EventController gestionEventos;
     private Event event;
     
-    public EditarEvento(GUIEvent aThis, boolean par, Event evento, EventController gestionEventos1) {
+    public EditarEvento(GUIEvent parent, boolean modal, Event evento, EventController gestionEventos1) {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.event=event;
-        this.gestionEventos=gestionEventos;
-        
-        if (this.event == null) { // Verifica si el usuario es nulo.
-            // Muestra un mensaje de error y cierra el diálogo si no hay usuario.
-            JOptionPane.showMessageDialog(this, "El usuario no está disponible para edición.", "Error", JOptionPane.ERROR_MESSAGE);
-            this.dispose(); // Cierra el JDialog.
+        this.event = evento;
+        this.gestionEventos = gestionEventos1;
+
+        if (this.event == null) {
+            JOptionPane.showMessageDialog(this, "El evento no está disponible para edición.", "Error", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
         } else {
-            // Si el usuario no es nulo, carga los datos en los campos de texto.
-           
-            txtEnclosure.setText(event.getEnclosure());
-            txtFecha.setText(event.getDate());
-            txtNombre.setText(event.getName());
-            txtPrecio.setText(String.valueOf((int) event.getPrice()));
-            txtTickects.setText(String.valueOf(event.getNumberTickets()));
-            txtDescripción.setText(event.getDescription());
+            cargarDatosEvento();
             this.setVisible(true);
-            this.setResizable(false);
-            this.setLocationRelativeTo(null);
         }
+    }
+    
+    private void cargarDatosEvento() {
+        txtEnclosure.setText(event.getEnclosure());
+        txtFecha.setText(event.getDate());
+        txtNombre.setText(event.getName());
+        txtPrecio.setText(String.valueOf((int) event.getPrice()));
+        txtTickects.setText(String.valueOf(event.getNumberTickets()));
+        txtDescripción.setText(event.getDescription());
     }
 
     private boolean soloLetras(String texto) {
-    //Verifica si el texto contiene solo letras
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetter(c)) {
-            return false;
+        for (char c : texto.toCharArray()) {
+            if (!Character.isLetter(c) && c != ' ') {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
-    }
+
     
     private boolean validarFecha(String fechaTexto) {
-    try {
-        LocalDate.parse(fechaTexto); // Intenta parsear la fecha.
-        return true; // Si es correcta, retorna true.
+        try {
+            LocalDate.parse(fechaTexto);
+            return true;
         } catch (DateTimeParseException e) {
-            // Muestra un mensaje de error si la fecha no es válida.
             JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. El formato correcto es: AAAA-MM-DD. Ejemplo : 2006-10-08 ", "Error", JOptionPane.ERROR_MESSAGE);
-            return false; // Retorna false si hay un error en el formato.
-        }
-    }
-    
-    private boolean soloNumerosNueve(String texto) {
-    // Verifica si el texto tiene exactamente 8 caracteres
-    if (texto.length() != 9) {
-        return false;
-    }
-
-    // Verifica si el texto contiene solo dígitos
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
             return false;
         }
     }
 
-    return true;
-    }
     
+    private boolean soloNumeros(String texto) {
+        for (char c : texto.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void guardarEvento() {
+        String nombre = txtNombre.getText().trim();
+        String fecha = txtFecha.getText().trim();
+        String enclosure = txtEnclosure.getText().trim();
+        String precioTexto = txtPrecio.getText().trim();
+        String ticketsTexto = txtTickects.getText().trim();
+        String descripcion = txtDescripción.getText().trim();
+
+        // Verificar campos vacíos
+        if (nombre.isEmpty() || fecha.isEmpty() || enclosure.isEmpty() || precioTexto.isEmpty() || ticketsTexto.isEmpty() || descripcion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar solo letras para el nombre
+        if (!soloLetras(nombre)) {
+            JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar fecha
+        if (!validarFecha(fecha)) {
+            return; // Ya se muestra el mensaje dentro de validarFecha
+        }
+
+        // Validar recinto
+        if (!soloLetras(enclosure)) {
+            JOptionPane.showMessageDialog(this, "El Recinto solo puede contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar precio
+        if (!soloNumeros(precioTexto)) {
+            JOptionPane.showMessageDialog(this, "El precio solo puede contener numeros.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Validar tickets
+        if (!soloNumeros(ticketsTexto)) {
+            JOptionPane.showMessageDialog(this, "El número de tickets solo puede contener numeros.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Validar descripcion
+        if (!soloLetras(descripcion)) {
+            JOptionPane.showMessageDialog(this, "La descripcion solo puede contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Guardar evento
+        event.setName(nombre);
+        event.setDate(fecha);
+        event.setEnclosure(enclosure);
+        event.setDescription(descripcion);
+
+        // Convertir precio y tickets a números
+        event.setPrice(Integer.parseInt(precioTexto));
+        event.setNumberTickets(Integer.parseInt(ticketsTexto));
+
+        if (gestionEventos.actualizarEvento(event)) {
+            JOptionPane.showMessageDialog(this, "Evento actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el evento.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -304,59 +363,7 @@ public class EditarEvento extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEnclosureActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try{
-        String recinto = txtEnclosure.getText();
-        String fecha = txtFecha.getText();
-        String nombre = txtNombre.getText();
-        String precio = txtPrecio.getText();
-        String tickects = txtTickects.getText();
-        String descripción = txtDescripción.getText();
-        
-
-        if (!soloLetras(recinto)) {
-            JOptionPane.showMessageDialog(this, "El Recinto solo debe contener letras.");
-            return;
-        }
-
-        if (!soloLetras(nombre)) {
-            JOptionPane.showMessageDialog(this, "El Nombre solo debe contener letras.");
-            return;
-        }
-
-        if (!soloLetras(descripción)) {
-            JOptionPane.showMessageDialog(this, "La Descripción solo debe contener letras.");
-            return;
-        }
-
-        if (!validarFecha(txtFecha.getText())) {
-            return;
-           
-        }
-        int tickectsCast = Integer.parseInt(tickects);
-        double precioCast = Double.parseDouble(precio);
-        
-        if (nombre.isEmpty() || recinto.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        if (this.event != null) {  // Verifica que el evento no sea nulo
-             
-                this.event.setEnclosure(nombre);
-                this.event.setDate(nombre);
-                this.event.setDescription(descripción);
-                this.event.setName(nombre);
-                this.event.setNumberTickets(PROPERTIES);
-                this.event.setPrice(precioCast);
-                gestionEventos.actualizarEvento(event);  // Actualiza el evento en la gestión
-                JOptionPane.showMessageDialog(this, "Evento actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE); // Muestra mensaje de éxito y cierra el diálogo
-                this.dispose(); // Cierra el JDialog
-            } else {
-                JOptionPane.showMessageDialog(this, "El evento a editar no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar el evento: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
+        guardarEvento();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed

@@ -51,23 +51,23 @@ private Event eventoSeleccionado;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Comprar Tickeckts");
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Cantidad:");
 
         cbxCantidad.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        cbxCantidad.setForeground(new java.awt.Color(0, 0, 0));
         cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        cbxCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxCantidadActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Evento:");
 
         txtEventoResumen.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        txtEventoResumen.setForeground(new java.awt.Color(0, 0, 0));
         txtEventoResumen.setEnabled(false);
         txtEventoResumen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,7 +76,6 @@ private Event eventoSeleccionado;
         });
 
         txtTotalResumen.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        txtTotalResumen.setForeground(new java.awt.Color(0, 0, 0));
         txtTotalResumen.setEnabled(false);
         txtTotalResumen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,15 +84,12 @@ private Event eventoSeleccionado;
         });
 
         jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Total:");
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Número de Tarjeta:");
 
         txtTarjeta.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        txtTarjeta.setForeground(new java.awt.Color(0, 0, 0));
         txtTarjeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTarjetaActionPerformed(evt);
@@ -101,7 +97,6 @@ private Event eventoSeleccionado;
         });
 
         btnComprar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnComprar.setForeground(new java.awt.Color(0, 0, 0));
         btnComprar.setText("Comprar");
         btnComprar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,7 +105,6 @@ private Event eventoSeleccionado;
         });
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +221,10 @@ private Event eventoSeleccionado;
             JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
             }        // TODO add your handling code here:
     }//GEN-LAST:event_btnComprarActionPerformed
+
+    private void cbxCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxCantidadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -90,15 +90,16 @@ public class EventController {
         return null;  // Si no se encuentra el evento, retorna null
     }
 
-    // Actualiza un evento existente
-    public void actualizarEvento(Event eventoActualizado) {
+// Actualiza un evento existente
+    public boolean actualizarEvento(Event eventoActualizado) {
         for (int i = 0; i < eventos.size(); i++) {
             if (eventos.get(i).getId() == eventoActualizado.getId()) {
                 eventos.set(i, eventoActualizado);  // Reemplaza el evento en la lista
                 guardarEventos();  // Guarda los cambios en el archivo JSON
-                return;
+                return true;  // Retorna true si la actualización fue exitosa
             }
         }
+        return false;  // Retorna false si no se encontró el evento
     }
 
     // Elimina un evento por su ID
