@@ -151,7 +151,7 @@ public class TicketSales extends javax.swing.JFrame {
         }
     }
     
- 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -369,6 +369,18 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
+        // Verifica si el usuario está autenticado
+        if (!Loggin.usuarioAutenticado) { // Llama a la variable estática de la clase Login
+            JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.", "Error", JOptionPane.ERROR_MESSAGE);
+
+            // Redirigir a la ventana de inicio de sesión
+            Loggin login = new Loggin(); // Crea una nueva instancia de la ventana de inicio de sesión
+            login.setVisible(true); // Muestra la ventana de inicio de sesión
+            this.dispose(); // Cierra la ventana de ventas de boletos
+            return; // Detiene la acción si no está autenticado
+        }
+
+        // Si el usuario está autenticado, proceder con la búsqueda de eventos para comprar
         buscarEventoSeleccionadoEnTablaParaComprar();
     }//GEN-LAST:event_btnComprarActionPerformed
 

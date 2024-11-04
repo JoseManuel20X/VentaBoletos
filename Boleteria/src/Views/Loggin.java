@@ -14,6 +14,9 @@ public class Loggin extends javax.swing.JFrame {
  private ClaseRol roles;
     private UsuarioCRUD usuarioCrud;
     
+    // Variable estática para verificar el estado de autenticación
+    public static boolean usuarioAutenticado = false;
+    
 public Loggin() {
         initComponents();
         this.roles = new ClaseRol();
@@ -163,7 +166,7 @@ public Loggin() {
     }//GEN-LAST:event_txtContraseñaActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // Validar campos
+    // Validar campos
         if (!validarCampos()) {
             return; // Sale del método si los campos no son válidos.
         }
@@ -187,19 +190,20 @@ public Loggin() {
             adminWindow.setResizable(false);
             adminWindow.setLocationRelativeTo(null);
             this.dispose(); // Cierra la ventana de login
-            
+
         } else if (cliente != null) { // Si las credenciales son de un cliente
             JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            usuarioAutenticado = true; // Establecer el estado como autenticado
             roles.iniciarSesion(Correo, contraseña, cliente);
             TicketSales log = new TicketSales();
             log.setVisible(true);
             log.setResizable(false);
             log.setLocationRelativeTo(null);
-            
+            this.dispose(); // Cierra la ventana de login
         } else {
             // Mensaje de error si las credenciales son incorrectas
             JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-        }                                          
+        }                                                         
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
