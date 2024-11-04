@@ -206,21 +206,21 @@ public class FormularioEvento extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Validar solo letras para el nombre
-        if (!soloLetras(nombre)) {
-            JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras", "Error", JOptionPane.ERROR_MESSAGE);
+        
+        // Validar recinto
+        if (!soloLetras(enclosure)) {
+            JOptionPane.showMessageDialog(this, "El Recinto solo puede contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         // Validar fecha
         if (!validarFecha(fecha)) {
             return; // Ya se muestra el mensaje dentro de validarFecha
         }
 
-        // Validar recinto
-        if (!soloLetras(enclosure)) {
-            JOptionPane.showMessageDialog(this, "El Recinto solo puede contener letras.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Validar solo letras para el nombre
+        if (!soloLetras(nombre)) {
+            JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

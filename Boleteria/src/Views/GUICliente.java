@@ -10,6 +10,7 @@ import ENTITY.Cliente;
 import ENTITY.Cliente;
 import Views.EditarCliente;
 import Views.Registro;
+import Views.FormularioCliente;
 import Controller.UsuarioCRUD;
 import java.awt.event.KeyAdapter;// Importa la clase KeyAdapter, que es un adaptador abstracto para recibir eventos de teclado. 
 import java.awt.event.KeyEvent;// Importa la clase KeyEvent, que encapsula información sobre un evento de teclado.
@@ -144,12 +145,8 @@ public class GUICliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-     CRUDCliente crudcliente = new CRUDCliente(usuarioCrud);
-        Registro registro = new Registro(crudcliente);
-        registro.setVisible(true);
-        registro.setResizable(false);
-        registro.setLocationRelativeTo(null);
-       this.actualizarTabla();
+        this.agregarCliente();
+        this.actualizarTabla();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -200,14 +197,15 @@ public class GUICliente extends javax.swing.JFrame {
         }
     }
     
-    public void agregarCliente(Cliente cliente) {
-    clienteCRUD.crearCliente(cliente);
-    Object[] fila = new Object[]{
-        cliente.getId(), cliente.getNombre(),
-                 cliente.getCorreo(), cliente.getContraseña()
-        };
-    tableModel.addRow(fila);
+    private void agregarCliente() {
+        CRUDCliente crudcliente = new CRUDCliente(usuarioCrud);
+        Registro registro = new Registro(crudcliente);
+        registro.setVisible(true);
+        registro.setResizable(false);
+        registro.setLocationRelativeTo(null);
+        this.dispose();
     }
+
 
     private void editarCliente() {
         int filaSeleccionada = this.jTable1.getSelectedRow();

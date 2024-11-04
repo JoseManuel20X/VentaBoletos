@@ -73,11 +73,12 @@ public class CRUDCliente {
     }
 
     public void crearCliente(Cliente cliente) {
-    int nuevoId = generarNuevoIdCliente();
-    cliente.setId(nuevoId);
-    clientes.add(cliente);
-    guardarClientes();
+        int nuevoId = generarNuevoIdCliente();
+        cliente.setId(nuevoId);
+        clientes.add(cliente);
+        guardarClientes();
     }
+
 
     private int generarNuevoIdCliente() {
     if (clientes.isEmpty()) { //Si la lista de clientes está vacía, el primer ID será 1
@@ -146,7 +147,5 @@ public class CRUDCliente {
         }
         return null;
     }
-    
-
 }
 

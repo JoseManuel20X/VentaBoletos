@@ -51,7 +51,6 @@ public class Admin extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btnUsuario = new javax.swing.JButton();
         btnEventos = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnCliente1 = new javax.swing.JButton();
@@ -62,16 +61,6 @@ public class Admin extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnUsuario.setBackground(new java.awt.Color(153, 153, 153));
-        btnUsuario.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        btnUsuario.setText("Usuario");
-        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUsuarioActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 117, 37));
-
         btnEventos.setBackground(new java.awt.Color(102, 102, 102));
         btnEventos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnEventos.setText("Eventos");
@@ -80,7 +69,7 @@ public class Admin extends javax.swing.JFrame {
                 btnEventosActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 114, 42));
+        jPanel1.add(btnEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 114, 42));
 
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -98,7 +87,7 @@ public class Admin extends javax.swing.JFrame {
                 btnCliente1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 114, 42));
+        jPanel1.add(btnCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 114, 42));
 
         btnTicket.setBackground(new java.awt.Color(102, 102, 102));
         btnTicket.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -108,7 +97,7 @@ public class Admin extends javax.swing.JFrame {
                 btnTicketActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 114, 42));
+        jPanel1.add(btnTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 114, 42));
 
         jLabel1.setText("ADMIN");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
@@ -134,22 +123,19 @@ public class Admin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-       /** Loggin log = new Loggin();
-        log.setVisible(true);
-        log.setResizable(false);
-        log.setLocationRelativeTo(null);
+        // Abre la GUI de TicketSales
+        TicketSales ticketSales = new TicketSales();
+        ticketSales.setVisible(true);
+        ticketSales.setResizable(false);
+        ticketSales.setLocationRelativeTo(null);
+
+        // Cierra la ventana actual (Admin)
         dispose();
-        */
-       System.exit(WIDTH);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEventosActionPerformed
        GUIEvent();
     }//GEN-LAST:event_btnEventosActionPerformed
-
-    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        GUIUsuario();
-    }//GEN-LAST:event_btnUsuarioActionPerformed
 
     private void btnCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliente1ActionPerformed
         GUIClientes();
@@ -166,7 +152,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton btnEventos;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTicket;
-    private javax.swing.JButton btnUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

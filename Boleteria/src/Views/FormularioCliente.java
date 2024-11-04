@@ -32,55 +32,7 @@ public class FormularioCliente extends javax.swing.JDialog {
     }
     return true;
     }
-    
-    private boolean soloLetrasEspacio(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetter(c) && c != ' ') {
-            return false;
-        }
-    }
-    return true;
-    }
-    
-    private boolean soloNumerosOcho(String texto) {
-    if (texto.length() != 8) {
-        return false;
-    }
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
-            return false;
-          }
-       }
-       return true;
-    }
-    
-    private boolean soloNumerosNueve(String texto) {
-    if (texto.length() != 9) {
-        return false;
-    }
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
-            return false;
-         }
-      }
-    return true;
-    }
-    
-    private boolean soloNumerosEdad(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
-            return false;
-        }
-    }
-    int edad;
-    try {
-        edad = Integer.parseInt(texto);
-    } catch (NumberFormatException e) {
-        return false;
-      }
-        return edad >= 0 && edad <= 115;
-    }
-    
+
     private boolean soloContraseña(String texto) {
     if (texto.length() < 8 || texto.length() > 16) {
         return false;
@@ -91,15 +43,6 @@ public class FormularioCliente extends javax.swing.JDialog {
           }
        }
       return true;
-    }
-    
-    private boolean soloLetrasNumerosEspacio(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetter(c) && !Character.isDigit(c) && c != ' ') {
-            return false;
-         }
-      }
-    return true;
     }
     
     private boolean soloLetrasNumerosArroba(String texto) {
@@ -119,13 +62,6 @@ public class FormularioCliente extends javax.swing.JDialog {
             return contieneArroba;
     }
     
-    private boolean soloGenero(String texto) {
-    if (texto.length() == 1) {
-        char c = texto.charAt(0);
-        return c == 'M' || c == 'F';
-    }
-    return false;
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -152,7 +88,7 @@ public class FormularioCliente extends javax.swing.JDialog {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, -1, -1));
 
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -160,25 +96,25 @@ public class FormularioCliente extends javax.swing.JDialog {
                 btnCerrarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 230, -1, -1));
+        jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 230, -1, -1));
 
         lblAgregar.setText("Agregar Cliente");
-        jPanel1.add(lblAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, -1, -1));
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 187, -1));
+        jPanel1.add(lblAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, -1, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 187, -1));
 
         lblNombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblNombre.setText("Nombre:");
-        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, 20));
+        jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
 
         lblCorreo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblCorreo.setText("Correo electronico:");
-        jPanel1.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+        jPanel1.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
         lblContraseña.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblContraseña.setText("Contraseña:");
-        jPanel1.add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
-        jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 185, -1));
-        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 185, -1));
+        jPanel1.add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
+        jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 185, -1));
+        jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 185, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,47 +124,48 @@ public class FormularioCliente extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (!validarCampos()) {
-            return;
-        }
+
         String nombre = txtNombre.getText();
         String correo = txtCorreo.getText();
         String contraseña = new String(txtContraseña.getPassword());
-        
-    
-    if (!soloLetras(nombre)) {
-        JOptionPane.showMessageDialog(this, "El nombre solo debe contener letras.");
-        return;
-    }
-    
-    if (!soloLetrasNumerosArroba(correo)) {
-        JOptionPane.showMessageDialog(this, "El correo solo debe contener numeros y letras y una arroba.");
-        return;
-    }
-    
-    if (!soloContraseña(contraseña)) {
-        JOptionPane.showMessageDialog(this, "La contraseña solo debe contener numeros y letras, entre 8 y 16 digitos.");
-        return;
-    }
 
-        if (clienteCRUD.validar(correo, contraseña)!=null ) {
-            JOptionPane.showMessageDialog(this, "El correo ya está registrado", "Error", JOptionPane.ERROR_MESSAGE);
+        // Verificar campos vacíos
+        if (nombre.isEmpty() || correo.isEmpty() || contraseña.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Cliente nuevoCliente = new Cliente(1, nombre, correo, contraseña);
-        clienteCRUD.crearCliente(nuevoCliente);
-        JOptionPane.showMessageDialog(this, "Se a registrado correctamente el cliente", "Registrado correctamente", JOptionPane.INFORMATION_MESSAGE);
-        this.setVisible(false);
+        if (!soloLetras(nombre)) {
+            JOptionPane.showMessageDialog(this, "El nombre solo debe contener letras.");
+            return;
+        }
+        
+        if (!soloLetrasNumerosArroba(correo)) {
+            JOptionPane.showMessageDialog(this, "El correo solo debe contener números, letras y una arroba.");
+            return;
+        }
+
+        if (!soloContraseña(contraseña)) {
+            JOptionPane.showMessageDialog(this, "La contraseña solo debe contener números y letras, entre 8 y 16 dígitos.");
+            return;
+        }
+
+        try {
+            Cliente nuevoCliente = new Cliente(1, nombre, correo, contraseña);
+            clienteCRUD.crearCliente(nuevoCliente);
+            JOptionPane.showMessageDialog(this, "Se ha registrado correctamente el cliente", "Registrado correctamente", JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
@@ -236,15 +173,6 @@ public class FormularioCliente extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-   private boolean validarCampos() {
-        boolean estado = false;
-        if(!this.txtCorreo.getText().isBlank()||!this.txtContraseña.getText().isBlank()||!this.txtNombre.getText().isBlank()){
-            estado = true;
-        }else{
-            JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos con la información correspondiente", "No se pudo registrar al usuario correctamente", JOptionPane.ERROR_MESSAGE);
-        }
-        return estado;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;

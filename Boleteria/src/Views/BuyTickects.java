@@ -223,7 +223,15 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_btnComprarActionPerformed
 
     private void cbxCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCantidadActionPerformed
-        // TODO add your handling code here:
+        // Obtener el precio unitario del evento
+        double precioUnitario = eventoSeleccionado.getPrice();
+
+        // Obtener la cantidad seleccionada en el combo box
+        int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
+
+        // Calcular el total y actualizar el campo de texto txtTotalResumen
+        double total = precioUnitario * cantidad;
+        txtTotalResumen.setText(String.valueOf(total));
     }//GEN-LAST:event_cbxCantidadActionPerformed
 
 

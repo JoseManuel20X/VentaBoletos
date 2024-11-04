@@ -21,15 +21,16 @@ public Loggin() {
         this.setResizable(false);
     }
 
- private boolean validarCampos() {
+    private boolean validarCampos() {
         boolean estado = false;
-        if(!this.txtCorreo.getText().isBlank()||!this.txtContraseña.getText().isBlank()){
+        if (!this.txtCorreo.getText().isBlank() && !this.txtContraseña.getText().isBlank()) {
             estado = true;
-        }else{
-            JOptionPane.showMessageDialog(this, "Debe colocar un correo y contraseña para ingresar", "Alguno de los dos campos esta vacío", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe colocar un correo y contraseña para ingresar", "Alguno de los dos campos está vacío", JOptionPane.ERROR_MESSAGE);
         }
         return estado;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -164,14 +165,14 @@ public Loggin() {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // Validar campos
         if (!validarCampos()) {
-            return;
+            return; // Sale del método si los campos no son válidos.
         }
 
         String Correo = txtCorreo.getText();
         String contraseña = new String(txtContraseña.getPassword());
 
         // Credenciales del administrador
-        String adminEmail = "admin@saico.com"; 
+        String adminEmail = "admin@saico.com";
         String adminPassword = "admin123";
 
         // Validar cliente
@@ -186,17 +187,19 @@ public Loggin() {
             adminWindow.setResizable(false);
             adminWindow.setLocationRelativeTo(null);
             this.dispose(); // Cierra la ventana de login
+            
         } else if (cliente != null) { // Si las credenciales son de un cliente
             JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             roles.iniciarSesion(Correo, contraseña, cliente);
-           TicketSales log = new TicketSales();
-           log.setVisible(true);
-           log.setResizable(false);
-           log.setLocationRelativeTo(null);
+            TicketSales log = new TicketSales();
+            log.setVisible(true);
+            log.setResizable(false);
+            log.setLocationRelativeTo(null);
+            
         } else {
+            // Mensaje de error si las credenciales son incorrectas
             JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-        }
-
+        }                                          
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed

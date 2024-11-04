@@ -53,70 +53,13 @@ public void agregarUsuarioDesdeRegistro() {
     }
     return true;
     }
-    
-    private boolean soloLetrasEspacio(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetter(c) && c != ' ') {
-            return false;
-        }
-    }
-    return true;
-    }
-    
-    private boolean soloNumerosOcho(String texto) {
-    if (texto.length() != 8) {
-        return false;
-    }
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
-            return false;
-        }
-    }
-    return true;
-    }
-    
-    private boolean soloNumerosNueve(String texto) {
-    if (texto.length() != 9) {
-        return false;
-    }
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
-            return false;
-        }
-    }
-    return true;
-    }
-    
-    private boolean soloNumerosEdad(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
-            return false;
-        }
-    }
-    int edad;
-    try {
-        edad = Integer.parseInt(texto);
-    } catch (NumberFormatException e) {
-        return false;
-    }
-    return edad >= 18 && edad <= 115;
-    }
-    
+
     private boolean soloContraseña(String texto) {
     if (texto.length() < 8 || texto.length() > 16) {
         return false;
     }
     for (char c : texto.toCharArray()) {
         if (!Character.isLetterOrDigit(c)) {
-            return false;
-        }
-    }
-    return true;
-    }
-    
-    private boolean soloLetrasNumerosEspacio(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetter(c) && !Character.isDigit(c) && c != ' ') {
             return false;
         }
     }
@@ -139,15 +82,7 @@ public void agregarUsuarioDesdeRegistro() {
     }
     return contieneArroba;
     }
-    
-    private boolean soloGenero(String texto) {
-    if (texto.length() == 1) {
-        char c = texto.charAt(0);
-        return c == 'M' || c == 'F';
-    }
-    return false;
-    }
-
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
