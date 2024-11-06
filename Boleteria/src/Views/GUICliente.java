@@ -60,6 +60,7 @@ public class GUICliente extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        btnHistorialCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,12 +91,11 @@ public class GUICliente extends javax.swing.JFrame {
         });
         jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, -1, -1));
 
-        lblClientes.setForeground(new java.awt.Color(255, 255, 255));
+        lblClientes.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         lblClientes.setText("Clientes");
         jPanel1.add(lblClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
-        lblBusqueda.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
-        lblBusqueda.setForeground(new java.awt.Color(255, 255, 255));
+        lblBusqueda.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lblBusqueda.setText("Búsqueda Filtrada");
         jPanel1.add(lblBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
 
@@ -129,6 +129,14 @@ public class GUICliente extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 40, 67, 38));
+
+        btnHistorialCliente.setText("Ver Lista de Compras del Cliente");
+        btnHistorialCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialClienteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnHistorialCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 240, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,6 +182,10 @@ public class GUICliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnHistorialClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHistorialClienteActionPerformed
     
     private void actualizarTabla() {
         tableModel.setRowCount(0); 
@@ -226,6 +238,7 @@ public class GUICliente extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnHistorialCliente;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

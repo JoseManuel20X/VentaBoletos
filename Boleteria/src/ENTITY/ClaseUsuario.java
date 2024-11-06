@@ -1,5 +1,4 @@
 
-
 package ENTITY;
 
 /**
@@ -63,19 +62,7 @@ public class ClaseUsuario {
     // Establece el ID del rol del usuario.
     public void setRolId(int rolId) {
         this.rolId = rolId;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    }    
   
 }
 

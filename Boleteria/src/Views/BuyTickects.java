@@ -211,17 +211,47 @@ private Event eventoSeleccionado;
         if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de tarjeta válido de 16 dígitos.");
             return;
-            }
+        }
 
         boolean compraExitosa = buyTickect.comprarTique(usuarioActual, eventoSeleccionado.getId(), cantidad, numeroTarjeta);
         if (compraExitosa) {
-            JOptionPane.showMessageDialog(this, "Compra realizada con éxito.");
-            dispose();
-            }else {
-            JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
-            }        // TODO add your handling code here:
-    }//GEN-LAST:event_btnComprarActionPerformed
+            // Detalles de la compra
+            String detallesCompra = "Compra realizada con éxito.\n\n"
+                    + "Detalles de la Compra:\n"
+                    + "Evento: " + eventoSeleccionado.getName() + "\n"
+                    + "Cantidad de tickets: " + cantidad + "\n"
+                    + "Precio unitario: " + eventoSeleccionado.getPrice() + "\n"
+                    + "Total: " + (eventoSeleccionado.getPrice() * cantidad) + "\n"
+                    + "Número de tarjeta: **** **** **** " + numeroTarjeta.substring(12) + "\n";
 
+            // Mostrar mensaje de confirmación
+            int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea descargar el recibo?",
+                    "Confirmación de Compra",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null, new String[]{"Descargar", "Cerrar"}, "Descargar");
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                descargarRecibo(detallesCompra); // Llamar al método para descargar el recibo
+            }
+
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnComprarActionPerformed
+    
+    private void descargarRecibo(String detallesCompra) {
+        try {
+            java.io.FileWriter escritor = new java.io.FileWriter("ReciboCompra.txt");
+            escritor.write(detallesCompra);
+            escritor.close();
+            JOptionPane.showMessageDialog(this, "Recibo descargado exitosamente.");
+        } catch (java.io.IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al descargar el recibo.");
+        }
+    }
+    
     private void cbxCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCantidadActionPerformed
         // Obtener el precio unitario del evento
         double precioUnitario = eventoSeleccionado.getPrice();
