@@ -14,7 +14,7 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
 
     public DETAILS_EVENT() {
         initComponents();
-        String[] nombreColumnas = new String[]{"ID", "Recinto", "Descripcion", "Precio","Tickects Disponobles"};
+        String[] nombreColumnas = new String[]{"ID", "Recinto", "Nombre", "Fecha", "Descripcion", "Precio","Tickects Disponobles"};
         this.modelo = new NonEditableTableModel(nombreColumnas, 0);
         this.tbDetails.setModel(modelo);
     }
@@ -32,7 +32,7 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
 
     public void mostrarDetallesEvento(Event evento) {
         modelo.setRowCount(0); // Limpia la tabla antes de cargar nuevos datos
-        Object[] datos = new Object[]{evento.getId(), evento.getEnclosure(), evento.getDescription(), evento.getPrice(), evento.getNumberTickets()};
+        Object[] datos = new Object[]{evento.getId(), evento.getEnclosure(), evento.getName(), evento.getDate(), evento.getDescription(), evento.getPrice(), evento.getNumberTickets()};
         cargarDatos(datos); 
     }
 
