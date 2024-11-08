@@ -1,10 +1,16 @@
 package Views;
 
 import Controller.BuyTickect;
-import Controller.EventController;
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import javax.swing.JOptionPane;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  *
@@ -47,25 +53,36 @@ private Event eventoSeleccionado;
         txtTarjeta = new javax.swing.JTextField();
         btnComprar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Comprar Tickeckts");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 14, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cantidad:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 71, -1, -1));
 
         cbxCantidad.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
+        cbxCantidad.setForeground(new java.awt.Color(0, 0, 0));
         cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
         cbxCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxCantidadActionPerformed(evt);
             }
         });
+        jPanel1.add(cbxCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 77, 123, -1));
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Evento:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 128, -1, -1));
 
         txtEventoResumen.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
         txtEventoResumen.setEnabled(false);
@@ -74,6 +91,7 @@ private Event eventoSeleccionado;
                 txtEventoResumenActionPerformed(evt);
             }
         });
+        jPanel1.add(txtEventoResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 134, 123, -1));
 
         txtTotalResumen.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
         txtTotalResumen.setEnabled(false);
@@ -82,12 +100,17 @@ private Event eventoSeleccionado;
                 txtTotalResumenActionPerformed(evt);
             }
         });
+        jPanel1.add(txtTotalResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 191, 123, -1));
 
         jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Total:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 185, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Número de Tarjeta:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 241, -1, -1));
 
         txtTarjeta.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
         txtTarjeta.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +118,7 @@ private Event eventoSeleccionado;
                 txtTarjetaActionPerformed(evt);
             }
         });
+        jPanel1.add(txtTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 242, 123, -1));
 
         btnComprar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnComprar.setText("Comprar");
@@ -103,6 +127,7 @@ private Event eventoSeleccionado;
                 btnComprarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(107, 298, -1, -1));
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -111,68 +136,10 @@ private Event eventoSeleccionado;
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 298, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(107, 107, 107)
-                            .addComponent(btnComprar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCancelar))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(60, 60, 60)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel4)))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel5)))
-                            .addGap(41, 41, 41)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtEventoResumen)
-                                .addComponent(cbxCantidad, 0, 123, Short.MAX_VALUE)
-                                .addComponent(txtTotalResumen)
-                                .addComponent(txtTarjeta)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cbxCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtEventoResumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTotalResumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnComprar)
-                    .addComponent(btnCancelar))
-                .addGap(124, 124, 124))
-        );
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Compra3.jpg"))); // NOI18N
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 470));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,10 +196,10 @@ private Event eventoSeleccionado;
                     "Confirmación de Compra",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
-                    null, new String[]{"Descargar", "Cerrar"}, "Descargar");
+                    null, new String[]{"Descargar PDF", "Cerrar"}, "Descargar PDF");
 
             if (opcion == JOptionPane.YES_OPTION) {
-                descargarRecibo(detallesCompra); // Llamar al método para descargar el recibo
+                exportarPDF(detallesCompra); // Llamar al método para descargar el recibo
             }
 
             dispose();
@@ -241,14 +208,37 @@ private Event eventoSeleccionado;
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnComprarActionPerformed
     
-    private void descargarRecibo(String detallesCompra) {
+    private void exportarPDF(String detallesCompra) {
+        Document document = new Document();
         try {
-            java.io.FileWriter escritor = new java.io.FileWriter("ReciboCompra.txt");
-            escritor.write(detallesCompra);
-            escritor.close();
-            JOptionPane.showMessageDialog(this, "Recibo descargado exitosamente.");
-        } catch (java.io.IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al descargar el recibo.");
+            // Crear el PDF en la ruta especificada
+            String rutaPDF = "ReciboCompra.pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(rutaPDF));
+            document.open();
+
+            // Título del recibo
+            Paragraph titulo = new Paragraph("Recibo de Compra de usuario ");
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            document.add(titulo);
+
+            // Espacio
+            document.add(new Paragraph(" "));
+
+            // Detalles de la compra
+            Paragraph detalles = new Paragraph(detallesCompra);
+            detalles.setAlignment(Element.ALIGN_LEFT);
+            document.add(detalles);
+
+            // Cerrar el documento
+            document.close();
+
+            // Mostrar mensaje de éxito y abrir el PDF para vista previa
+            JOptionPane.showMessageDialog(this, "Recibo PDF generado exitosamente.");
+            java.awt.Desktop.getDesktop().open(new java.io.File(rutaPDF));
+
+        } catch (DocumentException | IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al generar el recibo PDF.");
+            e.printStackTrace();
         }
     }
     
@@ -274,6 +264,7 @@ private Event eventoSeleccionado;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtEventoResumen;
     private javax.swing.JTextField txtTarjeta;
