@@ -1,5 +1,6 @@
 package ENTITY;
 
+import Controller.BuyTickect;
 import Controller.CRUDCliente;
 import ENTITY.Cliente;
 import javax.swing.JOptionPane;
@@ -23,9 +24,9 @@ public class ClaseRol {
     private TicketSales ticketSales;
     
 
-    public ClaseRol() {
+    public ClaseRol(BuyTickect buyTicketController, ClaseUsuario usuarioActual) {
     this.clienteCrud = new CRUDCliente(gestionUsuarios);
-    this.formularioAdministrador = new Admin();
+    this.formularioAdministrador = new Admin(buyTicketController, usuarioActual); // Pasa los argumentos necesarios
     this.gestionUsuarios = new UsuarioCRUD(clienteCrud);
 }
 

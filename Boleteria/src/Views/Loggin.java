@@ -1,11 +1,15 @@
 
 package Views;
+import Controller.BuyTickect;
 import Controller.CRUDCliente;
 import ENTITY.Cliente;
 import Controller.UsuarioCRUD;
 import javax.swing.JOptionPane;
 import main.Admin;
 import ENTITY.ClaseRol;
+import ENTITY.ClaseUsuario;
+import Controller.BuyTickect;
+import ENTITY.ClaseUsuario;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -17,14 +21,18 @@ import javax.swing.JPanel;
 public class Loggin extends javax.swing.JFrame {
     private ClaseRol roles;
     private UsuarioCRUD usuarioCrud;
+     private BuyTickect buyTicketController; // Controlador de compra de tickets
+    private ClaseUsuario usuarioActual; // Usuario actual
     //FondoPanel fondo=new FondoPanel();
     
     // Variable estática para verificar el estado de autenticación
     public static boolean usuarioAutenticado = false;
     
 public Loggin() {
+    this.buyTicketController = buyTicketController;
+        this.usuarioActual = usuarioActual;
         initComponents();
-        this.roles = new ClaseRol();
+        this.roles = new ClaseRol(buyTicketController, usuarioActual);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
        // this.setContentPane(fondo);
@@ -155,44 +163,60 @@ public Loggin() {
     }//GEN-LAST:event_txtContraseñaActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-    // Validar campos
-        if (!validarCampos()) {
-            return; // Sale del método si los campos no son válidos.
-        }
+     // Validar campos de correo y contraseña
+    if (!validarCampos()) {
+        return; // Sale del método si los campos no son válidos.
+    }
 
-        String Correo = txtCorreo.getText();
-        String contraseña = new String(txtContraseña.getPassword());
+    String correo = txtCorreo.getText();
+    String contraseña = new String(txtContraseña.getPassword());
 
-        // Credenciales del administrador
-        String adminEmail = "admin@saico.com";
-        String adminPassword = "admin123";
+    // Credenciales del administrador
+    String adminEmail = "admin@saico.com";
+    String adminPassword = "admin123";
 
-        // Validar cliente
-        CRUDCliente crudCliente = new CRUDCliente(usuarioCrud);
-        Cliente cliente = crudCliente.validar(Correo, contraseña);
+    // Instancia CRUD para el cliente
+    CRUDCliente crudCliente = new CRUDCliente(usuarioCrud);
+    Cliente cliente = crudCliente.validar(correo, contraseña);
 
-        // Verificar si las credenciales corresponden a un administrador
-        if (Correo.equals(adminEmail) && contraseña.equals(adminPassword)) {
-            JOptionPane.showMessageDialog(this, "Ingreso exitoso como Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            Admin adminWindow = new Admin(); // Crear la ventana de Admin
-            adminWindow.setVisible(true);
-            adminWindow.setResizable(false);
-            adminWindow.setLocationRelativeTo(null);
-            this.dispose(); // Cierra la ventana de login
+    // Autenticación del administrador
+    if (correo.equals(adminEmail) && contraseña.equals(adminPassword)) {
+        JOptionPane.showMessageDialog(this, "Ingreso exitoso como Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Configuración del usuario administrador como usuario actual
+        usuarioAutenticado = true;
+        ClaseUsuario adminUsuario = new ClaseUsuario(); // Crear usuario administrador
+        adminUsuario.setCorreo(adminEmail);
+        adminUsuario.setRolId(1); // Asignar ID de rol para administrador (puedes ajustar según tu lógica)
 
-        } else if (cliente != null) { // Si las credenciales son de un cliente
-            JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            usuarioAutenticado = true; // Establecer el estado como autenticado
-            roles.iniciarSesion(Correo, contraseña, cliente);
-            TicketSales log = new TicketSales();
-            log.setVisible(true);
-            log.setResizable(false);
-            log.setLocationRelativeTo(null);
-            this.dispose(); // Cierra la ventana de login
-        } else {
-            // Mensaje de error si las credenciales son incorrectas
-            JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-        }                                                         
+        this.usuarioActual = adminUsuario; // Asigna el usuario administrador como usuario actual en sesión
+
+        // Abre la ventana de administración
+        Admin adminWindow = new Admin(buyTicketController, usuarioActual);
+        adminWindow.setVisible(true);
+        adminWindow.setResizable(false);
+        adminWindow.setLocationRelativeTo(null);
+        this.dispose(); // Cierra la ventana de login
+
+    } else if (cliente != null) { // Si es un cliente válido
+        JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Configuración del usuario cliente como usuario actual
+        usuarioAutenticado = true;
+        this.usuarioActual = new ClaseUsuario(cliente.getId(), cliente.getCorreo(), cliente.getContraseña(), 3); // RolId 3 para clientes
+        roles.iniciarSesion(correo, contraseña, cliente);
+
+        // Abre la ventana de ventas de boletos
+        TicketSales log = new TicketSales();
+        log.setVisible(true);
+        log.setResizable(false);
+        log.setLocationRelativeTo(null);
+        this.dispose(); // Cierra la ventana de login
+
+    } else {
+        // Mensaje de error si las credenciales son incorrectas
+        JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+    }                                       
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed

@@ -20,10 +20,12 @@ import javax.swing.table.TableRowSorter;
  * @author Robert Granados
  */
 public class TicketSales extends javax.swing.JFrame {
-    TableRowSorter trs;
+   TableRowSorter trs;
     private UsuarioCRUD usuarioCrud;
     private DefaultTableModel modelo;
     private EventController gestionEventos;
+    private BuyTickect buyTicketController;  // Inicialización de buyTicketController
+    private ClaseUsuario usuarioActual;       // Inicialización de usuarioActual
 
     public TicketSales() {
         initComponents();
@@ -34,6 +36,12 @@ public class TicketSales extends javax.swing.JFrame {
         clienteCRUD.setUsuarioCrud(this.usuarioCrud); // Establecemos la referencia en CRUDCliente
 
         this.gestionEventos = new EventController();
+
+        // Inicialización de buyTicketController con gestionEventos
+        this.buyTicketController = new BuyTickect(gestionEventos);
+
+        // Obtención del usuario actual desde el controlador
+        this.usuarioActual = usuarioCrud.obtenerUsuarioActual();
 
         // Verificar que tbEventosDispo está correctamente inicializado antes de asignar el modelo
         if (tbEventosDispo != null) {
@@ -342,15 +350,10 @@ public class TicketSales extends javax.swing.JFrame {
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
         // Verifica si el usuario está autenticado
-        if (!Loggin.usuarioAutenticado) { // Llama a la variable estática de la clase Login
-            JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.", "Error", JOptionPane.ERROR_MESSAGE);
-
-            // Redirigir a la ventana de inicio de sesión
-            Loggin login = new Loggin(); // Crea una nueva instancia de la ventana de inicio de sesión
-            login.setVisible(true); // Muestra la ventana de inicio de sesión
-            this.dispose(); // Cierra la ventana de ventas de boletos
-            return; // Detiene la acción si no está autenticado
-        }
+       if (!Loggin.usuarioAutenticado) {
+    JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.");
+    return;
+}
 
         // Si el usuario está autenticado, proceder con la búsqueda de eventos para comprar
         buscarEventoSeleccionadoEnTablaParaComprar();
@@ -393,7 +396,15 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRecintoKeyTyped
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
-        // TODO add your handling code here:
+     if (usuarioActual != null && buyTicketController != null) {
+        // Crear y mostrar la ventana de historial de compras
+        ViewPurchaseHistory historialCompraFrame = new ViewPurchaseHistory(buyTicketController, usuarioActual);
+        historialCompraFrame.setVisible(true);
+        historialCompraFrame.setResizable(false);
+        historialCompraFrame.setLocationRelativeTo(this);
+    } else {
+        JOptionPane.showMessageDialog(this, "Error: usuario o controlador no inicializado.");
+    }
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     /**

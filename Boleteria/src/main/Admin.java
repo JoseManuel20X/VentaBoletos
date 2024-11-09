@@ -1,19 +1,36 @@
 
 package main;
 
+
 import Usuario.GUIUsuario;
 import Views.GUICliente;
-import Views.Loggin;
+import Views.ViewPurchaseHistory;
 import Views.GUIEvent;
 import Views.TicketSales;
+import Controller.BuyTickect;
+import ENTITY.ClaseUsuario;
 /**
  *
  * @author Manuel
  */
 public class Admin extends javax.swing.JFrame {
-    
-    public Admin() {
+    private BuyTickect buyTicketController; // Controlador de compra de tickets
+    private ClaseUsuario usuarioActual; // Usuario actual
+
+    public Admin(BuyTickect buyTicketController, ClaseUsuario usuarioActual) {
+        this.buyTicketController = buyTicketController;
+        this.usuarioActual = usuarioActual;
         initComponents();
+    }
+
+
+    // Renombrado de ViewPurchaseHistory() a mostrarHistorialCompras()
+    private void mostrarHistorialCompras() {
+        // Crear instancia de ViewPurchaseHistory pasando buyTicketController y usuarioActual
+        ViewPurchaseHistory historialCompra = new ViewPurchaseHistory(buyTicketController, usuarioActual);
+        historialCompra.setVisible(true);
+        historialCompra.setResizable(false);
+        historialCompra.setLocationRelativeTo(null);
     }
 
     private void GUIUsuario() {
@@ -22,25 +39,27 @@ public class Admin extends javax.swing.JFrame {
         Usu.setResizable(false);
         Usu.setLocationRelativeTo(null);
     }
+
     private void TicketSales() {
         TicketSales Usu = new TicketSales();
-       Usu.setVisible(true);
+        Usu.setVisible(true);
         Usu.setResizable(false);
         Usu.setLocationRelativeTo(null);
     }
+
     private void GUIEvent() {
         GUIEvent Usu = new GUIEvent();
-       Usu.setVisible(true);
+        Usu.setVisible(true);
         Usu.setResizable(false);
         Usu.setLocationRelativeTo(null);
     }
+
     private void GUIClientes() {
         GUICliente cliente = new GUICliente();
-       cliente.setVisible(true);
+        cliente.setVisible(true);
         cliente.setResizable(false);
         cliente.setLocationRelativeTo(null);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,12 +69,16 @@ public class Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnEventos = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         btnCliente1 = new javax.swing.JButton();
         btnTicket = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnHistorial = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,7 +92,7 @@ public class Admin extends javax.swing.JFrame {
                 btnEventosActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 114, 42));
+        jPanel1.add(btnEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 114, 42));
 
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +100,7 @@ public class Admin extends javax.swing.JFrame {
                 btnSalirActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 74, 41));
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 74, 41));
 
         btnCliente1.setBackground(new java.awt.Color(102, 102, 102));
         btnCliente1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -87,7 +110,7 @@ public class Admin extends javax.swing.JFrame {
                 btnCliente1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 114, 42));
+        jPanel1.add(btnCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 114, 42));
 
         btnTicket.setBackground(new java.awt.Color(102, 102, 102));
         btnTicket.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -97,10 +120,20 @@ public class Admin extends javax.swing.JFrame {
                 btnTicketActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 114, 42));
+        jPanel1.add(btnTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 114, 42));
 
         jLabel1.setText("ADMIN");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        btnHistorial.setBackground(new java.awt.Color(102, 102, 102));
+        btnHistorial.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnHistorial.setText("Historial");
+        btnHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 114, 42));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,9 +146,9 @@ public class Admin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                 .addGap(22, 22, 22))
         );
 
@@ -145,13 +178,19 @@ public class Admin extends javax.swing.JFrame {
         TicketSales();
     }//GEN-LAST:event_btnTicketActionPerformed
 
+    private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
+        mostrarHistorialCompras();
+    }//GEN-LAST:event_btnHistorialActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCliente1;
     private javax.swing.JButton btnEventos;
+    private javax.swing.JButton btnHistorial;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTicket;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
