@@ -79,6 +79,7 @@ public class TicketSales extends javax.swing.JFrame {
                 detallesEventFrame.setVisible(true); // Muestra la ventana de detalles
                 detallesEventFrame.setResizable(false);
                 detallesEventFrame.setLocationRelativeTo(null);
+                this.dispose();
             } else {
                 // Manejo de error si no se encuentra el evento
                 JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);

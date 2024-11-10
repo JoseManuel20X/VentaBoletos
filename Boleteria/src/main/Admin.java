@@ -77,43 +77,50 @@ public class Admin extends javax.swing.JFrame {
         btnTicket = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnHistorial = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnEventos.setBackground(new java.awt.Color(102, 102, 102));
-        btnEventos.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnEventos.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
+        btnEventos.setForeground(new java.awt.Color(0, 0, 0));
         btnEventos.setText("Eventos");
         btnEventos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEventosActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 114, 42));
+        jPanel1.add(btnEventos, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 114, 42));
 
+        btnSalir.setBackground(new java.awt.Color(255, 0, 0));
+        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("SALIR");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 74, 41));
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 74, 41));
 
         btnCliente1.setBackground(new java.awt.Color(102, 102, 102));
-        btnCliente1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnCliente1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
+        btnCliente1.setForeground(new java.awt.Color(0, 0, 0));
         btnCliente1.setText("Cliente");
         btnCliente1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCliente1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 114, 42));
+        jPanel1.add(btnCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 114, 42));
 
         btnTicket.setBackground(new java.awt.Color(102, 102, 102));
-        btnTicket.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnTicket.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
+        btnTicket.setForeground(new java.awt.Color(0, 0, 0));
         btnTicket.setText("Ticket");
         btnTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,34 +129,34 @@ public class Admin extends javax.swing.JFrame {
         });
         jPanel1.add(btnTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 114, 42));
 
-        jLabel1.setText("ADMIN");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Vista Administrador");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 190, -1));
 
         btnHistorial.setBackground(new java.awt.Color(102, 102, 102));
-        btnHistorial.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnHistorial.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
+        btnHistorial.setForeground(new java.awt.Color(0, 0, 0));
         btnHistorial.setText("Historial");
         btnHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 114, 42));
+        jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 114, 42));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Fondo Admin2.jpg"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 330));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -192,6 +199,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton btnTicket;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
