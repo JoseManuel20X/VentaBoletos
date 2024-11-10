@@ -7,17 +7,17 @@ import Views.GUICliente;
 import Views.ViewPurchaseHistory;
 import Views.GUIEvent;
 import Views.TicketSales;
-import Controller.BuyTickect;
+import Controller.BuyTicketFacade;
 import ENTITY.ClaseUsuario;
 /**
  *
  * @author Manuel
  */
 public class Admin extends javax.swing.JFrame {
-    private BuyTickect buyTicketController; // Controlador de compra de tickets
+    private BuyTicketFacade buyTicketController; // Controlador de compra de tickets
     private ClaseUsuario usuarioActual; // Usuario actual
 
-    public Admin(BuyTickect buyTicketController, ClaseUsuario usuarioActual) {
+    public Admin(BuyTicketFacade buyTicketController, ClaseUsuario usuarioActual) {
         this.buyTicketController = buyTicketController;
         this.usuarioActual = usuarioActual;
         initComponents();

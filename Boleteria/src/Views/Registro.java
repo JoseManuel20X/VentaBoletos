@@ -16,7 +16,7 @@ public class Registro extends javax.swing.JFrame {
 
     public Registro(CRUDCliente crudcliente) {
         initComponents();
-        this.crudcliente = new CRUDCliente(usuarioCrud);
+        this.crudcliente = new CRUDCliente();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }

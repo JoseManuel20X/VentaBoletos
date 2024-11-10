@@ -1,6 +1,6 @@
 
 package Views;
-import Controller.BuyTickect;
+import Controller.BuyTicketFacade;
 import ENTITY.ClaseUsuario;
 import ENTITY.Tickect;
 import javax.swing.*;
@@ -11,10 +11,10 @@ import java.util.List;
  * @author Manuel
  */
 public class ViewPurchaseHistory extends javax.swing.JFrame {
-      private BuyTickect buyTicketController; // Controlador de compras
+      private BuyTicketFacade buyTicketController; // Controlador de compras
     private ClaseUsuario usuarioActual; // Usuario actual
 
-    public ViewPurchaseHistory(BuyTickect buyTicketController, ClaseUsuario usuarioActual) {
+    public ViewPurchaseHistory(BuyTicketFacade buyTicketController, ClaseUsuario usuarioActual) {
         this.buyTicketController = buyTicketController;
         this.usuarioActual = usuarioActual;
 

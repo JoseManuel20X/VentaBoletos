@@ -1,6 +1,6 @@
 
 package Views;
-import Controller.BuyTickect;
+import Controller.BuyTicketFacade;
 import Controller.CRUDCliente;
 import ENTITY.Cliente;
 import Controller.UsuarioCRUD;
@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import main.Admin;
 import ENTITY.ClaseRol;
 import ENTITY.ClaseUsuario;
-import Controller.BuyTickect;
+import Controller.BuyTicketFacade;
 import ENTITY.ClaseUsuario;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class Loggin extends javax.swing.JFrame {
     private ClaseRol roles;
     private UsuarioCRUD usuarioCrud;
-     private BuyTickect buyTicketController; // Controlador de compra de tickets
+     private BuyTicketFacade buyTicketController; // Controlador de compra de tickets
     private ClaseUsuario usuarioActual; // Usuario actual
     //FondoPanel fondo=new FondoPanel();
     
@@ -176,7 +176,7 @@ public Loggin() {
     String adminPassword = "admin123";
 
     // Instancia CRUD para el cliente
-    CRUDCliente crudCliente = new CRUDCliente(usuarioCrud);
+    CRUDCliente crudCliente = new CRUDCliente();
     Cliente cliente = crudCliente.validar(correo, contraseña);
 
     // Autenticación del administrador
@@ -220,7 +220,7 @@ public Loggin() {
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        CRUDCliente crudcliente = new CRUDCliente(usuarioCrud);
+        CRUDCliente crudcliente = new CRUDCliente();
         Registro registro = new Registro(crudcliente);
         registro.setVisible(true);
         registro.setResizable(false);

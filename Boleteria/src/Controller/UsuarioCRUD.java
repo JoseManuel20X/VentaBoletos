@@ -25,7 +25,7 @@ public class UsuarioCRUD {
     // Método para inicializar CRUDCliente cuando sea necesario
    private CRUDCliente getClienteCRUD() {
         if (clienteCRUD == null) {
-            clienteCRUD = new CRUDCliente(this);
+            clienteCRUD = new CRUDCliente();
         }
         return clienteCRUD;
     }

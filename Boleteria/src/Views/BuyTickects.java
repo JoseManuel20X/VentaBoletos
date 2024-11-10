@@ -1,6 +1,6 @@
 package Views;
 
-import Controller.BuyTickect;
+import Controller.BuyTicketFacade;
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import javax.swing.JOptionPane;
@@ -18,10 +18,10 @@ import java.io.IOException;
  */
 public class BuyTickects extends javax.swing.JFrame {
 private Event eventoSeleccionado;
-    private BuyTickect buyTickect;
+    private BuyTicketFacade buyTickect;
     private ClaseUsuario usuarioActual;
 
-    public BuyTickects(Event evento, ClaseUsuario usuario, BuyTickect buyTickect) {
+    public BuyTickects(Event evento, ClaseUsuario usuario, BuyTicketFacade buyTickect) {
         initComponents();
         this.eventoSeleccionado = evento;
         this.usuarioActual = usuario;

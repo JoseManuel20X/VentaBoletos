@@ -15,24 +15,24 @@ import java.util.List;
  * @autor Robert Granados
  */
 public class CRUDCliente {
-   private List<Cliente> clientes;
+    private List<Cliente> clientes;
     private final String filePath = "clientes.json";
     private ObjectMapper objectMapper;
-    private UsuarioCRUD usuarioCrud;
+    private UsuarioCRUD usuarioCrud;  // Mantén esta propiedad
 
-    public CRUDCliente(UsuarioCRUD usuarioCrud) {
-        this.usuarioCrud = usuarioCrud;
+    // Constructor modificado sin depender de UsuarioCRUD
+    public CRUDCliente() {
         objectMapper = new ObjectMapper();
         clientes = cargarClientes();
     }
-    
+
     public void setUsuarioCrud(UsuarioCRUD usuarioCrud) {
         this.usuarioCrud = usuarioCrud;
     }
-     
+
     public UsuarioCRUD getUsuarioCrud() {
         if (usuarioCrud == null) {
-            usuarioCrud = new UsuarioCRUD(this);
+            usuarioCrud = new UsuarioCRUD(this);  // Aquí inicializas el UsuarioCRUD si es necesario
         }
         return usuarioCrud;
     }

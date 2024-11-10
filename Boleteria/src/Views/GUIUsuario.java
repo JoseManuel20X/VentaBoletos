@@ -326,7 +326,7 @@ private void formu() {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
-       CRUDCliente crudcliente = new CRUDCliente(usuarioCrud);
+       CRUDCliente crudcliente = new CRUDCliente();
         Registro registro = new Registro(crudcliente);  
         registro.setVisible(true);
         registro.setResizable(false);

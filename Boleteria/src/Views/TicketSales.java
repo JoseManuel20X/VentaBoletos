@@ -1,166 +1,97 @@
 package Views;
 
-import Controller.BuyTickect;
+import Controller.BuyTicketFacade;
 import Controller.CRUDCliente;
 import Controller.EventController;
 import Controller.UsuarioCRUD;
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
-
-/**
- *
- * @author Robert Granados
- */
 public class TicketSales extends javax.swing.JFrame {
-   TableRowSorter trs;
-    private UsuarioCRUD usuarioCrud;
+    private TableRowSorter<DefaultTableModel> trs;
     private DefaultTableModel modelo;
+    private BuyTicketFacade buyTicketFacade;
+    private ClaseUsuario usuarioActual;
     private EventController gestionEventos;
-    private BuyTickect buyTicketController;  // Inicialización de buyTicketController
-    private ClaseUsuario usuarioActual;       // Inicialización de usuarioActual
 
     public TicketSales() {
         initComponents();
-
-        // Inicialización de CRUDCliente primero y luego UsuarioCRUD
-        CRUDCliente clienteCRUD = new CRUDCliente(null); // Pasamos null temporalmente
-        this.usuarioCrud = new UsuarioCRUD(clienteCRUD);
-        clienteCRUD.setUsuarioCrud(this.usuarioCrud); // Establecemos la referencia en CRUDCliente
-
-        this.gestionEventos = new EventController();
-
-        // Inicialización de buyTicketController con gestionEventos
-        this.buyTicketController = new BuyTickect(gestionEventos);
-
-        // Obtención del usuario actual desde el controlador
-        this.usuarioActual = usuarioCrud.obtenerUsuarioActual();
-
-        // Verificar que tbEventosDispo está correctamente inicializado antes de asignar el modelo
-        if (tbEventosDispo != null) {
-            String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha","Recinto"};
-            this.modelo = new NonEditableTableModel(nombreColumnas, 0);
-            this.tbEventosDispo.setModel(modelo);
-        } else {
-            System.err.println("Error: tbEventosDispo no está inicializado.");
-        }
-
-        // Cargar datos en la tabla
+        inicializarControladores();
+        inicializarTabla();
         cargarDatosEnTabla();
     }
 
-    // Clase interna que extiende DefaultTableModel para hacer la tabla no editable
+    private void inicializarControladores() {
+        CRUDCliente clienteCRUD = new CRUDCliente();
+        UsuarioCRUD usuarioCrud = new UsuarioCRUD(clienteCRUD);
+        clienteCRUD.setUsuarioCrud(usuarioCrud);
+
+        gestionEventos = new EventController();
+        this.buyTicketFacade = new BuyTicketFacade(gestionEventos);
+        this.usuarioActual = usuarioCrud.obtenerUsuarioActual();
+    }
+
+    private void inicializarTabla() {
+        if (tbEventosDispo != null) {
+            String[] nombreColumnas = {"ID", "Nombre", "Fecha", "Recinto"};
+            this.modelo = new NonEditableTableModel(nombreColumnas, 0);
+            this.tbEventosDispo.setModel(modelo);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: tbEventosDispo no está inicializado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private class NonEditableTableModel extends DefaultTableModel {
         public NonEditableTableModel(Object[] columnNames, int rowCount) {
             super(columnNames, rowCount);
         }
-
         @Override
         public boolean isCellEditable(int row, int column) {
-            return false; // Las celdas no son editables
+            return false;
         }
     }
 
     private void buscarEventoSeleccionadoEnTabla() {
-        int selectedRow = this.tbEventosDispo.getSelectedRow();  // Obtiene la fila seleccionada en la tabla
-        if (selectedRow != -1) {  // Verifica que haya una fila seleccionada
-            int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);  // Suponiendo que la primera columna es el ID
-            Event evento = gestionEventos.leerEvento(idEvento);  // Busca el evento por ID
-            if (evento != null) {
-                DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
-                detallesEventFrame.mostrarDetallesEvento(evento); // Muestra los detalles en el nuevo frame
-                detallesEventFrame.setVisible(true); // Muestra la ventana de detalles
-                detallesEventFrame.setResizable(false);
-                detallesEventFrame.setLocationRelativeTo(null);
-                this.dispose();
-            } else {
-                // Manejo de error si no se encuentra el evento
-                JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    // Método para cargar los datos en la tabla sin el campo ID
-    private void cargarDatosEnTabla() {
-        List<Event> eventos = gestionEventos.leerEventos();
-        System.out.println("Eventos en GUI: " + eventos);
-        
-        if (eventos != null && !eventos.isEmpty()) {
-            for (Event evento : eventos) {
-                Object[] fila = new Object[]{
-                    evento.getId(),
-                    evento.getName(),
-                    evento.getDate(),
-                    evento.getEnclosure(),
-                    evento.getPrice(),
-                    evento.getNumberTickets(),
-                    evento.getDescription()
-                };
-                modelo.addRow(fila);
-            }
-        }
-    }
-
-    private void actualizarTabla() {
-        this.modelo.setRowCount(0);
-        List<Event> eventos = this.gestionEventos.leerEventos();
-
-        if (eventos != null) {
-            for (Event evento : eventos) {
-                this.modelo.addRow(new Object[]{
-                    evento.getId(),
-                    evento.getName(),
-                    evento.getDate(),
-                    evento.getEnclosure(),
-                    evento.getPrice(),
-                    evento.getNumberTickets(),
-                    evento.getDescription()
-                });
-            }
-        } 
-    }
-
-    // Método para agregar un nuevo evento a la tabla
-    private void agregarEvento(Event nuevoEvento) {
-        gestionEventos.crearEvento(nuevoEvento);
-        Object[] fila = new Object[]{
-            nuevoEvento.getId(),
-            nuevoEvento.getName(),
-            nuevoEvento.getDate(),
-            nuevoEvento.getEnclosure(),
-            nuevoEvento.getPrice(),
-            nuevoEvento.getNumberTickets(),
-            nuevoEvento.getDescription()
-        };
-        modelo.addRow(fila);
-    }
-
-    private void buscarEventoSeleccionadoEnTablaParaComprar() {
         int selectedRow = this.tbEventosDispo.getSelectedRow();
         if (selectedRow != -1) {
             int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);
             Event evento = gestionEventos.leerEvento(idEvento);
-
             if (evento != null) {
-                ClaseUsuario usuarioActual = usuarioCrud.obtenerUsuarioActual(); // Obtiene el usuario actual
-                BuyTickects buyTickects = new BuyTickects(evento, usuarioActual, new BuyTickect(gestionEventos));
-                buyTickects.setVisible(true);
-                buyTickects.setResizable(false);
-                buyTickects.setLocationRelativeTo(null);
+                DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
+                detallesEventFrame.mostrarDetallesEvento(evento);
+                detallesEventFrame.setVisible(true);
+                detallesEventFrame.setResizable(false);
+                detallesEventFrame.setLocationRelativeTo(null);
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
-    
+
+    private void cargarDatosEnTabla() {
+        List<Event> eventos = buyTicketFacade.obtenerEventosDisponibles();
+        if (eventos != null && !eventos.isEmpty()) {
+            for (Event evento : eventos) {
+                Object[] fila = {
+                    evento.getId(),
+                    evento.getName(),
+                    evento.getDate(),
+                    evento.getEnclosure()
+                };
+                modelo.addRow(fila);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay eventos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -333,7 +264,7 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void btnIniciarSeciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSeciónActionPerformed
-        Loggin log = new Loggin();
+         Loggin log = new Loggin();
         log.setVisible(true);
         log.setResizable(false);
         log.setLocationRelativeTo(null);
@@ -341,8 +272,8 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSeciónActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        CRUDCliente crudcliente = new CRUDCliente(usuarioCrud);
-        Registro registro = new Registro(crudcliente);
+        CRUDCliente crudCliente = new CRUDCliente();
+        Registro registro = new Registro(crudCliente);
         registro.setVisible(true);
         registro.setResizable(false);
         registro.setLocationRelativeTo(null);
@@ -350,14 +281,29 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-        // Verifica si el usuario está autenticado
-       if (!Loggin.usuarioAutenticado) {
-    JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.");
-    return;
-}
+        if (!Loggin.usuarioAutenticado) {
+        JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.");
+        return;
+    }
 
-        // Si el usuario está autenticado, proceder con la búsqueda de eventos para comprar
-        buscarEventoSeleccionadoEnTablaParaComprar();
+    int selectedRow = tbEventosDispo.getSelectedRow();
+    if (selectedRow != -1) {
+        // Obtener el ID del evento seleccionado en la tabla
+        int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);
+        Event evento = gestionEventos.leerEvento(idEvento);
+
+        if (evento != null) {
+            // Abrir la ventana de compra de tickets
+            BuyTickects buyTickectsFrame = new BuyTickects(evento, usuarioActual, buyTicketFacade);
+            buyTickectsFrame.setVisible(true);
+            buyTickectsFrame.setResizable(false);
+            buyTickectsFrame.setLocationRelativeTo(this);
+        } else {
+            JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor, seleccione un evento para comprar boletos.");
+    }
     }//GEN-LAST:event_btnComprarActionPerformed
 
     private void txtEventoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEventoKeyTyped
@@ -397,15 +343,15 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRecintoKeyTyped
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
-     if (usuarioActual != null && buyTicketController != null) {
-        // Crear y mostrar la ventana de historial de compras
-        ViewPurchaseHistory historialCompraFrame = new ViewPurchaseHistory(buyTicketController, usuarioActual);
-        historialCompraFrame.setVisible(true);
-        historialCompraFrame.setResizable(false);
-        historialCompraFrame.setLocationRelativeTo(this);
-    } else {
-        JOptionPane.showMessageDialog(this, "Error: usuario o controlador no inicializado.");
-    }
+      if (usuarioActual != null && buyTicketFacade != null) {
+            ViewPurchaseHistory historialCompraFrame = new ViewPurchaseHistory(buyTicketFacade, usuarioActual);
+            historialCompraFrame.setVisible(true);
+            historialCompraFrame.setResizable(false);
+            historialCompraFrame.setLocationRelativeTo(this);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: usuario o controlador no inicializado.");
+        }
+    
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     /**

@@ -28,7 +28,7 @@ public class GUICliente extends javax.swing.JFrame {
 
     public GUICliente() {
         initComponents();
-        this.clienteCRUD = new CRUDCliente(usuarioCrud); 
+        this.clienteCRUD = new CRUDCliente(); 
         initTable(); 
         actualizarTabla();  
         this.setVisible(true);
@@ -215,7 +215,7 @@ public class GUICliente extends javax.swing.JFrame {
     }
     
     private void agregarCliente() {
-        CRUDCliente crudcliente = new CRUDCliente(usuarioCrud);
+        CRUDCliente crudcliente = new CRUDCliente();
         Registro registro = new Registro(crudcliente);
         registro.setVisible(true);
         registro.setResizable(false);
