@@ -27,7 +27,7 @@ public class Admin extends javax.swing.JFrame {
     // Renombrado de ViewPurchaseHistory() a mostrarHistorialCompras()
     private void mostrarHistorialCompras() {
         // Crear instancia de ViewPurchaseHistory pasando buyTicketController y usuarioActual
-        ViewPurchaseHistory historialCompra = new ViewPurchaseHistory(buyTicketController, usuarioActual);
+        ViewPurchaseHistory historialCompra = new ViewPurchaseHistory();
         historialCompra.setVisible(true);
         historialCompra.setResizable(false);
         historialCompra.setLocationRelativeTo(null);

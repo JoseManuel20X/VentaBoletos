@@ -1,54 +1,34 @@
 
 package Views;
-import Controller.BuyTicketFacade;
-import ENTITY.ClaseUsuario;
-import ENTITY.Tickect;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+
+import Controller.EventController;
+import ENTITY.Event;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Manuel
  */
 public class ViewPurchaseHistory extends javax.swing.JFrame {
-      private BuyTicketFacade buyTicketController; // Controlador de compras
-    private ClaseUsuario usuarioActual; // Usuario actual
+   
 
-    public ViewPurchaseHistory(BuyTicketFacade buyTicketController, ClaseUsuario usuarioActual) {
-        this.buyTicketController = buyTicketController;
-        this.usuarioActual = usuarioActual;
-
-        initComponents();  // Llama al initComponents() generado automáticamente
-        cargarHistorialCompras();  // Cargar el historial de compras al abrir la ventana
+    public ViewPurchaseHistory() {
+       
+        initComponents(); 
+        cargarDetallesCompra(); // Carga detalles de compra en la tabla
     }
+private void cargarDetallesCompra() {
+    EventController eventController = new EventController();
+    List<Event> eventos = eventController.leerEventos();
 
- private void cargarHistorialCompras() {
-    DefaultTableModel modeloTabla = (DefaultTableModel) tbDetail.getModel();
-    modeloTabla.setRowCount(0); // Limpiar datos previos
-
-    if (buyTicketController != null) {
-        // Obtener historial de compras del usuario actual
-        List<Tickect> historialCompras = buyTicketController.verHistorialCompras(usuarioActual);
-
-        if (historialCompras != null && !historialCompras.isEmpty()) {
-            for (Tickect tique : historialCompras) {
-                Object[] fila = new Object[]{
-                    tique.getEvento().getId(),
-                    tique.getEvento().getName(),
-                    tique.getEvento().getDate(),
-                    tique.getCantidad(),
-                    tique.getEvento().getPrice() * tique.getCantidad()
-                };
-                modeloTabla.addRow(fila);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay historial de compras para este usuario.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    } else {
-        System.out.println("Error: El controlador de compra (buyTicketController) es nulo.");
-        JOptionPane.showMessageDialog(this, "No se puede cargar el historial de compras. El controlador es nulo.", "Error", JOptionPane.ERROR_MESSAGE);
+    DefaultTableModel tableModel = new DefaultTableModel(new String[]{"ID Evento", "Nombre Evento", "Tickets Disponibles", "Precio"}, 0);
+    for (Event evento : eventos) {
+        tableModel.addRow(new Object[]{evento.getId(), evento.getName(), evento.getNumberTickets(), evento.getPrice()});
     }
+    tbDetail.setModel(tableModel);
 }
+ 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -59,6 +39,7 @@ public class ViewPurchaseHistory extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbDetail = new javax.swing.JTable();
         btnsalir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -89,6 +70,8 @@ public class ViewPurchaseHistory extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("RAUL.COM");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,6 +82,8 @@ public class ViewPurchaseHistory extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(150, 150, 150)
                 .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
         );
@@ -106,7 +91,9 @@ public class ViewPurchaseHistory extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(88, Short.MAX_VALUE))
@@ -121,6 +108,7 @@ public class ViewPurchaseHistory extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnsalir;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

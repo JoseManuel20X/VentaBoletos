@@ -1,6 +1,7 @@
 package Views;
 
 import Controller.BuyTicketFacade;
+import Controller.EventController;
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import javax.swing.JOptionPane;
@@ -41,6 +42,7 @@ private Event eventoSeleccionado;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -53,7 +55,11 @@ private Event eventoSeleccionado;
         txtTarjeta = new javax.swing.JTextField();
         btnComprar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        txtName = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+
+        jLabel7.setText("jLabel7");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,7 +133,7 @@ private Event eventoSeleccionado;
                 btnComprarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(107, 298, -1, -1));
+        jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 340, -1, -1));
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -136,16 +142,22 @@ private Event eventoSeleccionado;
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 298, -1, -1));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
+        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 130, -1));
+
+        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Nombre del comprador");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 210, 20));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Compra3.jpg"))); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 360));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 410));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,40 +184,45 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-        int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
-        String numeroTarjeta = txtTarjeta.getText();
+       // Obtener datos de la interfaz
+    String nombreCliente = txtName.getText();
+    if (nombreCliente.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar su nombre para la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de tarjeta válido de 16 dígitos.");
-            return;
+    int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
+    String numeroTarjeta = txtTarjeta.getText();
+    if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de tarjeta válido de 16 dígitos.");
+        return;
+    }
+
+    // Comprar ticket usando EventController
+    EventController eventController = new EventController();
+    boolean compraExitosa = eventController.buyTicket(eventoSeleccionado.getId(), cantidad, numeroTarjeta);
+
+    if (compraExitosa) {
+        // Detalles de la compra para mostrar
+        String detallesCompra = "Compra realizada con éxito.\n\n"
+                + "Detalles de la Compra:\n"
+                + "Evento: " + eventoSeleccionado.getName() + "\n"
+                + "Cantidad de tickets: " + cantidad + "\n"
+                + "Precio unitario: " + eventoSeleccionado.getPrice() + "\n"
+                + "Total: " + (eventoSeleccionado.getPrice() * cantidad) + "\n"
+                + "Número de tarjeta: **** **** **** " + numeroTarjeta.substring(12) + "\n";
+
+        int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea ver el historial de compras?",
+                "Confirmación de Compra", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                null, new String[]{"Ver Historial", "Cerrar"}, "Ver Historial");
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            new ViewPurchaseHistory().setVisible(true); // Abrir historial
         }
-
-        boolean compraExitosa = buyTickect.comprarTique(usuarioActual, eventoSeleccionado.getId(), cantidad, numeroTarjeta);
-        if (compraExitosa) {
-            // Detalles de la compra
-            String detallesCompra = "Compra realizada con éxito.\n\n"
-                    + "Detalles de la Compra:\n"
-                    + "Evento: " + eventoSeleccionado.getName() + "\n"
-                    + "Cantidad de tickets: " + cantidad + "\n"
-                    + "Precio unitario: " + eventoSeleccionado.getPrice() + "\n"
-                    + "Total: " + (eventoSeleccionado.getPrice() * cantidad) + "\n"
-                    + "Número de tarjeta: **** **** **** " + numeroTarjeta.substring(12) + "\n";
-
-            // Mostrar mensaje de confirmación
-            int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea descargar el recibo?",
-                    "Confirmación de Compra",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null, new String[]{"Descargar PDF", "Cerrar"}, "Descargar PDF");
-
-            if (opcion == JOptionPane.YES_OPTION) {
-                exportarPDF(detallesCompra); // Llamar al método para descargar el recibo
-            }
-
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
-        }        // TODO add your handling code here:
+        dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
+    }
     }//GEN-LAST:event_btnComprarActionPerformed
     
     private void exportarPDF(String detallesCompra) {
@@ -265,8 +282,11 @@ private Event eventoSeleccionado;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtEventoResumen;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtTarjeta;
     private javax.swing.JTextField txtTotalResumen;
     // End of variables declaration//GEN-END:variables
