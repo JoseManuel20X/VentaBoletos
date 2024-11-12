@@ -21,13 +21,13 @@ public class BuyTickects extends javax.swing.JFrame {
 private Event eventoSeleccionado;
     private BuyTicketFacade buyTickect;
     private ClaseUsuario usuarioActual;
-
+    
     public BuyTickects(Event evento, ClaseUsuario usuario, BuyTicketFacade buyTickect) {
         initComponents();
         this.eventoSeleccionado = evento;
         this.usuarioActual = usuario;
         this.buyTickect = buyTickect;
-
+        
         mostrarDetallesEvento(evento);
     }
 
@@ -142,6 +142,12 @@ private Event eventoSeleccionado;
             }
         });
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
+
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
         jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 130, -1));
 
         jLabel8.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
@@ -183,8 +189,8 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-       // Obtener datos de la interfaz
     String nombreCliente = txtName.getText();
+    
     if (nombreCliente.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debe ingresar su nombre para la compra.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
@@ -213,10 +219,10 @@ private Event eventoSeleccionado;
 
         int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea ver el historial de compras?",
                 "Confirmación de Compra", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, new String[]{"Ver Historial", "Cerrar"}, "Ver Historial");
+                null, new String[]{"Descargar PDF", "Cerrar"}, "Decargar PDF");
 
         if (opcion == JOptionPane.YES_OPTION) {
-            new ViewPurchaseHistory().setVisible(true); // Abrir historial
+            exportarPDF(detallesCompra);
         }
         dispose();
     } else {
@@ -231,9 +237,10 @@ private Event eventoSeleccionado;
             String rutaPDF = "ReciboCompra.pdf";
             PdfWriter.getInstance(document, new FileOutputStream(rutaPDF));
             document.open();
+            String nombre =txtName.getText();;
 
             // Título del recibo
-            Paragraph titulo = new Paragraph("Recibo de Compra de usuario ");
+            Paragraph titulo = new Paragraph("Recibo de Compra del usuario "+ nombre);
             titulo.setAlignment(Element.ALIGN_CENTER);
             document.add(titulo);
 
@@ -269,6 +276,10 @@ private Event eventoSeleccionado;
         double total = precioUnitario * cantidad;
         txtTotalResumen.setText(String.valueOf(total));
     }//GEN-LAST:event_cbxCantidadActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        
+    }//GEN-LAST:event_txtNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
