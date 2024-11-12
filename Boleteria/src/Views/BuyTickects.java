@@ -70,25 +70,24 @@ private Event eventoSeleccionado;
         jLabel1.setText("Comprar Tickeckts");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 14, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cantidad:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 71, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, -1, -1));
 
         cbxCantidad.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        cbxCantidad.setForeground(new java.awt.Color(0, 0, 0));
         cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
         cbxCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxCantidadActionPerformed(evt);
             }
         });
-        jPanel1.add(cbxCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 77, 123, -1));
+        jPanel1.add(cbxCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 123, -1));
 
-        jLabel3.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Evento:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 128, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, -1, -1));
 
         txtEventoResumen.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
         txtEventoResumen.setEnabled(false);
@@ -97,7 +96,7 @@ private Event eventoSeleccionado;
                 txtEventoResumenActionPerformed(evt);
             }
         });
-        jPanel1.add(txtEventoResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 134, 123, -1));
+        jPanel1.add(txtEventoResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 123, -1));
 
         txtTotalResumen.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
         txtTotalResumen.setEnabled(false);
@@ -106,17 +105,17 @@ private Event eventoSeleccionado;
                 txtTotalResumenActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTotalResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 191, 123, -1));
+        jPanel1.add(txtTotalResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 123, -1));
 
-        jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Total:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 185, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Número de Tarjeta:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 241, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
         txtTarjeta.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
         txtTarjeta.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +123,7 @@ private Event eventoSeleccionado;
                 txtTarjetaActionPerformed(evt);
             }
         });
-        jPanel1.add(txtTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 242, 123, -1));
+        jPanel1.add(txtTarjeta, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 123, -1));
 
         btnComprar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnComprar.setText("Comprar");
@@ -143,11 +142,11 @@ private Event eventoSeleccionado;
             }
         });
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
-        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 130, -1));
+        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, 130, -1));
 
-        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Nombre del comprador");
+        jLabel8.setText("Nombre del comprador:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 210, 20));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Compra3.jpg"))); // NOI18N

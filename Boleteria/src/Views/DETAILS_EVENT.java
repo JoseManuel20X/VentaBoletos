@@ -81,6 +81,7 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 801, 121));
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(255, 0, 0));
         btnCancelar.setText("SALIR");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

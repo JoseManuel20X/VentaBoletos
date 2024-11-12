@@ -119,23 +119,19 @@ public class FormularioEvento extends javax.swing.JDialog {
         jPanel1.add(txtEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 160, 30));
 
         lblEnclosure.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        lblEnclosure.setForeground(new java.awt.Color(0, 0, 0));
-        lblEnclosure.setText("Enclosure");
-        jPanel1.add(lblEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
+        lblEnclosure.setText("Enclosure:");
+        jPanel1.add(lblEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 84, -1, 10));
 
         lblNombre.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre:");
         jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
 
         lblHora.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        lblHora.setForeground(new java.awt.Color(0, 0, 0));
         lblHora.setText("Descripción:");
         jPanel1.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 20));
 
         btnGuardar.setBackground(new java.awt.Color(51, 255, 51));
         btnGuardar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setText("Guardar ");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +142,6 @@ public class FormularioEvento extends javax.swing.JDialog {
 
         btnCerrar.setBackground(new java.awt.Color(255, 0, 0));
         btnCerrar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,12 +151,10 @@ public class FormularioEvento extends javax.swing.JDialog {
         jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 84, 50));
 
         lblFecha.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        lblFecha.setForeground(new java.awt.Color(0, 0, 0));
         lblFecha.setText("Fecha:");
-        jPanel1.add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, -1, -1));
+        jPanel1.add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
 
         lblHora1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        lblHora1.setForeground(new java.awt.Color(0, 0, 0));
         lblHora1.setText("Precio:");
         jPanel1.add(lblHora1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, -1, -1));
 
@@ -187,12 +180,10 @@ public class FormularioEvento extends javax.swing.JDialog {
         jPanel1.add(txtTickects, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 160, 30));
 
         lblHora2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        lblHora2.setForeground(new java.awt.Color(0, 0, 0));
         lblHora2.setText("Tickects:");
         jPanel1.add(lblHora2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, -1, 20));
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Agendar Evento");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
 

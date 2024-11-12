@@ -164,9 +164,16 @@ public class UsuarioCRUD {
     }
     return obtenerUsuario(usuarioActualId); // Retorna el usuario activo
 }
-    
-    
-    
 
+    // Método para recuperar la contraseña de un usuario por su correo electrónico
+    public String recuperarContraseñaPorCorreo(String correo) {
+        for (ClaseUsuario usuario : usuarios) {
+            // Verifica si el correo coincide
+            if (usuario.getCorreo().equals(correo)) {
+                return usuario.getContrasena();  // Retorna la contraseña del usuario
+            }
+        }
+        return null;  // Si no se encuentra el correo, retorna null
+    }
     
 }

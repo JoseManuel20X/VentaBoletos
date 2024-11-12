@@ -84,12 +84,10 @@ public Loggin() {
         getContentPane().add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 200, 30));
 
         lblContraseña.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        lblContraseña.setForeground(new java.awt.Color(0, 0, 0));
         lblContraseña.setText("Contraseña:");
         getContentPane().add(lblContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 110, 40));
 
         btnIngresar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnIngresar.setForeground(new java.awt.Color(0, 0, 0));
         btnIngresar.setText("INGRESAR");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,49 +100,44 @@ public Loggin() {
 
         lblCorreo.setBackground(new java.awt.Color(255, 255, 255));
         lblCorreo.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo:");
         jPanel1.add(lblCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 82, 69, -1));
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Bienvenido a la boleteria");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, 39));
 
+        btnSalir.setBackground(new java.awt.Color(255, 0, 0));
         btnSalir.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(299, 274, 81, -1));
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 81, -1));
 
         btnRegistrarse.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnRegistrarse.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrarse.setText("REGISTRARSE");
         btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarseActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 274, -1, -1));
+        jPanel1.add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("¿No estas  registrado?");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 252, -1, -1));
 
         btnRecuperarContraseña.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnRecuperarContraseña.setForeground(new java.awt.Color(0, 0, 0));
         btnRecuperarContraseña.setText("Recuperar contraseña");
         btnRecuperarContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRecuperarContraseñaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRecuperarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 274, -1, -1));
+        jPanel1.add(btnRecuperarContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 270, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FondoBonito.jpg"))); // NOI18N
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 350));
@@ -236,7 +229,13 @@ public Loggin() {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnRecuperarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarContraseñaActionPerformed
-        // TODO add your handling code here:
+        // Instancia de la ventana de recuperación de contraseña
+        RecuperarContreaseña recuperarVentana = new RecuperarContreaseña();
+
+        // Configuración de la ventana de recuperación
+        recuperarVentana.setVisible(true);
+        recuperarVentana.setResizable(false);
+        recuperarVentana.setLocationRelativeTo(null); // Centra la ventana
     }//GEN-LAST:event_btnRecuperarContraseñaActionPerformed
 
     /**

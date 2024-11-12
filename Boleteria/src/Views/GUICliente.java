@@ -70,7 +70,6 @@ public class GUICliente extends javax.swing.JFrame {
 
         btnAgregar.setBackground(new java.awt.Color(51, 255, 51));
         btnAgregar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnAgregar.setForeground(new java.awt.Color(0, 0, 0));
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +80,6 @@ public class GUICliente extends javax.swing.JFrame {
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,7 +90,6 @@ public class GUICliente extends javax.swing.JFrame {
 
         btnEditar.setBackground(new java.awt.Color(51, 255, 51));
         btnEditar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnEditar.setForeground(new java.awt.Color(0, 0, 0));
         btnEditar.setText("Editar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,13 +98,11 @@ public class GUICliente extends javax.swing.JFrame {
         });
         jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, -1, -1));
 
-        lblClientes.setFont(new java.awt.Font("Franklin Gothic Heavy", 1, 14)); // NOI18N
-        lblClientes.setForeground(new java.awt.Color(0, 0, 0));
+        lblClientes.setFont(new java.awt.Font("Franklin Gothic Heavy", 1, 18)); // NOI18N
         lblClientes.setText("Clientes");
         jPanel1.add(lblClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         lblBusqueda.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 14)); // NOI18N
-        lblBusqueda.setForeground(new java.awt.Color(0, 0, 0));
         lblBusqueda.setText("Búsqueda Filtrada");
         jPanel1.add(lblBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
@@ -135,7 +130,6 @@ public class GUICliente extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

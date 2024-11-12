@@ -236,7 +236,7 @@ public class TicketSales extends javax.swing.JFrame {
         });
         jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 403, -1, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Fondo Principal.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/solid-color-purple-gradient-n4w636ewt3ed9hqv.jpg"))); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 460));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -1,7 +1,9 @@
 
 package Views;
 
+import Controller.BuyTicketFacade;
 import Controller.EventController;
+import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +19,10 @@ public class ViewPurchaseHistory extends javax.swing.JFrame {
        
         initComponents(); 
         cargarDetallesCompra(); // Carga detalles de compra en la tabla
+    }
+
+    ViewPurchaseHistory(BuyTicketFacade buyTicketFacade, ClaseUsuario usuarioActual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 private void cargarDetallesCompra() {
     EventController eventController = new EventController();
