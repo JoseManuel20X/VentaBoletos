@@ -1,9 +1,11 @@
 package Views;
 
 import Controller.BuyTicketFacade;
+import Controller.CRUDHistorial;
 import Controller.EventController;
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
+import ENTITY.Historial;
 import javax.swing.JOptionPane;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -22,10 +24,9 @@ private Event eventoSeleccionado;
     private BuyTicketFacade buyTickect;
     private ClaseUsuario usuarioActual;
     
-    public BuyTickects(Event evento, ClaseUsuario usuario, BuyTicketFacade buyTickect) {
+    public BuyTickects(Event evento, BuyTicketFacade buyTickect) {
         initComponents();
         this.eventoSeleccionado = evento;
-        this.usuarioActual = usuario;
         this.buyTickect = buyTickect;
         
         mostrarDetallesEvento(evento);
@@ -189,7 +190,7 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-    String nombreCliente = txtName.getText();
+      String nombreCliente = txtName.getText();
     
     if (nombreCliente.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debe ingresar su nombre para la compra.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -208,6 +209,17 @@ private Event eventoSeleccionado;
     boolean compraExitosa = eventController.buyTicket(eventoSeleccionado.getId(), cantidad, numeroTarjeta);
 
     if (compraExitosa) {
+        // Registrar la compra en el historial
+        CRUDHistorial crudHistorial = new CRUDHistorial();
+        Historial nuevoHistorial = new Historial(
+            eventoSeleccionado.getName(), // Nombre del evento
+            nombreCliente,                // Nombre del cliente
+            eventoSeleccionado.getId(),   // ID del evento
+            0,                            // ID del historial (se genera automáticamente)
+            cantidad                      // Cantidad de tickets comprados
+        );
+        crudHistorial.crearHistorial(nuevoHistorial);
+
         // Detalles de la compra para mostrar
         String detallesCompra = "Compra realizada con éxito.\n\n"
                 + "Detalles de la Compra:\n"
@@ -219,7 +231,7 @@ private Event eventoSeleccionado;
 
         int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea ver el historial de compras?",
                 "Confirmación de Compra", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, new String[]{"Descargar PDF", "Cerrar"}, "Decargar PDF");
+                null, new String[]{"Descargar PDF", "Cerrar"}, "Descargar PDF");
 
         if (opcion == JOptionPane.YES_OPTION) {
             exportarPDF(detallesCompra);
@@ -278,7 +290,7 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_cbxCantidadActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-        
+
     }//GEN-LAST:event_txtNameActionPerformed
 
 

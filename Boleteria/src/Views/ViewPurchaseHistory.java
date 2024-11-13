@@ -1,10 +1,8 @@
 
 package Views;
 
-import Controller.BuyTicketFacade;
-import Controller.EventController;
-import ENTITY.ClaseUsuario;
-import ENTITY.Event;
+import Controller.CRUDHistorial;
+import ENTITY.Historial;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,25 +13,34 @@ import javax.swing.table.DefaultTableModel;
 public class ViewPurchaseHistory extends javax.swing.JFrame {
    
 
+   
     public ViewPurchaseHistory() {
-       
-        initComponents(); 
+        initComponents();
         cargarDetallesCompra(); // Carga detalles de compra en la tabla
     }
 
-    ViewPurchaseHistory(BuyTicketFacade buyTicketFacade, ClaseUsuario usuarioActual) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-private void cargarDetallesCompra() {
-    EventController eventController = new EventController();
-    List<Event> eventos = eventController.leerEventos();
+    private void cargarDetallesCompra() {
+        // Crear una instancia del CRUD para cargar el historial de compras
+        CRUDHistorial crudHistorial = new CRUDHistorial();
+        List<Historial> historialList = crudHistorial.leerHistoriales();
 
-    DefaultTableModel tableModel = new DefaultTableModel(new String[]{"ID Evento", "Nombre Evento", "Tickets Disponibles", "Precio"}, 0);
-    for (Event evento : eventos) {
-        tableModel.addRow(new Object[]{evento.getId(), evento.getName(), evento.getNumberTickets(), evento.getPrice()});
+        // Definir el modelo de la tabla con los encabezados adecuados
+        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"ID Historial", "Nombre Cliente", "Nombre Evento", "ID Cliente", "Cantidad"}, 0);
+        
+        // Llenar el modelo de la tabla con los datos del historial
+        for (Historial historial : historialList) {
+            tableModel.addRow(new Object[]{
+                historial.getIdHistorial(),
+                historial.getCorreoCliente(),
+                historial.getNombreevent(),
+                historial.getIdcliente(),
+                historial.getCantidad()
+            });
+        }
+        
+        // Asignar el modelo a la tabla
+        tbDetail.setModel(tableModel);
     }
-    tbDetail.setModel(tableModel);
-}
  
 
     @SuppressWarnings("unchecked")
@@ -76,7 +83,7 @@ private void cargarDetallesCompra() {
             }
         });
 
-        jLabel1.setText("RAUL.COM");
+        jLabel1.setText("Historiales");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

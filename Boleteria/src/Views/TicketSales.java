@@ -2,10 +2,12 @@ package Views;
 
 import Controller.BuyTicketFacade;
 import Controller.CRUDCliente;
+import Controller.CRUDHistorial;
 import Controller.EventController;
 import Controller.UsuarioCRUD;
-import ENTITY.ClaseUsuario;
+import ENTITY.Cliente;
 import ENTITY.Event;
+import ENTITY.Historial;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -18,14 +20,37 @@ public class TicketSales extends javax.swing.JFrame {
     private TableRowSorter<DefaultTableModel> trs;
     private DefaultTableModel modelo;
     private BuyTicketFacade buyTicketFacade;
-    private ClaseUsuario usuarioActual;
     private EventController gestionEventos;
+    private CRUDHistorial crudHistorial;
+    private Cliente usuarioActual;
 
     public TicketSales() {
         initComponents();
         inicializarControladores();
         inicializarTabla();
         cargarDatosEnTabla();
+        cargarDatosEnTablaHistorial(); // Cargar historial de compras
+    }
+
+    private void cargarDatosEnTablaHistorial() {
+        if (usuarioActual != null) {
+            List<Historial> historiales = crudHistorial.buscarHistorialPorCorreoCliente(usuarioActual.getCorreo());
+            DefaultTableModel modeloHistorial = (DefaultTableModel) tbhistorial.getModel();
+            modeloHistorial.setRowCount(0);
+
+            for (Historial historial : historiales) {
+                Object[] fila = {
+                    historial.getIdHistorial(),
+                    historial.getCantidad(),
+                    historial.getIdcliente(),
+                    historial.getNombreevent(),
+                    historial.getCorreoCliente()
+                };
+                modeloHistorial.addRow(fila);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver el historial de compras.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void inicializarControladores() {
@@ -35,7 +60,7 @@ public class TicketSales extends javax.swing.JFrame {
 
         gestionEventos = new EventController();
         this.buyTicketFacade = new BuyTicketFacade(gestionEventos);
-        this.usuarioActual = usuarioCrud.obtenerUsuarioActual();
+        
     }
 
     private void inicializarTabla() {
@@ -112,7 +137,8 @@ public class TicketSales extends javax.swing.JFrame {
         btnIniciarSeción = new javax.swing.JButton();
         btnRegistrarse = new javax.swing.JButton();
         btnComprar = new javax.swing.JButton();
-        btnHistorial = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbhistorial = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -227,17 +253,23 @@ public class TicketSales extends javax.swing.JFrame {
         });
         jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(369, 406, -1, -1));
 
-        btnHistorial.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
-        btnHistorial.setText("Ver mi Lista de Compras");
-        btnHistorial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHistorialActionPerformed(evt);
+        tbhistorial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        });
-        jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 403, -1, -1));
+        ));
+        jScrollPane2.setViewportView(tbhistorial);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 240, 120));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/solid-color-purple-gradient-n4w636ewt3ed9hqv.jpg"))); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 460));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-100, 0, 1120, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -294,7 +326,7 @@ public class TicketSales extends javax.swing.JFrame {
 
         if (evento != null) {
             // Abrir la ventana de compra de tickets
-            BuyTickects buyTickectsFrame = new BuyTickects(evento, usuarioActual, buyTicketFacade);
+            BuyTickects buyTickectsFrame = new BuyTickects(evento, buyTicketFacade);
             buyTickectsFrame.setVisible(true);
             buyTickectsFrame.setResizable(false);
             buyTickectsFrame.setLocationRelativeTo(this);
@@ -342,18 +374,6 @@ public class TicketSales extends javax.swing.JFrame {
         tbEventosDispo.setRowSorter(trs);
     }//GEN-LAST:event_txtRecintoKeyTyped
 
-    private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
-      if (usuarioActual != null && buyTicketFacade != null) {
-            ViewPurchaseHistory historialCompraFrame = new ViewPurchaseHistory(buyTicketFacade, usuarioActual);
-            historialCompraFrame.setVisible(true);
-            historialCompraFrame.setResizable(false);
-            historialCompraFrame.setLocationRelativeTo(this);
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: usuario o controlador no inicializado.");
-        }
-    
-    }//GEN-LAST:event_btnHistorialActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -362,7 +382,6 @@ public class TicketSales extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComprar;
     private javax.swing.JButton btnDetalles;
-    private javax.swing.JButton btnHistorial;
     private javax.swing.JButton btnIniciarSeción;
     private javax.swing.JButton btnRegistrarse;
     private javax.swing.JButton btnSalir;
@@ -374,7 +393,9 @@ public class TicketSales extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbEventosDispo;
+    private javax.swing.JTable tbhistorial;
     private javax.swing.JTextField txtEvento;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtRecinto;

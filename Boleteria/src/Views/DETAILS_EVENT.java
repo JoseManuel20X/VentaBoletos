@@ -1,6 +1,7 @@
 
 package Views;
 
+import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,12 +13,12 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
 
     private DefaultTableModel modelo;
 
-    public DETAILS_EVENT() {
-        initComponents();
-        String[] nombreColumnas = new String[]{"ID", "Recinto", "Nombre", "Fecha", "Descripcion", "Precio","Tickects Disponobles"};
-        this.modelo = new NonEditableTableModel(nombreColumnas, 0);
-        this.tbDetails.setModel(modelo);
-    }
+   public DETAILS_EVENT() {
+    initComponents();
+    String[] nombreColumnas = new String[]{"ID", "Recinto", "Nombre", "Fecha", "Descripcion", "Precio", "Tickets Disponibles"};
+    this.modelo = new NonEditableTableModel(nombreColumnas, 0);
+    this.tbDetails.setModel(modelo);
+}
 
     private static class NonEditableTableModel extends DefaultTableModel {
         public NonEditableTableModel(Object[] columnNames, int rowCount) {
@@ -109,10 +110,11 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-        TicketSales ticket = new TicketSales();
-        ticket.setVisible(true);
-        ticket.setResizable(false);
-        ticket.setLocationRelativeTo(null);
+    // Crear la instancia de TicketSales con el usuarioActual
+    TicketSales ticket = new TicketSales(); // Aquí debes pasar el usuarioActual
+    ticket.setVisible(true);
+    ticket.setResizable(false);
+    ticket.setLocationRelativeTo(null);
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 

@@ -1,7 +1,7 @@
 package Controller;
 
 import ENTITY.Cliente;
-import ENTITY.ClaseUsuario; // Asegúrate de importar ClaseUsuario
+import ENTITY.ClaseUsuario;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -11,16 +11,14 @@ import java.util.List;
 
 /**
  * 
- * 
  * @autor Robert Granados
  */
 public class CRUDCliente {
     private List<Cliente> clientes;
     private final String filePath = "clientes.json";
     private ObjectMapper objectMapper;
-    private UsuarioCRUD usuarioCrud;  // Mantén esta propiedad
+    private UsuarioCRUD usuarioCrud;
 
-    // Constructor modificado sin depender de UsuarioCRUD
     public CRUDCliente() {
         objectMapper = new ObjectMapper();
         clientes = cargarClientes();
@@ -32,23 +30,21 @@ public class CRUDCliente {
 
     public UsuarioCRUD getUsuarioCrud() {
         if (usuarioCrud == null) {
-            usuarioCrud = new UsuarioCRUD(this);  // Aquí inicializas el UsuarioCRUD si es necesario
+            usuarioCrud = new UsuarioCRUD(this); 
         }
         return usuarioCrud;
     }
-    
+
     public Cliente obtenerClienteActual(ClaseUsuario usuario) {
-    if (usuario == null) {
-        return null; // Manejo de caso nulo
-    }
-    int clienteId = usuario.getId();
-    for (Cliente cliente : clientes) {
-        if (cliente.getId() == clienteId) {
-            return cliente;
+        if (usuario == null) return null;
+        int clienteId = usuario.getId();
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == clienteId) {
+                return cliente;
+            }
         }
+        return null;
     }
-    return null;
-}
 
     private List<Cliente> cargarClientes() {
         try {
@@ -79,18 +75,10 @@ public class CRUDCliente {
         guardarClientes();
     }
 
-
     private int generarNuevoIdCliente() {
-    if (clientes.isEmpty()) { //Si la lista de clientes está vacía, el primer ID será 1
-        return 1;
+        return clientes.isEmpty() ? 1 : clientes.stream().mapToInt(Cliente::getId).max().orElse(0) + 1;
     }
-    int maxId = clientes.stream() //Encuentra el mayor ID existente en la lista de clientes
-                        .mapToInt(Cliente::getId)
-                        .max()
-                        .orElse(0);
-    return maxId + 1;
-    }
-    
+
     public List<Cliente> leerClientes() {
         return clientes;
     }
@@ -114,31 +102,15 @@ public class CRUDCliente {
         }
     }
 
-    private void actualizarIds() {
-        for (int i = 0; i < clientes.size(); i++) {
-            Cliente cliente = clientes.get(i);
-            cliente.setId(i + 1); 
-        }
-        guardarClientes();
-    }
-
     public void eliminarCliente(int id, boolean desdeUsuario) {
-    for (int i = 0; i < clientes.size(); i++) {
-        if (clientes.get(i).getId() == id) {
-            clientes.remove(i);
-            break;
+        clientes.removeIf(cliente -> cliente.getId() == id);
+        guardarClientes();
+
+        if (!desdeUsuario && usuarioCrud != null) {
+            usuarioCrud.eliminarUsuario(id, true);
         }
     }
-    guardarClientes();
 
-    if (!desdeUsuario) {
-        
-        UsuarioCRUD usuarioCRUD = getUsuarioCrud();
-
-        usuarioCRUD.eliminarUsuario(id, true);// Elimina el usuario asociado con el mismo ID
-      }
-    }
-   
     public Cliente validar(String correo, String contrasena) {
         for (Cliente cliente : clientes) {
             if (cliente.getCorreo().equalsIgnoreCase(correo) && cliente.getContraseña().equals(contrasena)) {
@@ -147,5 +119,17 @@ public class CRUDCliente {
         }
         return null;
     }
-}
 
+    public Cliente buscarClientePorCorreo(String correo) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getCorreo().equalsIgnoreCase(correo)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    public Cliente obtenerUsuarioActual(String correo) {
+        return buscarClientePorCorreo(correo);
+    }
+}
