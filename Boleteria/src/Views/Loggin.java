@@ -18,6 +18,7 @@ public class Loggin extends javax.swing.JFrame {
     private UsuarioCRUD usuarioCrud;
      private BuyTicketFacade buyTicketController; // Controlador de compra de tickets
     private ClaseUsuario usuarioActual; // Usuario actual
+    private Cliente clienteAutenticado;
     //FondoPanel fondo=new FondoPanel();
     
     // Variable estática para verificar el estado de autenticación
@@ -56,11 +57,13 @@ public Loggin() {
     ventana.setResizable(false);
     ventana.setLocationRelativeTo(null);
     this.dispose(); // Cierra la ventana actual
-}
+    }
     
     
     
-    
+    public Cliente getClienteAutenticado() {
+     return clienteAutenticado; // clienteAutenticado es el objeto Cliente del usuario autenticado
+    }
     
     
 
@@ -207,17 +210,18 @@ public Loggin() {
 
         // Configuración del usuario cliente
         this.usuarioActual = new ClaseUsuario(cliente.getId(), cliente.getCorreo(), cliente.getContraseña(), 3); // RolId 3 para clientes
+        this.clienteAutenticado = cliente; // Asigna cliente autenticado
         usuarioAutenticado = true;
-        roles.iniciarSesion(correo, contraseña, cliente);
 
         // Abre la ventana de ventas de boletos y le pasa el usuario actual
         TicketSales ticketSalesWindow = new TicketSales();
+        ticketSalesWindow.setUsuarioActual(cliente); // Pasa usuarioActual
         abrirVentana(ticketSalesWindow);
-
 
     } else { // Si las credenciales son incorrectas
         JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-    }         
+    } JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+            
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
