@@ -128,7 +128,6 @@ public void agregarUsuarioDesdeRegistro() {
         jPanel1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(117, 120, 187, -1));
 
         btnConfirmar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnConfirmar.setForeground(new java.awt.Color(0, 0, 0));
         btnConfirmar.setText("Confirmar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,7 +138,6 @@ public void agregarUsuarioDesdeRegistro() {
         jPanel1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(117, 148, 187, -1));
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
         btnCancelar.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -153,7 +151,7 @@ public void agregarUsuarioDesdeRegistro() {
         });
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(217, 188, 87, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Fondo Registro.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/desktop-wallpaper-fingerprint-digital-fingerprint.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 230));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

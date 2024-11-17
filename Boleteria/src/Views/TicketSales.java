@@ -137,13 +137,14 @@ public class TicketSales extends javax.swing.JFrame {
 
         btnSalir.setBackground(new java.awt.Color(255, 0, 51));
         btnSalir.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/4115235-exit-logout-sign-out_114030.png"))); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 400, -1, 25));
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 410, -1, 30));
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -202,51 +203,56 @@ public class TicketSales extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 139, 767, 246));
 
         btnDetalles.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnDetalles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/view_details-48_46573.png"))); // NOI18N
         btnDetalles.setText("Ver  Detalles");
         btnDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDetallesActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 406, -1, -1));
+        jPanel1.add(btnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 150, 30));
 
         btnIniciarSeción.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnIniciarSeción.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/account_login_log_in_icon_250759.png"))); // NOI18N
         btnIniciarSeción.setText("Iniciar Sesión");
         btnIniciarSeción.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarSeciónActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIniciarSeción, new org.netbeans.lib.awtextra.AbsoluteConstraints(128, 406, -1, -1));
+        jPanel1.add(btnIniciarSeción, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 410, 150, 30));
 
         btnRegistrarse.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnRegistrarse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/thefreeforty_register_icon-icons.com_66338.png"))); // NOI18N
         btnRegistrarse.setText("Registrarse");
         btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarseActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(254, 406, -1, -1));
+        jPanel1.add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, 140, 30));
 
         btnComprar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnComprar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/online_store_sale_cart_business_ecommerce_basket_bag_buy_shop_shopping_icon_259583.png"))); // NOI18N
         btnComprar.setText("Comprar");
         btnComprar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnComprarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(369, 406, -1, -1));
+        jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 410, 120, 30));
 
         VerHidtorial.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        VerHidtorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Managerfiles_historyfiles_administradordearchivos_6225.png"))); // NOI18N
         VerHidtorial.setText("Ver Historial");
         VerHidtorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VerHidtorialActionPerformed(evt);
             }
         });
-        jPanel1.add(VerHidtorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 410, -1, -1));
+        jPanel1.add(VerHidtorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 410, -1, 30));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/solid-color-purple-gradient-n4w636ewt3ed9hqv.jpg"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/multicolor-background-e9f6dq3ohfw1ybud.jpg"))); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, 0, 890, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

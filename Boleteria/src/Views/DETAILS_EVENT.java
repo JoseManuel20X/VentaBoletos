@@ -91,7 +91,7 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
         });
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(723, 220, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/fondo detalles.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/blue-solid-color-background-texture-illustration-light-blur-free-photo.jpeg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 280));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

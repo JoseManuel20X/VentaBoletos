@@ -156,7 +156,7 @@ private Event eventoSeleccionado;
         jLabel8.setText("Nombre del comprador:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 210, 20));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Compra3.jpg"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pngtree-logo-of-a-3d-shopping-cart-icon-representing-a-supermarket-trolley-image_13515606.png"))); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 410));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
