@@ -21,9 +21,10 @@ public class VerHistorial {
     private Controller.CRUDHistorial crudHistorial;
     private int idCliente;
 
-    public VerHistorial(CRUDHistorial crudHistorial, int idCliente1) {
-        this.crudHistorial = new Controller.CRUDHistorial(); 
+    public VerHistorial(Controller.CRUDHistorial crudHistorial, int idCliente) {
+        this.crudHistorial = crudHistorial; // Asignar instancia pasada por parámetro
         this.idCliente = idCliente;
+
         // Configuración del JFrame
         frame = new JFrame("Historial de Compras");
         frame.setSize(600, 400);
@@ -32,9 +33,8 @@ public class VerHistorial {
 
         // Configuración de la tabla
         table = new JTable();
-        actualizarTabla(); 
-        
-        
+        actualizarTabla();
+
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
     }
@@ -43,20 +43,18 @@ public class VerHistorial {
         String[] columnas = {"ID Historial", "Nombre Evento", "Correo Cliente", "ID Cliente", "Cantidad"};
         DefaultTableModel model = new DefaultTableModel(columnas, 0);
 
-        // Cargar y filtrar los datos del historial
-        List<Historial> historiales = crudHistorial.leerHistoriales();
+        // Cargar datos filtrados directamente desde el método de CRUDHistorial
+        List<Historial> historiales = crudHistorial.cargarHistoriales(idCliente);
+
         for (Historial historial : historiales) {
-            // Filtrar por el ID del cliente
-            if (historial.getIdcliente() == idCliente) {
-                Object[] fila = {
-                    historial.getIdHistorial(),
-                    historial.getNombreevent(),
-                    historial.getCorreoCliente(),
-                    historial.getIdcliente(),
-                    historial.getCantidad()
-                };
-                model.addRow(fila);
-            }
+            Object[] fila = {
+                historial.getIdHistorial(),
+                historial.getNombreevent(),
+                historial.getCorreoCliente(),
+                historial.getIdcliente(),
+                historial.getCantidad()
+            };
+            model.addRow(fila);
         }
 
         // Asignar el modelo a la tabla

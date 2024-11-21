@@ -122,7 +122,7 @@ public class TicketSales extends javax.swing.JFrame {
         btnIniciarSeción = new javax.swing.JButton();
         btnRegistrarse = new javax.swing.JButton();
         btnComprar = new javax.swing.JButton();
-        VerHidtorial = new javax.swing.JButton();
+        VerHistorial = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -242,15 +242,15 @@ public class TicketSales extends javax.swing.JFrame {
         });
         jPanel1.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 410, 120, 30));
 
-        VerHidtorial.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
-        VerHidtorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Managerfiles_historyfiles_administradordearchivos_6225.png"))); // NOI18N
-        VerHidtorial.setText("Ver Historial");
-        VerHidtorial.addActionListener(new java.awt.event.ActionListener() {
+        VerHistorial.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        VerHistorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Managerfiles_historyfiles_administradordearchivos_6225.png"))); // NOI18N
+        VerHistorial.setText("Ver Historial");
+        VerHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VerHidtorialActionPerformed(evt);
+                VerHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(VerHidtorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 410, -1, 30));
+        jPanel1.add(VerHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 410, -1, 30));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/multicolor-background-e9f6dq3ohfw1ybud.jpg"))); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, 0, 890, 530));
@@ -311,25 +311,30 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-        if (!Loggin.usuarioAutenticado) {
-        JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.");
+        if (!Loggin.usuarioAutenticado || usuarioActual == null) {
+        JOptionPane.showMessageDialog(this, "Debes iniciar sesión para poder comprar boletos.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
+    // Obtener la fila seleccionada en la tabla
     int selectedRow = tbEventosDispo.getSelectedRow();
     if (selectedRow != -1) {
-        // Obtener el ID del evento seleccionado en la tabla
-        int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);
-        Event evento = gestionEventos.leerEvento(idEvento);
+        try {
+            // Obtener el ID del evento seleccionado en la tabla
+            int idEvento = Integer.parseInt(tbEventosDispo.getValueAt(selectedRow, 0).toString());
+            Event evento = gestionEventos.leerEvento(idEvento);
 
-        if (evento != null) {
-            // Abrir la ventana de compra de tickets
-            BuyTickects buyTickectsFrame = new BuyTickects(evento, buyTicketFacade);
-            buyTickectsFrame.setVisible(true);
-            buyTickectsFrame.setResizable(false);
-            buyTickectsFrame.setLocationRelativeTo(this);
-        } else {
-            JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (evento != null) {
+                // Abrir la ventana de compra de tickets y pasar el usuario actual
+                BuyTickects buyTickectsFrame = new BuyTickects(evento, buyTicketFacade, usuarioActual);
+                buyTickectsFrame.setVisible(true);
+                buyTickectsFrame.setResizable(false);
+                buyTickectsFrame.setLocationRelativeTo(this);
+            } else {
+                JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID de evento no válido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         JOptionPane.showMessageDialog(this, "Por favor, seleccione un evento para comprar boletos.");
@@ -372,7 +377,7 @@ public class TicketSales extends javax.swing.JFrame {
         tbEventosDispo.setRowSorter(trs);
     }//GEN-LAST:event_txtRecintoKeyTyped
 
-    private void VerHidtorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerHidtorialActionPerformed
+    private void VerHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerHistorialActionPerformed
         if (usuarioActual == null) {
         JOptionPane.showMessageDialog(this, "Debes iniciar sesión para ver tu historial.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
@@ -385,7 +390,7 @@ public class TicketSales extends javax.swing.JFrame {
     VerHistorial ventanaHistorial = new VerHistorial(crudHistorial, idCliente);
     ventanaHistorial.mostrar();
         
-    }//GEN-LAST:event_VerHidtorialActionPerformed
+    }//GEN-LAST:event_VerHistorialActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,7 +398,7 @@ public class TicketSales extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton VerHidtorial;
+    private javax.swing.JButton VerHistorial;
     private javax.swing.JButton btnComprar;
     private javax.swing.JButton btnDetalles;
     private javax.swing.JButton btnIniciarSeción;

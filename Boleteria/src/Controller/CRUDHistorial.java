@@ -11,66 +11,74 @@ import java.util.List;
 
 /**
  * 
- * 
  * @author Manuel
  */
 public class CRUDHistorial {
-    private List<Historial> historiales;
-    private final String filePath = "historial.json";
     private ObjectMapper objectMapper;
 
     // Constructor
     public CRUDHistorial() {
         objectMapper = new ObjectMapper();
-        historiales = cargarHistoriales();
     }
 
-    private List<Historial> cargarHistoriales() {
+    // Generar la ruta del archivo de historial para un usuario específico
+    private String getUserFilePath(int idCliente) {
+        return "historial_" + idCliente + ".json";
+    }
+
+    // Cargar historiales de un usuario específico
+    public List<Historial> cargarHistoriales(int idCliente) {
+        String filePath = getUserFilePath(idCliente);
         try {
             File file = new File(filePath);
             if (file.exists()) {
                 return objectMapper.readValue(file, new TypeReference<List<Historial>>() {});
-            } else {
-                return new ArrayList<>();
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ArrayList<>();
         }
+        return new ArrayList<>(); // Si no hay archivo, retorna lista vacía
     }
 
-    private void guardarHistoriales() {
+    // Guardar historiales para un usuario específico
+    private void guardarHistoriales(int idCliente, List<Historial> historiales) {
+        String filePath = getUserFilePath(idCliente);
         try {
             objectMapper.writeValue(new File(filePath), historiales);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error al guardar el historial: " + e.getMessage());
         }
     }
 
-    public void crearHistorial(Historial historial) {
-        int nuevoId = generarNuevoIdHistorial();
+    // Crear un nuevo historial para un usuario
+    public void crearHistorial(int idCliente, Historial historial) {
+        List<Historial> historialesUsuario = cargarHistoriales(idCliente);
+        int nuevoId = generarNuevoIdHistorial(historialesUsuario);
         historial.setIdHistorial(nuevoId);
-        historiales.add(historial);
-        guardarHistoriales();
+        historialesUsuario.add(historial);
+        guardarHistoriales(idCliente, historialesUsuario);
     }
 
-    private int generarNuevoIdHistorial() {
-        if (historiales.isEmpty()) {
+    // Generar un nuevo ID único para un usuario específico
+    private int generarNuevoIdHistorial(List<Historial> historialesUsuario) {
+        if (historialesUsuario.isEmpty()) {
             return 1; // Si la lista está vacía, el primer ID será 1
         }
-        int maxId = historiales.stream()
-                               .mapToInt(Historial::getIdHistorial)
-                               .max()
-                               .orElse(0);
-        return maxId + 1;
+        return historialesUsuario.stream()
+                         .mapToInt(Historial::getIdHistorial)
+                         .max()
+                         .orElse(0) + 1;
     }
 
-    public List<Historial> leerHistoriales() {
-        return historiales;
+    // Leer historiales de un usuario
+    public List<Historial> leerHistoriales(int idCliente) {
+        return cargarHistoriales(idCliente);
     }
 
-    public Historial leerHistorial(int idHistorial) {
-        for (Historial historial : historiales) {
+    // Leer un historial específico de un usuario por ID
+    public Historial leerHistorial(int idCliente, int idHistorial) {
+        List<Historial> historialesUsuario = cargarHistoriales(idCliente);
+        for (Historial historial : historialesUsuario) {
             if (historial.getIdHistorial() == idHistorial) {
                 return historial;
             }
@@ -78,28 +86,23 @@ public class CRUDHistorial {
         return null;
     }
 
-    public void actualizarHistorial(Historial historialActualizado) {
-        for (int i = 0; i < historiales.size(); i++) {
-            if (historiales.get(i).getIdHistorial() == historialActualizado.getIdHistorial()) {
-                historiales.set(i, historialActualizado);
-                guardarHistoriales();
+    // Actualizar un historial de un usuario
+    public void actualizarHistorial(int idCliente, Historial historialActualizado) {
+        List<Historial> historialesUsuario = cargarHistoriales(idCliente);
+        for (int i = 0; i < historialesUsuario.size(); i++) {
+            if (historialesUsuario.get(i).getIdHistorial() == historialActualizado.getIdHistorial()) {
+                historialesUsuario.set(i, historialActualizado);
+                guardarHistoriales(idCliente, historialesUsuario);
                 return;
             }
         }
     }
 
-    public void eliminarHistorial(int idHistorial) {
-        historiales.removeIf(historial -> historial.getIdHistorial() == idHistorial);
-        guardarHistoriales();
+    // Eliminar un historial por ID de un usuario
+    public void eliminarHistorial(int idCliente, int idHistorial) {
+        List<Historial> historialesUsuario = cargarHistoriales(idCliente);
+        historialesUsuario.removeIf(historial -> historial.getIdHistorial() == idHistorial);
+        guardarHistoriales(idCliente, historialesUsuario);
     }
+}
 
-   public List<Historial> buscarHistorialPorCorreoCliente(String correoCliente) {
-    List<Historial> historialesEncontrados = new ArrayList<>();
-    for (Historial historial : historiales) {
-        if (historial.getCorreoCliente().equalsIgnoreCase(correoCliente)) {
-            historialesEncontrados.add(historial);
-        }
-    }
-    return historialesEncontrados;
-}
-}
