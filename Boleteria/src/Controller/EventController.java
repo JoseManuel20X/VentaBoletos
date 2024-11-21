@@ -96,4 +96,12 @@ public class EventController {
         System.out.println("Evento no encontrado.");
         return false;
     }
+     
+    public boolean eliminarEvento(int id) {
+    boolean eliminado = eventos.removeIf(event -> event.getId() == id);
+    if (eliminado) {
+        guardarEventos(); // Actualizar el archivo JSON después de eliminar
+    }
+    return eliminado;
+}
 }

@@ -4,7 +4,7 @@ package main;
 
 import Usuario.GUIUsuario;
 import Views.GUICliente;
-import Views.ViewPurchaseHistory;
+//import Views.ViewPurchaseHistory;
 import Views.GUIEvent;
 import Views.TicketSales;
 import Controller.BuyTicketFacade;
@@ -25,13 +25,15 @@ public class Admin extends javax.swing.JFrame {
 
 
     // Renombrado de ViewPurchaseHistory() a mostrarHistorialCompras()
+    /**
     private void mostrarHistorialCompras() {
         // Crear instancia de ViewPurchaseHistory pasando buyTicketController y usuarioActual
         ViewPurchaseHistory historialCompra = new ViewPurchaseHistory();
         historialCompra.setVisible(true);
         historialCompra.setResizable(false);
         historialCompra.setLocationRelativeTo(null);
-    }
+    }*/
+    
 
     private void GUIUsuario() {
         GUIUsuario Usu = new GUIUsuario();
@@ -186,7 +188,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTicketActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
-        mostrarHistorialCompras();
+        //mostrarHistorialCompras();
     }//GEN-LAST:event_btnHistorialActionPerformed
 
 

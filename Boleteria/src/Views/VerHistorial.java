@@ -7,14 +7,20 @@ package Views;
 import Controller.CRUDHistorial;
 import ENTITY.Historial;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.util.List;
-
 /**
  *
  * @author Robert Granados
  */
+
+
 public class VerHistorial {
     private JFrame frame;
     private JTable table;
@@ -37,6 +43,16 @@ public class VerHistorial {
 
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
+
+        // Crear botón de exportar a PDF
+        JButton exportarPDFButton = new JButton("Exportar a PDF");
+        exportarPDFButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exportarAPDF();
+            }
+        });
+        frame.add(exportarPDFButton, BorderLayout.SOUTH);
     }
 
     private void actualizarTabla() {
@@ -61,7 +77,53 @@ public class VerHistorial {
         table.setModel(model);
     }
 
+    private void exportarAPDF() {
+        try {
+            Document document = new Document();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Guardar PDF");
+
+            int userSelection = fileChooser.showSaveDialog(frame);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath() + ".pdf";
+                PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+                document.open();
+                document.add(new Paragraph("Historial de Compras", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK)));
+                document.add(new Paragraph(" "));
+                
+                // Crear tabla para el PDF
+                PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
+                pdfTable.setWidthPercentage(100);
+                pdfTable.setSpacingBefore(10f);
+                pdfTable.setSpacingAfter(10f);
+
+                // Añadir encabezados de tabla
+                for (int i = 0; i < table.getColumnCount(); i++) {
+                    PdfPCell header = new PdfPCell(new Phrase(table.getColumnName(i)));
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    pdfTable.addCell(header);
+                }
+
+                // Añadir filas de la tabla
+                for (int row = 0; row < table.getRowCount(); row++) {
+                    for (int col = 0; col < table.getColumnCount(); col++) {
+                        pdfTable.addCell(table.getValueAt(row, col).toString());
+                    }
+                }
+
+                document.add(pdfTable);
+                document.close();
+
+                JOptionPane.showMessageDialog(frame, "PDF exportado correctamente a:\n" + filePath);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(frame, "Error al exportar PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void mostrar() {
         frame.setVisible(true);
     }
 }
+

@@ -191,19 +191,23 @@ public class EditarEvento extends javax.swing.JFrame {
         jPanel1.add(txtEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 72, 160, 30));
 
         lblEnclosure.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblEnclosure.setForeground(new java.awt.Color(255, 255, 255));
         lblEnclosure.setText("Recinto:");
         jPanel1.add(lblEnclosure, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, -1, -1));
 
         lblNombre.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(255, 255, 255));
         lblNombre.setText("Nombre:");
         jPanel1.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, -1, -1));
 
         lblHora.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblHora.setForeground(new java.awt.Color(255, 255, 255));
         lblHora.setText("Descripción:");
         jPanel1.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 322, -1, 20));
 
         btnGuardar.setBackground(new java.awt.Color(51, 255, 51));
         btnGuardar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setText("Guardar ");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +218,7 @@ public class EditarEvento extends javax.swing.JFrame {
 
         btnCerrar.setBackground(new java.awt.Color(255, 0, 0));
         btnCerrar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,10 +228,12 @@ public class EditarEvento extends javax.swing.JFrame {
         jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(242, 392, 84, 50));
 
         lblFecha.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(255, 255, 255));
         lblFecha.setText("Fecha:");
         jPanel1.add(lblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
 
         lblHora1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblHora1.setForeground(new java.awt.Color(255, 255, 255));
         lblHora1.setText("Precio:");
         jPanel1.add(lblHora1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, -1, -1));
 
@@ -252,10 +259,12 @@ public class EditarEvento extends javax.swing.JFrame {
         jPanel1.add(txtTickects, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 272, 160, 30));
 
         lblHora2.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
+        lblHora2.setForeground(new java.awt.Color(255, 255, 255));
         lblHora2.setText("Tickects:");
         jPanel1.add(lblHora2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, -1, 20));
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Editar Evento");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 26, -1, -1));
 
