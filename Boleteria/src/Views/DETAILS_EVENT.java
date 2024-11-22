@@ -1,6 +1,5 @@
 
 package Views;
-
 import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import javax.swing.table.DefaultTableModel;
@@ -83,13 +82,13 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
 
         btnCancelar.setFont(new java.awt.Font("Franklin Gothic Heavy", 0, 12)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(255, 0, 0));
-        btnCancelar.setText("SALIR");
+        btnCancelar.setText("VOLVER");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(723, 220, -1, -1));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/blue-solid-color-background-texture-illustration-light-blur-free-photo.jpeg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 280));
@@ -109,13 +108,12 @@ public class DETAILS_EVENT extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // Crear la instancia de TicketSales con el usuarioActual
+        TicketSales ticket = new TicketSales(); // Aquí debes pasar el usuarioActual
+        ticket.setVisible(true);
+        ticket.setResizable(false);
+        ticket.setLocationRelativeTo(null);
         this.dispose();
-    // Crear la instancia de TicketSales con el usuarioActual
-    TicketSales ticket = new TicketSales(); // Aquí debes pasar el usuarioActual
-    ticket.setVisible(true);
-    ticket.setResizable(false);
-    ticket.setLocationRelativeTo(null);
-
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

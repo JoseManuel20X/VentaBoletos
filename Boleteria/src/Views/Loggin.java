@@ -177,51 +177,51 @@ public Loggin() {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
     // Validar campos de correo y contraseña
     if (!validarCampos()) {
-        JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    String correo = txtCorreo.getText();
-    String contraseña = new String(txtContraseña.getPassword());
+        String correo = txtCorreo.getText();
+        String contraseña = new String(txtContraseña.getPassword());
 
-    // Credenciales del administrador
-    String adminEmail = "admin@saico.com";
-    String adminPassword = "admin123";
+        // Credenciales del administrador
+        String adminEmail = "admin@saico.com";
+        String adminPassword = "admin123";
 
-    // Instancia CRUD para el cliente
-    CRUDCliente crudCliente = new CRUDCliente();
-    Cliente cliente = crudCliente.validar(correo, contraseña);
+        // Instancia CRUD para el cliente
+        CRUDCliente crudCliente = new CRUDCliente();
+        Cliente cliente = crudCliente.validar(correo, contraseña);
 
-    if (correo.equals(adminEmail) && contraseña.equals(adminPassword)) {
-        JOptionPane.showMessageDialog(this, "Ingreso exitoso como Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        if (correo.equals(adminEmail) && contraseña.equals(adminPassword)) {
+            JOptionPane.showMessageDialog(this, "Ingreso exitoso como Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-        // Configuración del usuario administrador
-        ClaseUsuario adminUsuario = new ClaseUsuario();
-        adminUsuario.setCorreo(adminEmail);
-        adminUsuario.setRolId(1); // RolId para administrador
-        this.usuarioActual = adminUsuario;
+            // Configuración del usuario administrador
+            ClaseUsuario adminUsuario = new ClaseUsuario();
+            adminUsuario.setCorreo(adminEmail);
+            adminUsuario.setRolId(1); // RolId para administrador
+            this.usuarioActual = adminUsuario;
 
-        // Abre la ventana de administración
-        Admin adminWindow = new Admin(buyTicketController, usuarioActual);
-        abrirVentana(adminWindow);
+            // Abre la ventana de administración
+            Admin adminWindow = new Admin(buyTicketController, usuarioActual);
+            abrirVentana(adminWindow);
 
-    } else if (cliente != null) { // Si es un cliente válido
-        JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else if (cliente != null) { // Si es un cliente válido
+            JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-        // Configuración del usuario cliente
-        this.usuarioActual = new ClaseUsuario(cliente.getId(), cliente.getCorreo(), cliente.getContraseña(), 3); // RolId 3 para clientes
-        this.clienteAutenticado = cliente; // Asigna cliente autenticado
-        usuarioAutenticado = true;
+            // Configuración del usuario cliente
+            this.usuarioActual = new ClaseUsuario(cliente.getId(), cliente.getCorreo(), cliente.getContraseña(), 3); // RolId 3 para clientes
+            this.clienteAutenticado = cliente; // Asigna cliente autenticado
+            usuarioAutenticado = true;
 
-        // Abre la ventana de ventas de boletos y le pasa el usuario actual
-        TicketSales ticketSalesWindow = new TicketSales();
-        ticketSalesWindow.setUsuarioActual(cliente); // Pasa usuarioActual
-        abrirVentana(ticketSalesWindow);
+            // Abre la ventana de ventas de boletos y le pasa el usuario actual
+            TicketSales ticketSalesWindow = new TicketSales();
+            ticketSalesWindow.setUsuarioActual(cliente); // Pasa usuarioActual
+            abrirVentana(ticketSalesWindow);
 
-    } else { // Si las credenciales son incorrectas
-        JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-    } JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-            
+        } else { // Si las credenciales son incorrectas
+            JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed

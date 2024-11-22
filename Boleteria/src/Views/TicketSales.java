@@ -274,30 +274,36 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
-        buscarEventoSeleccionadoEnTabla();
-        
-        
+           
+        // Obtener la fila seleccionada en la tabla
+        int filaSeleccionada = tbEventosDispo.getSelectedRow(); // Suponiendo que la tabla se llama tbTickets
+
+        // Verificar si se ha seleccionado una fila
+        if (filaSeleccionada == -1) {
+            // Si no se ha seleccionado una fila, mostrar un mensaje de advertencia
+            JOptionPane.showMessageDialog(this, "Primero debe seleccionar un evento para ver el detalle",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // Si se ha seleccionado un evento, obtener los datos de ese evento
+            buscarEventoSeleccionadoEnTabla();
+        }
     }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void btnIniciarSeciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSeciónActionPerformed
-         Loggin log = new Loggin();
+        Loggin log = new Loggin();
         log.setVisible(true);
         log.setResizable(false);
         log.setLocationRelativeTo(null);
         this.dispose();
-        
-        if (Loggin.usuarioAutenticado) {
-        usuarioActual = log.getClienteAutenticado();
 
-        // Verificar si se obtuvo correctamente el cliente autenticado
-        if (usuarioActual != null) {
-            JOptionPane.showMessageDialog(this, "Bienvenido, " + usuarioActual.getNombre(), "Inicio de Sesión", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo obtener la información del usuario. Intenta iniciar sesión de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (Loggin.usuarioAutenticado) {
+            usuarioActual = log.getClienteAutenticado();
+
+            // Verificar si se obtuvo correctamente el cliente autenticado
+            if (usuarioActual != null) {
+                JOptionPane.showMessageDialog(this, "Bienvenido, " + usuarioActual.getNombre(), "Inicio de Sesión", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Inicio de sesión fallido.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
 
     }//GEN-LAST:event_btnIniciarSeciónActionPerformed
 
