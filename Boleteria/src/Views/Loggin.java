@@ -1,13 +1,16 @@
 
 package Views;
-import Controller.CRUDCliente;
+import Controller.ClienteDAO;
 import ENTITY.Cliente;
-import Controller.UsuarioCRUD;
+import Controller.UsuarioDAO;
 import javax.swing.JOptionPane;
 import main.Admin;
 import ENTITY.ClaseRol;
 import Controller.BuyTicketFacade;
 import ENTITY.ClaseUsuario;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +18,7 @@ import ENTITY.ClaseUsuario;
  */
 public class Loggin extends javax.swing.JFrame {
     private ClaseRol roles;
-    private UsuarioCRUD usuarioCrud;
+    private UsuarioDAO usuarioCrud;
      private BuyTicketFacade buyTicketController; // Controlador de compra de tickets
     private ClaseUsuario usuarioActual; // Usuario actual
     private Cliente clienteAutenticado;
@@ -189,8 +192,13 @@ public Loggin() {
         String adminPassword = "admin123";
 
         // Instancia CRUD para el cliente
-        CRUDCliente crudCliente = new CRUDCliente();
-        Cliente cliente = crudCliente.validar(correo, contraseña);
+        ClienteDAO crudCliente = new ClienteDAO();
+        Cliente cliente = null;
+        try {
+            cliente = crudCliente.validar(correo, contraseña);
+        } catch (SQLException ex) {
+            Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (correo.equals(adminEmail) && contraseña.equals(adminPassword)) {
             JOptionPane.showMessageDialog(this, "Ingreso exitoso como Administrador", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -225,7 +233,7 @@ public Loggin() {
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        CRUDCliente crudcliente = new CRUDCliente();
+        ClienteDAO crudcliente = new ClienteDAO();
         Registro registro = new Registro(crudcliente);
         registro.setVisible(true);
         registro.setResizable(false);

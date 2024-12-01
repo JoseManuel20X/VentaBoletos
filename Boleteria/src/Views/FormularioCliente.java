@@ -4,8 +4,11 @@
  */
 package Views;
 
-import Controller.CRUDCliente;
+import Controller.ClienteDAO;
 import ENTITY.Cliente;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,10 +16,10 @@ import javax.swing.JOptionPane;
  * @author Manuel
  */
 public class FormularioCliente extends javax.swing.JDialog {  
-    private CRUDCliente clienteCRUD;
+    private ClienteDAO clienteCRUD;
 
     
-    public FormularioCliente(java.awt.Frame parent, boolean modal,Cliente cliente,CRUDCliente clienteCRUD) {
+    public FormularioCliente(java.awt.Frame parent, boolean modal,Cliente cliente,ClienteDAO clienteCRUD) {
         super(parent, modal);
         this.clienteCRUD = clienteCRUD;
         initComponents();
@@ -179,6 +182,8 @@ public class FormularioCliente extends javax.swing.JDialog {
             this.setVisible(false);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormularioCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_btnGuardarActionPerformed

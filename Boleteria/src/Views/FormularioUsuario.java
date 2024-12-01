@@ -1,18 +1,21 @@
-package Usuario;
+package    Views ;
 
-import Controller.UsuarioCRUD;
+import Controller.UsuarioDAO;
 import ENTITY.ClaseUsuario;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class FormularioUsuario extends javax.swing.JDialog {
     // Variable para almacenar el estado de confirmación.
 private boolean confirmar;
 
-// Instancia de UsuarioCRUD para gestionar operaciones con usuarios.
-private UsuarioCRUD gestionUsuario;
+// Instancia de UsuarioDAO para gestionar operaciones con usuarios.
+private UsuarioDAO gestionUsuario;
 
 // Constructor para agregar un nuevo usuario.
-public FormularioUsuario(java.awt.Frame parent, boolean modal, UsuarioCRUD gestionUsuario) {
+public FormularioUsuario(java.awt.Frame parent, boolean modal, UsuarioDAO gestionUsuario) {
     super(parent, modal); // Llama al constructor de la clase base (JDialog) con los parámetros especificados.
     this.gestionUsuario = gestionUsuario; // Inicializa la instancia de gestionUsuario
     initComponents(); // Inicializa los componentes de la interfaz gráfica.  
@@ -209,7 +212,11 @@ private boolean soloLetrasNumerosArroba(String texto) {
         JOptionPane.showMessageDialog(this, "La contraseña solo debe contener numeros y letras, entre 8 y 16 digitos.");
         return;
     }        
-        gestionUsuario.agregarUsuario(nuevoUsuario);
+        try {
+            gestionUsuario.agregarUsuario(nuevoUsuario);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormularioUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(this, "Usuario agregado exitosamente.");
         this.dispose();
     }

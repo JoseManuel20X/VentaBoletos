@@ -1,194 +1,162 @@
-package Usuario;
+package Views;
 
-import Controller.UsuarioCRUD;
+import Controller.UsuarioDAO;
 import ENTITY.ClaseUsuario;
 import Views.EditarUsuario;
-import Controller.CRUDCliente;
+import Controller.ClienteDAO;
 import Views.Registro;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.event.DocumentListener;
 
 /**
- * Autor: alexledezma
+ * Autor: Manuel
  */
 
 public class GUIUsuario extends javax.swing.JFrame {
 private DefaultTableModel modelo;
-private CRUDCliente clienteCRUD;
-private UsuarioCRUD usuarioCrud;
-private UsuarioCRUD gestionUsuario;
+    private ClienteDAO clienteDAO;
+    private UsuarioDAO gestionUsuario;
+    private UsuarioDAO usuarioDAO;
 
-// Constructor de la clase GUIUsuario que inicializa la interfaz gráfica.
-public GUIUsuario() {
-    initComponents(); // Inicializa los componentes de la interfaz gráfica.
-    this.gestionUsuario = new UsuarioCRUD(clienteCRUD); // Crea una instancia de UsuarioCRUD para gestionar los usuarios.  
-    // Define los nombres de las columnas de la tabla.
-    String[] nombreColumnas = new String[]{"ID", "Correo", "Contraseña", "Rol_ID"};
-    // Crea un modelo de tabla no editable con los nombres de las columnas especificados.
-    this.modelo = new NonEditableTableModel(nombreColumnas, 0);
-    // Asigna el modelo de tabla a la tabla visual (tbUsuarios).
-    this.tbUsuarios.setModel(modelo);   
-    cargarDatosEnTabla(); // Carga los datos de los usuarios en la tabla.
-    agregarBusqueda(); // Configura la funcionalidad de búsqueda filtrada.   
-    // Configura la ventana para que sea visible, no redimensionable y centrada en la pantalla.
-    this.setVisible(true);
-    this.setResizable(false);
-    this.setLocationRelativeTo(null);
-}
-
-// Retorna el modelo de tabla actual.
-public DefaultTableModel getTableModel() {
-    return this.modelo; // Retorna la instancia del modelo de tabla.
-}
-
-// Clase interna que extiende DefaultTableModel para hacer la tabla no editable.
-private class NonEditableTableModel extends DefaultTableModel {
-    // Constructor que llama al constructor de la superclase DefaultTableModel.
-    public NonEditableTableModel(Object[] columnNames, int rowCount) {
-        super(columnNames, rowCount);
-    }
-
-    @Override
-    // Método que indica que las celdas no son editables.
-    public boolean isCellEditable(int row, int column) {
-        return false; // Retorna false para que las celdas no sean editables.
-    }
-}
-
-// Método para cargar los datos de los usuarios en la tabla.
-private void cargarDatosEnTabla() {
-    // Obtiene la lista de usuarios desde la instancia de UsuarioCRUD.
-    List<ClaseUsuario> usuarios = gestionUsuario.obtenerUsuarios();
-    System.out.println("Usuarios en GUI: " + usuarios); // Imprime los usuarios obtenidos para depuración.
-    
-    if (usuarios != null && !usuarios.isEmpty()) { // Verifica si la lista de usuarios no es nula y no está vacía.
-        for (ClaseUsuario usuario : usuarios) { // Recorre la lista de usuarios.
-            // Crea un array de objetos con los datos del usuario.
-            Object[] fila = new Object[]{
-                usuario.getId(),
-                usuario.getCorreo(),
-                usuario.getContrasena(),
-                usuario.getRolId()
-            };
-            // Añade la fila al modelo de tabla.
-            modelo.addRow(fila);
-        }
-    } 
-}
-
-// Método para actualizar la tabla con los datos actuales de los usuarios.
-private void actualizarTabla() {
-    // Limpia el contenido actual de la tabla.
-    this.modelo.setRowCount(0);
-    // Obtiene la lista actualizada de usuarios desde el JSON.
-    List<ClaseUsuario> usuarios = this.gestionUsuario.cargarUsuarios();
-    
-    if (usuarios != null) { // Verifica si la lista de usuarios no es nula.
-        for (ClaseUsuario usuario : usuarios) { // Recorre la lista de usuarios.
-            // Crea un array de objetos con los datos del usuario.
-            this.modelo.addRow(new Object[]{
-                usuario.getId(),
-                usuario.getCorreo(),
-                usuario.getContrasena(),
-                usuario.getRolId()
-            });
-        }
-    } 
-}
-
-// Método para eliminar un usuario seleccionado de la tabla.
-private void eliminarUsuario() {
-    // Obtiene la fila seleccionada en la tabla.
-    int selectedRow = this.tbUsuarios.getSelectedRow();
-    
-    if (selectedRow != -1) { // Verifica si hay una fila seleccionada.
-        // Obtiene el ID del usuario desde la fila seleccionada.
-        int id = (int) modelo.getValueAt(selectedRow, 0);
-        // Elimina el usuario usando el ID.
-        gestionUsuario.eliminarUsuario(id, true);
-        // Elimina la fila correspondiente en la tabla.
-        modelo.removeRow(selectedRow);
-    } else {
-        // Muestra un mensaje de error si no se selecciona un usuario.
-        JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
-// Método para agregar un nuevo usuario a la tabla.
-public void agregarUsuario(ClaseUsuario nuevoUsuario) {
-    // Agrega el nuevo usuario al archivo JSON.
-    gestionUsuario.agregarUsuario(nuevoUsuario);
-    // Crea un array de objetos con los datos del nuevo usuario.
-    Object[] fila = new Object[]{
-        nuevoUsuario.getId(),
-        nuevoUsuario.getCorreo(),
-        nuevoUsuario.getContrasena(),
-        nuevoUsuario.getRolId()
-    };
-    // Añade la fila al modelo de tabla.
-    modelo.addRow(fila);
-}
-
-// Método para editar un usuario seleccionado en la tabla.
-private void editarUsuario() {
-    // Obtiene la fila seleccionada en la tabla.
-    int filaSeleccionada = this.tbUsuarios.getSelectedRow();
-    
-    if (filaSeleccionada != -1) { // Verifica si hay una fila seleccionada.
-        // Obtiene el ID del usuario desde la fila seleccionada.
-        int id = (int) this.tbUsuarios.getValueAt(filaSeleccionada, 0);
-        // Obtiene el objeto Usuario correspondiente al ID.
-        ClaseUsuario usuario = gestionUsuario.obtenerUsuario(id);
+    // Constructor de la clase GUIUsuario que inicializa la interfaz gráfica.
+    public GUIUsuario() throws SQLException {
+        initComponents();
+        // Inicialización de DAOs
+        this.clienteDAO = new ClienteDAO();
+        this.usuarioDAO = new UsuarioDAO(clienteDAO);
         
-        if (usuario != null) { // Verifica si el usuario no es nulo.
-            // Crea un JDialog para editar el usuario.
-            EditarUsuario dialog = new EditarUsuario(this, true, usuario, gestionUsuario);
-            dialog.setVisible(true); // Muestra el JDialog.
-        } else {
-            // Muestra un mensaje de error si no se encuentra el usuario.
-            JOptionPane.showMessageDialog(this, "No se encontró el usuario seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        // Muestra un mensaje de advertencia si no se selecciona un usuario.
-        JOptionPane.showMessageDialog(this, "Seleccione un usuario para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        // Configuración de la tabla
+        String[] nombreColumnas = new String[]{"ID", "Correo", "Contraseña", "Rol_ID"};
+        this.modelo = new NonEditableTableModel(nombreColumnas, 0);
+        this.tbUsuarios.setModel(modelo);
+
+        // Cargar datos en la tabla y configurar búsqueda
+        cargarDatosEnTabla();
+        agregarBusqueda();
+
+        // Configuración de la ventana
+        this.setVisible(true);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
-}
 
-// Método para configurar la funcionalidad de búsqueda filtrada.
-private void agregarBusqueda() {
-    // Agrega un DocumentListener al campo de búsqueda (txtBusqueda).
-    txtBusqueda.getDocument().addDocumentListener(new DocumentListener() {
-        @Override
-        public void changedUpdate(javax.swing.event.DocumentEvent e) {
-            filtrarUsuarios(); // Filtra los usuarios cuando cambia el texto en el campo de búsqueda.
+    private class NonEditableTableModel extends DefaultTableModel {
+        public NonEditableTableModel(Object[] columnNames, int rowCount) {
+            super(columnNames, rowCount);
         }
-        @Override
-        public void removeUpdate(javax.swing.event.DocumentEvent e) {
-            filtrarUsuarios(); // Filtra los usuarios cuando se elimina texto del campo de búsqueda.
-        }
-        @Override
-        public void insertUpdate(javax.swing.event.DocumentEvent e) {
-            filtrarUsuarios(); // Filtra los usuarios cuando se inserta texto en el campo de búsqueda.
-        }
-    });
-}
 
-// Método para filtrar los usuarios en la tabla según el texto de búsqueda.
-private void filtrarUsuarios() {
-    // Obtiene el texto de búsqueda y lo convierte a minúsculas.
-    String filtro = txtBusqueda.getText().toLowerCase();
-    // Limpia la tabla actual.
-    modelo.setRowCount(0);
-    // Obtiene la lista de usuarios.
-    List<ClaseUsuario> usuarios = gestionUsuario.cargarUsuarios();
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
+    // Método para cargar los datos de los usuarios en la tabla.
+    private void cargarDatosEnTabla() {
+        try {
+            List<ClaseUsuario> usuarios = usuarioDAO.obtenerUsuarios();
+            modelo.setRowCount(0); // Limpia la tabla antes de cargar nuevos datos.
+            for (ClaseUsuario usuario : usuarios) {
+                modelo.addRow(new Object[]{
+                    usuario.getId(),
+                    usuario.getCorreo(),
+                    usuario.getContrasena(),
+                    usuario.getRolId()
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Método para eliminar un usuario seleccionado de la tabla.
+    private void eliminarUsuario() {
+        int selectedRow = tbUsuarios.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int) modelo.getValueAt(selectedRow, 0);
+            try {
+                usuarioDAO.eliminarUsuario(id);
+                modelo.removeRow(selectedRow);
+                JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error al eliminar el usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Método para agregar un nuevo usuario a la tabla.
+    public void agregarUsuario(ClaseUsuario nuevoUsuario) {
+        try {
+            usuarioDAO.agregarUsuario(nuevoUsuario);
+            modelo.addRow(new Object[]{
+                nuevoUsuario.getId(),
+                nuevoUsuario.getCorreo(),
+                nuevoUsuario.getContrasena(),
+                nuevoUsuario.getRolId()
+            });
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al agregar el usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Método para configurar la funcionalidad de búsqueda filtrada.
+    private void agregarBusqueda() {
+        txtBusqueda.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarUsuarios();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarUsuarios();
+            }
+
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                filtrarUsuarios();
+            }
+        });
+    }
+
+    // Método para filtrar los usuarios en la tabla según el texto de búsqueda.
+    private void filtrarUsuarios() {
+        String filtro = txtBusqueda.getText().toLowerCase();
+        modelo.setRowCount(0);
+        try {
+            List<ClaseUsuario> usuarios = usuarioDAO.obtenerUsuarios();
+            for (ClaseUsuario usuario : usuarios) {
+                if (usuario.getCorreo().toLowerCase().contains(filtro)) {
+                    modelo.addRow(new Object[]{
+                        usuario.getId(),
+                        usuario.getCorreo(),
+                        usuario.getContrasena(),
+                        usuario.getRolId()
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al filtrar los usuarios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     
-    if (usuarios != null) { // Verifica si la lista de usuarios no es nula.
-        for (ClaseUsuario usuario : usuarios) { // Recorre la lista de usuarios.
-            // Verifica si el correo del usuario contiene el texto de búsqueda.
-            if (usuario.getCorreo().toLowerCase().contains(filtro)) {
-                // Añade los datos del usuario a la tabla.
+    
+    private void actualizarTabla() {
+    try {
+        modelo.setRowCount(0); // Limpiar las filas actuales de la tabla.
+        
+        // Obtener la lista actualizada de usuarios desde el DAO.
+        List<ClaseUsuario> usuarios = gestionUsuario.obtenerUsuarios(); 
+        
+        if (usuarios != null && !usuarios.isEmpty()) {
+            for (ClaseUsuario usuario : usuarios) {
+                // Agregar cada usuario al modelo de la tabla.
                 modelo.addRow(new Object[]{
                     usuario.getId(),
                     usuario.getCorreo(),
@@ -197,12 +165,51 @@ private void filtrarUsuarios() {
                 });
             }
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar la tabla: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+    
+    
+    private void editarUsuario() {
+    // Obtener la fila seleccionada en la tabla.
+    int filaSeleccionada = this.tbUsuarios.getSelectedRow();
 
-// Método para abrir un formulario para agregar un nuevo usuario.
+    if (filaSeleccionada != -1) {
+        try {
+            // Obtener el ID del usuario desde la fila seleccionada.
+            int id = (int) this.tbUsuarios.getValueAt(filaSeleccionada, 0);
+
+            // Obtener el usuario correspondiente al ID.
+            ClaseUsuario usuario = gestionUsuario.obtenerUsuario(id);
+
+            if (usuario != null) {
+                // Crear y mostrar el cuadro de diálogo de edición.
+                EditarUsuario dialog = new EditarUsuario(this, true, usuario, gestionUsuario);
+                dialog.setVisible(true); // Mostrar el diálogo.
+                
+                // Actualizar la tabla después de la edición.
+                actualizarTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el usuario seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al editar el usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione un usuario para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
+}
+    
+    
 private void formu() {
-    FormularioUsuario form = new FormularioUsuario(this, true, gestionUsuario);
+    try {
+        // Crear y abrir un formulario de usuario (suponiendo que FormularioUsuario está correctamente implementado).
+        FormularioUsuario form = new FormularioUsuario(this, true, gestionUsuario); 
+        form.setVisible(true); // Mostrar el formulario de manera modal.
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al abrir el formulario de usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
 
     @SuppressWarnings("unchecked")
@@ -304,21 +311,30 @@ private void formu() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        this.formu();
-        this.actualizarTabla();
+         try {
+        this.formu(); // Abre el formulario para agregar un nuevo usuario.
+        this.actualizarTabla(); // Actualiza la tabla con los datos más recientes.
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        this.eliminarUsuario();
-        this.actualizarTabla();
+        try {
+        this.eliminarUsuario(); // Llama al método para eliminar el usuario seleccionado.
+        this.actualizarTabla(); // Actualiza la tabla después de eliminar.
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        this.editarUsuario();
-        this.actualizarTabla();
+          try {
+        this.editarUsuario(); // Abre el editor de usuario para el seleccionado.
+        this.actualizarTabla(); // Actualiza la tabla después de editar.
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al editar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -326,12 +342,16 @@ private void formu() {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
-       CRUDCliente crudcliente = new CRUDCliente();
-        Registro registro = new Registro(crudcliente);  
+       try {
+        ClienteDAO crudcliente = new ClienteDAO(); // Crea una instancia del DAO de cliente.
+        Registro registro = new Registro(crudcliente); // Abre el formulario de registro.
         registro.setVisible(true);
         registro.setResizable(false);
         registro.setLocationRelativeTo(null);
-       this.actualizarTabla();
+        this.actualizarTabla(); // Actualiza la tabla después de abrir el formulario de registro.
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al acceder al módulo de clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnClienteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,13 +2,16 @@
 package main;
 
 
-import Usuario.GUIUsuario;
+import Views.GUIUsuario;
 import Views.GUICliente;
 //import Views.ViewPurchaseHistory;
 import Views.GUIEvent;
 import Views.TicketSales;
 import Controller.BuyTicketFacade;
 import ENTITY.ClaseUsuario;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Manuel
@@ -35,7 +38,7 @@ public class Admin extends javax.swing.JFrame {
     }*/
     
 
-    private void GUIUsuario() {
+    private void GUIUsuario() throws SQLException {
         GUIUsuario Usu = new GUIUsuario();
         Usu.setVisible(true);
         Usu.setResizable(false);
@@ -56,7 +59,7 @@ public class Admin extends javax.swing.JFrame {
         Usu.setLocationRelativeTo(null);
     }
 
-    private void GUIClientes() {
+    private void GUIClientes() throws SQLException {
         GUICliente cliente = new GUICliente();
         cliente.setVisible(true);
         cliente.setResizable(false);
@@ -180,7 +183,11 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEventosActionPerformed
 
     private void btnCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliente1ActionPerformed
-        GUIClientes();
+        try {
+            GUIClientes();
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnCliente1ActionPerformed
 
     private void btnTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketActionPerformed

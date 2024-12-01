@@ -4,31 +4,34 @@ package Views;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-import Controller.CRUDCliente;
-import Controller.CRUDCliente;
+import Controller.ClienteDAO;
+import Controller.ClienteDAO;
 import ENTITY.Cliente;
 import ENTITY.Cliente;
 import Views.EditarCliente;
 import Views.Registro;
 import Views.FormularioCliente;
-import Controller.UsuarioCRUD;
+import Controller.UsuarioDAO;
 import java.awt.event.KeyAdapter;// Importa la clase KeyAdapter, que es un adaptador abstracto para recibir eventos de teclado. 
 import java.awt.event.KeyEvent;// Importa la clase KeyEvent, que encapsula información sobre un evento de teclado.
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.TableRowSorter;// Importa la clase TableRowSorter, que se utiliza para ordenar y filtrar las filas de una JTable. 
 
 public class GUICliente extends javax.swing.JFrame {
     TableRowSorter trs;
     private DefaultTableModel tableModel;
-    private CRUDCliente clienteCRUD;
+    private ClienteDAO clienteCRUD;
     private Cliente cliente;
-    private UsuarioCRUD usuarioCrud;
+    private UsuarioDAO usuarioCrud;
 
-    public GUICliente() {
+    public GUICliente() throws SQLException {
         initComponents();
-        this.clienteCRUD = new CRUDCliente(); 
+        this.clienteCRUD = new ClienteDAO(); 
         initTable(); 
         actualizarTabla();  
         this.setVisible(true);
@@ -157,17 +160,37 @@ public class GUICliente extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         this.agregarCliente();
-        this.actualizarTabla();
+        try {
+            this.actualizarTabla();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-      this.eliminarCliente();
-      this.actualizarTabla();
+        try {
+            this.eliminarCliente();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.actualizarTabla();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        this.editarCliente();
-        this.actualizarTabla();
+        try {
+            this.editarCliente();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.actualizarTabla();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUICliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
@@ -186,7 +209,7 @@ public class GUICliente extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
     
-    private void actualizarTabla() {
+    private void actualizarTabla() throws SQLException {
         tableModel.setRowCount(0); 
         List<Cliente> clientes = clienteCRUD.leerClientes();
         for (Cliente cliente : clientes) {
@@ -197,11 +220,11 @@ public class GUICliente extends javax.swing.JFrame {
         }
     }
     
-    private void eliminarCliente() {
+    private void eliminarCliente() throws SQLException {
     int selectedRow = this.jTable1.getSelectedRow();
     if (selectedRow != -1) { 
         int id = (int) tableModel.getValueAt(selectedRow, 0);
-        clienteCRUD.eliminarCliente(id, true);
+        clienteCRUD.eliminarCliente(id);
         tableModel.removeRow(selectedRow);
     } else {
         JOptionPane.showMessageDialog(this, "Por favor, seleccione un cliente para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -209,7 +232,7 @@ public class GUICliente extends javax.swing.JFrame {
     }
     
     private void agregarCliente() {
-        CRUDCliente crudcliente = new CRUDCliente();
+        ClienteDAO crudcliente = new ClienteDAO();
         Registro registro = new Registro(crudcliente);
         registro.setVisible(true);
         registro.setResizable(false);
@@ -218,7 +241,7 @@ public class GUICliente extends javax.swing.JFrame {
     }
 
 
-    private void editarCliente() {
+    private void editarCliente() throws SQLException {
         int filaSeleccionada = this.jTable1.getSelectedRow();
         if (filaSeleccionada != -1) { 
             int id = (int) this.jTable1.getValueAt(filaSeleccionada, 0);

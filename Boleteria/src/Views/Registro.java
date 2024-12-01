@@ -1,88 +1,80 @@
 package Views;
 
-import Controller.CRUDCliente;
-import ENTITY.Cliente;
+import Controller.ClienteDAO;
+import Controller.UsuarioDAO;
 import ENTITY.ClaseUsuario;
-import Controller.UsuarioCRUD;
+import ENTITY.Cliente;
 import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author Manuel
- */
 public class Registro extends javax.swing.JFrame {
-    private CRUDCliente crudcliente;
-    private UsuarioCRUD usuarioCrud;
+    private ClienteDAO crudcliente;
 
-    public Registro(CRUDCliente crudcliente) {
+    public Registro(ClienteDAO crudcliente) {
         initComponents();
-        this.crudcliente = new CRUDCliente();
+        this.crudcliente = crudcliente; // Usa la instancia recibida
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
- //c
-private boolean validarEspaciosVacios() {
-    return !this.txtCorreo.getText().trim().isEmpty() && this.txtContraseña.getPassword().length > 0;
-}
 
-public void agregarUsuarioDesdeRegistro() {
-    if (!validarEspaciosVacios()) {
-        JOptionPane.showMessageDialog(this, "Todos los campos deben ser completados.", "Error", JOptionPane.ERROR_MESSAGE);
-        return; 
+    private boolean validarEspaciosVacios() {
+        return !this.txtCorreo.getText().trim().isEmpty() && this.txtContraseña.getPassword().length > 0;
     }
-    String correo = this.txtCorreo.getText();
-    String contrasena = new String(this.txtContraseña.getPassword());
-    ClaseUsuario nuevoUsuario = new ClaseUsuario();
-    nuevoUsuario.setCorreo(correo); // Establece el correo en el objeto usuario.
-    nuevoUsuario.setContrasena(contrasena); // Establece la contraseña en el objeto usuario.
-    nuevoUsuario.setRolId(3); // Establece el ID de rol predeterminado.
-    UsuarioCRUD usuarioCRUD = new UsuarioCRUD(crudcliente);
-    int nuevoId = usuarioCRUD.generarNuevoId();
-    nuevoUsuario.setId(nuevoId);
-    usuarioCRUD.agregarUsuario(nuevoUsuario);
-    JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.");
-    this.txtCorreo.setText("");
-    this.txtContraseña.setText("");
-}
 
-    private boolean soloLetras(String texto) {
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetter(c)) {
-            return false;
+    public void agregarUsuarioDesdeRegistro() {
+        if (!validarEspaciosVacios()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos deben ser completados.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    }
-    return true;
+
+        String correo = this.txtCorreo.getText().trim();
+        String contrasena = new String(this.txtContraseña.getPassword());
+
+        // Validar el formato del correo electrónico
+        if (!validarCorreo(correo)) {
+            JOptionPane.showMessageDialog(this, "El correo no tiene un formato válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar la contraseña
+        if (!soloContraseña(contrasena)) {
+            JOptionPane.showMessageDialog(this, "La contraseña debe tener entre 8 y 16 caracteres alfanuméricos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            // Crear un nuevo usuario
+            ClaseUsuario nuevoUsuario = new ClaseUsuario();
+            nuevoUsuario.setCorreo(correo);
+            nuevoUsuario.setContrasena(contrasena);
+            nuevoUsuario.setRolId(3); // Rol predeterminado para clientes
+
+            // Crear instancia de UsuarioDAO y registrar al usuario
+            UsuarioDAO usuarioCRUD = new UsuarioDAO(crudcliente);
+            usuarioCRUD.agregarUsuario(nuevoUsuario);
+
+            JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.");
+            this.txtCorreo.setText("");
+            this.txtContraseña.setText("");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar el usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private boolean soloContraseña(String texto) {
-    if (texto.length() < 8 || texto.length() > 16) {
-        return false;
+        return texto.length() >= 8 && texto.length() <= 16 && texto.chars().allMatch(Character::isLetterOrDigit);
     }
-    for (char c : texto.toCharArray()) {
-        if (!Character.isLetterOrDigit(c)) {
-            return false;
-        }
-    }
-    return true;
+
+    private boolean validarCorreo(String correo) {
+        return correo.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$");
     }
     
-    private boolean soloLetrasNumerosArroba(String texto) {
-    boolean contieneArroba = false;
-    for (char c : texto.toCharArray()) {
-        if (Character.isLetter(c) || Character.isDigit(c) || c == '.') {
-            continue;
-        } else if (c == '@') {
-            if (contieneArroba) {
-                return false;
-            }
-            contieneArroba = true;
-        } else {
-            return false;
-        }
-    }
-    return contieneArroba;
-    }
-   
+    private boolean soloLetras(String texto) {
+    return texto.matches("^[a-zA-ZÁÉÍÓÚáéíóúñÑ\\s]+$");
+}
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -176,9 +168,13 @@ public void agregarUsuarioDesdeRegistro() {
         String correo = txtCorreo.getText();
         String contraseña = new String(txtContraseña.getPassword());
         
-        if (crudcliente.validar(correo, contraseña)!=null ) {
-            JOptionPane.showMessageDialog(this, "El correo ya está registrado", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        try {
+            if (crudcliente.validar(correo, contraseña)!=null ) {
+                JOptionPane.showMessageDialog(this, "El correo ya está registrado", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     
@@ -188,7 +184,7 @@ public void agregarUsuarioDesdeRegistro() {
     }
     
     
-    if (!soloLetrasNumerosArroba(correo)) {
+    if (!validarCorreo(correo)) {
         JOptionPane.showMessageDialog(this, "El correo solo debe contener numeros y letras y una arroba.");
         return;
     }
@@ -198,7 +194,11 @@ public void agregarUsuarioDesdeRegistro() {
         return;
     }
         Cliente nuevoCliente = new Cliente(1,nombre, correo, contraseña);
-        crudcliente.crearCliente(nuevoCliente);
+        try {
+            crudcliente.crearCliente(nuevoCliente);
+        } catch (SQLException ex) {
+            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(this, "Se a registrado correctamente el cliente", "Registrado correctamente", JOptionPane.INFORMATION_MESSAGE);
         this.setVisible(false);
      agregarUsuarioDesdeRegistro();

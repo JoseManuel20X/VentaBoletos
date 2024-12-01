@@ -6,7 +6,7 @@ package Views;
 
 
 import ENTITY.ClaseUsuario;
-import Controller.UsuarioCRUD;
+import Controller.UsuarioDAO;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,10 +16,10 @@ import javax.swing.JOptionPane;
 
 public class EditarUsuario extends javax.swing.JDialog {
    private ClaseUsuario usuario; // Objeto que representa al usuario a editar.
-   private UsuarioCRUD gestionUsuario; // Instancia para gestionar usuarios.
+   private UsuarioDAO gestionUsuario; // Instancia para gestionar usuarios.
 
     // Constructor de la clase EditarUsuario.
-    public EditarUsuario(java.awt.Frame parent, boolean modal, ClaseUsuario usuario, UsuarioCRUD gestionUsuario) {
+    public EditarUsuario(java.awt.Frame parent, boolean modal, ClaseUsuario usuario, UsuarioDAO gestionUsuario) {
         super(parent, modal); // Llama al constructor de la superclase JDialog.
         initComponents(); // Inicializa los componentes de la interfaz gráfica.
         this.setLocationRelativeTo(null);

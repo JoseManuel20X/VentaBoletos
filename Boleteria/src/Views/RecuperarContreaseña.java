@@ -4,8 +4,11 @@
  */
 package Views;
 
-import Controller.CRUDCliente;
-import Controller.UsuarioCRUD;
+import Controller.ClienteDAO;
+import Controller.UsuarioDAO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,14 +16,14 @@ import javax.swing.JOptionPane;
  * @author Raul Quesada Morera
  */
 public class RecuperarContreaseña extends javax.swing.JFrame {
-    private UsuarioCRUD usuarioCRUD;
+    private UsuarioDAO usuarioCRUD;
     /**
      * Creates new form RecuperarContreaseña
      */
     public RecuperarContreaseña() {
         initComponents();
 
-        usuarioCRUD = new UsuarioCRUD(new CRUDCliente()); // Inicializa UsuarioCRUD
+        usuarioCRUD = new UsuarioDAO(new ClienteDAO()); // Inicializa UsuarioDAO
     }
 
     /**
@@ -159,8 +162,13 @@ public class RecuperarContreaseña extends javax.swing.JFrame {
             return;
         }
 
-        // Llamar al método recuperarContraseñaPorCorreo usando la instancia de UsuarioCRUD
-        String contrasena = usuarioCRUD.recuperarContraseñaPorCorreo(correo);
+        // Llamar al método recuperarContraseñaPorCorreo usando la instancia de UsuarioDAO
+        String contrasena = null;
+        try {
+            contrasena = usuarioCRUD.recuperarContraseñaPorCorreo(correo);
+        } catch (SQLException ex) {
+            Logger.getLogger(RecuperarContreaseña.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // Si se encuentra la contraseña, mostrarla
         if (contrasena != null) {

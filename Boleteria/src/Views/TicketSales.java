@@ -1,19 +1,11 @@
 package Views;
 
-import Controller.BuyTicketFacade;
-import Controller.CRUDCliente;
-import Controller.CRUDHistorial;
-import Controller.EventController;
-import Controller.UsuarioCRUD;
+import Controller.*;
 import ENTITY.Cliente;
 import ENTITY.Event;
-import ENTITY.Historial;
-import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class TicketSales extends javax.swing.JFrame {
@@ -29,35 +21,35 @@ public class TicketSales extends javax.swing.JFrame {
         inicializarControladores();
         inicializarTabla();
         cargarDatosEnTabla();
-        
     }
 
-    
-
     private void inicializarControladores() {
-        CRUDCliente clienteCRUD = new CRUDCliente();
-        UsuarioCRUD usuarioCrud = new UsuarioCRUD(clienteCRUD);
-        clienteCRUD.setUsuarioCrud(usuarioCrud);
-        
-        gestionEventos = new EventController();
-        this.buyTicketFacade = new BuyTicketFacade(gestionEventos);
-        
+        try {
+            ClienteDAO clienteDAO = new ClienteDAO();
+            UsuarioDAO usuarioCRUD = new UsuarioDAO(clienteDAO);
+
+            gestionEventos = new EventController();
+            buyTicketFacade = new BuyTicketFacade(gestionEventos);
+            crudHistorial = new CRUDHistorial();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al inicializar los controladores: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void inicializarTabla() {
-        if (tbEventosDispo != null) {
-            String[] nombreColumnas = {"ID", "Nombre", "Fecha", "Recinto"};
-            this.modelo = new NonEditableTableModel(nombreColumnas, 0);
-            this.tbEventosDispo.setModel(modelo);
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: tbEventosDispo no está inicializado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        String[] nombreColumnas = {"ID", "Nombre", "Fecha", "Recinto"};
+        modelo = new NonEditableTableModel(nombreColumnas, 0);
+        tbEventosDispo.setModel(modelo);
     }
 
     private class NonEditableTableModel extends DefaultTableModel {
         public NonEditableTableModel(Object[] columnNames, int rowCount) {
             super(columnNames, rowCount);
         }
+
         @Override
         public boolean isCellEditable(int row, int column) {
             return false;
@@ -65,40 +57,56 @@ public class TicketSales extends javax.swing.JFrame {
     }
 
     private void buscarEventoSeleccionadoEnTabla() {
-        int selectedRow = this.tbEventosDispo.getSelectedRow();
+        int selectedRow = tbEventosDispo.getSelectedRow();
         if (selectedRow != -1) {
             int idEvento = (int) tbEventosDispo.getValueAt(selectedRow, 0);
-            Event evento = gestionEventos.leerEvento(idEvento);
-            if (evento != null) {
-                DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
-                detallesEventFrame.mostrarDetallesEvento(evento);
-                detallesEventFrame.setVisible(true);
-                detallesEventFrame.setResizable(false);
-                detallesEventFrame.setLocationRelativeTo(null);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                Event evento = gestionEventos.leerEvento(idEvento);
+                if (evento != null) {
+                    DETAILS_EVENT detallesEventFrame = new DETAILS_EVENT();
+                    detallesEventFrame.mostrarDetallesEvento(evento);
+                    detallesEventFrame.setVisible(true);
+                    detallesEventFrame.setResizable(false);
+                    detallesEventFrame.setLocationRelativeTo(null);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Evento no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Error al leer el evento: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un evento.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     private void cargarDatosEnTabla() {
-        List<Event> eventos = buyTicketFacade.obtenerEventosDisponibles();
-        if (eventos != null && !eventos.isEmpty()) {
-            for (Event evento : eventos) {
-                Object[] fila = {
-                    evento.getId(),
-                    evento.getName(),
-                    evento.getDate(),
-                    evento.getEnclosure()
-                };
-                modelo.addRow(fila);
+        try {
+            List<Event> eventos = buyTicketFacade.obtenerEventosDisponibles();
+            if (eventos != null && !eventos.isEmpty()) {
+                for (Event evento : eventos) {
+                    Object[] fila = {
+                        evento.getId(),
+                        evento.getName(),
+                        evento.getDate(),
+                        evento.getEnclosure()
+                    };
+                    modelo.addRow(fila);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay eventos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay eventos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error al cargar eventos: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public void setUsuarioActual(Cliente usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
@@ -308,7 +316,7 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarSeciónActionPerformed
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
-        CRUDCliente crudCliente = new CRUDCliente();
+        ClienteDAO crudCliente = new ClienteDAO();
         Registro registro = new Registro(crudCliente);
         registro.setVisible(true);
         registro.setResizable(false);
@@ -348,39 +356,36 @@ public class TicketSales extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComprarActionPerformed
 
     private void txtEventoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEventoKeyTyped
-        txtEvento.addKeyListener(new KeyAdapter(){
-            @Override
-            public void keyReleased(KeyEvent e) {
-                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtEvento.getText(), 1));
-            } 
-        });
-        
-        trs = new TableRowSorter(modelo);
+       // Solo configuramos el filtro una vez, no cada vez que se escribe una tecla.
+    if (trs == null) {
+        trs = new TableRowSorter<>(modelo);
         tbEventosDispo.setRowSorter(trs);
+    }
+
+    // Filtramos la tabla cuando el usuario teclea.
+    trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtEvento.getText(), 1));
     }//GEN-LAST:event_txtEventoKeyTyped
 
     private void txtFechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyTyped
-        txtFecha.addKeyListener(new KeyAdapter(){
-            @Override
-            public void keyReleased(KeyEvent e) {
-                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtFecha.getText(), 2));
-            } 
-        });
-        
-        trs = new TableRowSorter(modelo);
+       // Solo configuramos el filtro una vez, no cada vez que se escribe una tecla.
+    if (trs == null) {
+        trs = new TableRowSorter<>(modelo);
         tbEventosDispo.setRowSorter(trs);
+    }
+
+    // Filtramos la tabla cuando el usuario teclea.
+    trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtFecha.getText(), 2));
     }//GEN-LAST:event_txtFechaKeyTyped
 
     private void txtRecintoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRecintoKeyTyped
-        txtRecinto.addKeyListener(new KeyAdapter(){
-            @Override
-            public void keyReleased(KeyEvent e) {
-                trs.setRowFilter(RowFilter.regexFilter("(?i)"+txtRecinto.getText(), 3));
-            } 
-        });
-        
-        trs = new TableRowSorter(modelo);
+       // Solo configuramos el filtro una vez, no cada vez que se escribe una tecla.
+    if (trs == null) {
+        trs = new TableRowSorter<>(modelo);
         tbEventosDispo.setRowSorter(trs);
+    }
+
+    // Filtramos la tabla cuando el usuario teclea.
+    trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtRecinto.getText(), 3));
     }//GEN-LAST:event_txtRecintoKeyTyped
 
     private void VerHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerHistorialActionPerformed

@@ -1,14 +1,15 @@
 package ENTITY;
 
 import Controller.BuyTicketFacade;
-import Controller.CRUDCliente;
+import Controller.ClienteDAO;
 import ENTITY.Cliente;
 import javax.swing.JOptionPane;
 import main.Admin;
 import ENTITY.ClaseUsuario;
-import Controller.UsuarioCRUD;
+import Controller.UsuarioDAO;
 import Views.Loggin;
 import Views.TicketSales;
+import java.sql.SQLException;
 
 /**
  * @author Manuel
@@ -19,15 +20,15 @@ public class ClaseRol {
     public static final int OPERADOR = 2;
     public static final int CLIENTEV2 = 3;
     private Admin formularioAdministrador;
-    private UsuarioCRUD gestionUsuarios;
-    private CRUDCliente clienteCrud;
+    private UsuarioDAO gestionUsuarios;
+    private ClienteDAO clienteCrud;
     private TicketSales ticketSales;
     
 
     public ClaseRol(BuyTicketFacade buyTicketController, ClaseUsuario usuarioActual) {
-    this.clienteCrud = new CRUDCliente();
+    this.clienteCrud = new ClienteDAO();
     this.formularioAdministrador = new Admin(buyTicketController, usuarioActual); // Pasa los argumentos necesarios
-    this.gestionUsuarios = new UsuarioCRUD(clienteCrud);
+    this.gestionUsuarios = new UsuarioDAO(clienteCrud);
 }
 
     private void abrirLogin() {
@@ -45,7 +46,7 @@ public class ClaseRol {
     
     
     
-    public void iniciarSesion(String correo, String contraseña, Cliente cliente) {
+    public void iniciarSesion(String correo, String contraseña, Cliente cliente) throws SQLException {
     boolean loggedIn = false;
     for (ClaseUsuario usuario : gestionUsuarios.obtenerUsuarios()) {
         if (usuario.getCorreo().equalsIgnoreCase(correo) && usuario.getContrasena().equals(contraseña)) {

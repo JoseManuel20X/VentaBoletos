@@ -4,7 +4,7 @@
  */
 package Views;
 
-import Controller.CRUDCliente;
+import Controller.ClienteDAO;
 import ENTITY.Cliente;
 import javax.swing.JOptionPane;
 
@@ -13,10 +13,10 @@ import javax.swing.JOptionPane;
  * @author Manuel
  */
 public class EditarCliente extends javax.swing.JDialog {
-    private CRUDCliente clienteCRUD;
+    private ClienteDAO clienteCRUD;
     private Cliente cliente;
   
-    public EditarCliente(java.awt.Frame parent, boolean modal,Cliente cliente, CRUDCliente clienteCRUD) {
+    public EditarCliente(java.awt.Frame parent, boolean modal,Cliente cliente, ClienteDAO clienteCRUD) {
         super(parent, modal);
         initComponents();
         this.setResizable(false);
