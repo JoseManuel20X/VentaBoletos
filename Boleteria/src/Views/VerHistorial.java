@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Views;
 
-import Controller.CRUDHistorial;
+import Controller.HistorialDAO;
 import ENTITY.Historial;
 import javax.swing.*;
 import java.awt.*;
@@ -15,19 +11,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.sql.SQLException;
+
 /**
  *
  * @author Robert Granados
  */
-
-
 public class VerHistorial {
     private JFrame frame;
     private JTable table;
-    private Controller.CRUDHistorial crudHistorial;
+    private HistorialDAO crudHistorial;
     private int idCliente;
 
-    public VerHistorial(Controller.CRUDHistorial crudHistorial, int idCliente) {
+    public VerHistorial(HistorialDAO crudHistorial, int idCliente) {
         this.crudHistorial = crudHistorial; // Asignar instancia pasada por parámetro
         this.idCliente = idCliente;
 
@@ -59,22 +55,26 @@ public class VerHistorial {
         String[] columnas = {"ID Historial", "Nombre Evento", "Correo Cliente", "ID Cliente", "Cantidad"};
         DefaultTableModel model = new DefaultTableModel(columnas, 0);
 
-        // Cargar datos filtrados directamente desde el método de CRUDHistorial
-        List<Historial> historiales = crudHistorial.cargarHistoriales(idCliente);
+        try {
+            // Cargar datos filtrados directamente desde el método de HistorialDAO
+            List<Historial> historiales = crudHistorial.leerHistoriales(idCliente);
 
-        for (Historial historial : historiales) {
-            Object[] fila = {
-                historial.getIdHistorial(),
-                historial.getNombreevent(),
-                historial.getCorreoCliente(),
-                historial.getIdcliente(),
-                historial.getCantidad()
-            };
-            model.addRow(fila);
+            for (Historial historial : historiales) {
+                Object[] fila = {
+                    historial.getIdHistorial(),
+                    historial.getNombreevent(),
+                    historial.getCorreoCliente(),
+                    historial.getidcliente(),
+                    historial.getCantidad()
+                };
+                model.addRow(fila);
+            }
+
+            // Asignar el modelo a la tabla
+            table.setModel(model);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(frame, "Error al cargar datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Asignar el modelo a la tabla
-        table.setModel(model);
     }
 
     private void exportarAPDF() {
@@ -91,7 +91,7 @@ public class VerHistorial {
                 document.open();
                 document.add(new Paragraph("Historial de Compras", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK)));
                 document.add(new Paragraph(" "));
-                
+
                 // Crear tabla para el PDF
                 PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
                 pdfTable.setWidthPercentage(100);
@@ -126,4 +126,3 @@ public class VerHistorial {
         frame.setVisible(true);
     }
 }
-

@@ -1,6 +1,5 @@
 
 package Views;
-import ENTITY.ClaseUsuario;
 import ENTITY.Event;
 import javax.swing.table.DefaultTableModel;
 

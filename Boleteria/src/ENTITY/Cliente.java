@@ -6,11 +6,11 @@ package ENTITY;
  * @author Robert Granados
  */
 public class Cliente {
-    private int id;
+    private int idCliente;
     private String nombre;
     private String correo, contraseña;
     public Cliente(int id, String nombre,String correo, String contraseña) {
-        this.id = id;
+        this.idCliente = id;
         this.nombre = nombre;
         this.correo = correo;
         this.contraseña = contraseña;
@@ -19,12 +19,12 @@ public class Cliente {
     public Cliente() {
     }
 
-    public int getId() {
-        return id;
+    public int getidCliente() {
+        return idCliente;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.idCliente = id;
     }
     public String getNombre() {
         return nombre;

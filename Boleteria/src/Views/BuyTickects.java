@@ -1,7 +1,7 @@
 package Views;
 
 import Controller.BuyTicketFacade;
-import Controller.CRUDHistorial;
+import Controller.HistorialDAO;
 import Controller.EventDAO;
 import ENTITY.ClaseUsuario;
 import ENTITY.Cliente;
@@ -229,34 +229,44 @@ public class BuyTickects extends javax.swing.JFrame {
     }
 
     private void registrarCompraEnHistorial(int cantidad) {
-        // Crear registro en el historial
-        CRUDHistorial crudHistorial = new CRUDHistorial();
-        Historial nuevoHistorial = new Historial(
-                eventoSeleccionado.getName(),
-                usuarioActual.getCorreo(),
-                usuarioActual.getId(),
-                0,
-                cantidad
-        );
-        crudHistorial.crearHistorial(usuarioActual.getId(), nuevoHistorial);
+    // Crear instancia del DAO
+    HistorialDAO crudHistorial = new HistorialDAO();
+    
+    // Crear nuevo objeto Historial con los datos necesarios
+    Historial nuevoHistorial = new Historial(
+            eventoSeleccionado.getName(),  // Nombre del evento
+            usuarioActual.getCorreo(),    // Correo del cliente
+usuarioActual.getidCliente(),        // ID del cliente
+            0,                            // ID del historial (puede ser generado automáticamente)
+            cantidad                      // Cantidad comprada
+    );
 
-        // Mostrar detalles de la compra
-        String detallesCompra = "Compra realizada con éxito.\n\n"
-                + "Detalles de la Compra:\n"
-                + "Evento: " + eventoSeleccionado.getName() + "\n"
-                + "Cantidad de tickets: " + cantidad + "\n"
-                + "Precio unitario: " + eventoSeleccionado.getPrice() + "\n"
-                + "Total: " + (eventoSeleccionado.getPrice() * cantidad) + "\n"
-                + "Número de tarjeta: **** **** **** " + txtTarjeta.getText().substring(12) + "\n";
+    try {
+        // Registrar el historial en la base de datos
+        crudHistorial.crearHistorial(nuevoHistorial);
+        JOptionPane.showMessageDialog(this, "Historial actualizado con éxito.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al registrar el historial: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea descargar el recibo en PDF?",
-                "Confirmación de Compra", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, new String[]{"Descargar PDF", "Cerrar"}, "Descargar PDF");
+    // Mostrar detalles de la compra al usuario
+    String detallesCompra = "Compra realizada con éxito.\n\n"
+            + "Detalles de la Compra:\n"
+            + "Evento: " + eventoSeleccionado.getName() + "\n"
+            + "Cantidad de tickets: " + cantidad + "\n"
+            + "Precio unitario: " + eventoSeleccionado.getPrice() + "\n"
+            + "Total: " + (eventoSeleccionado.getPrice() * cantidad) + "\n"
+            + "Número de tarjeta: **** **** **** " + txtTarjeta.getText().substring(12) + "\n";
 
-        if (opcion == JOptionPane.YES_OPTION) {
-            exportarPDF(detallesCompra);
-        }
-        dispose();
+    int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea descargar el recibo en PDF?",
+            "Confirmación de Compra", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
+            null, new String[]{"Descargar PDF", "Cerrar"}, "Descargar PDF");
+
+    if (opcion == JOptionPane.YES_OPTION) {
+        exportarPDF(detallesCompra);
+    }
+    dispose();
     }//GEN-LAST:event_btnComprarActionPerformed
     
     private void exportarPDF(String detallesCompra) {

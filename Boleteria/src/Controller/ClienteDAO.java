@@ -46,7 +46,7 @@ public class ClienteDAO {
         List<Cliente> clientes = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                clientes.add(new Cliente(rs.getInt("id"), rs.getString("nombre"), rs.getString("correo"), rs.getString("contraseña")));
+                clientes.add(new Cliente(rs.getInt("idCliente"), rs.getString("nombre"), rs.getString("correo"), rs.getString("contraseña")));
             }
         } catch (SQLException e) {
             System.out.println("Error al leer los clientes: " + e.getMessage());
@@ -79,7 +79,7 @@ public class ClienteDAO {
             stmt.setString(1, clienteActualizado.getNombre());
             stmt.setString(2, clienteActualizado.getCorreo());
             stmt.setString(3, clienteActualizado.getContraseña());
-            stmt.setInt(4, clienteActualizado.getId());
+            stmt.setInt(4, clienteActualizado.getidCliente());
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Cliente actualizado correctamente.");
@@ -117,7 +117,7 @@ public class ClienteDAO {
             stmt.setString(2, contrasena);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Cliente(rs.getInt("id"), rs.getString("nombre"), rs.getString("correo"), rs.getString("contraseña"));
+                    return new Cliente(rs.getInt("idCliente"), rs.getString("nombre"), rs.getString("correo"), rs.getString("contraseña"));
                 }
             }
         } catch (SQLException e) {

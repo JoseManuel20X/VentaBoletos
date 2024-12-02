@@ -217,7 +217,7 @@ public Loggin() {
             JOptionPane.showMessageDialog(this, "Ingreso exitoso como Cliente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             // Configuración del usuario cliente
-            this.usuarioActual = new ClaseUsuario(cliente.getId(), cliente.getCorreo(), cliente.getContraseña(), 3); // RolId 3 para clientes
+            this.usuarioActual = new ClaseUsuario(cliente.getidCliente(), cliente.getCorreo(), cliente.getContraseña(), 3); // RolId 3 para clientes
             this.clienteAutenticado = cliente; // Asigna cliente autenticado
             usuarioAutenticado = true;
 

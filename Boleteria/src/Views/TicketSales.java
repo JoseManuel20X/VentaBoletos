@@ -16,7 +16,7 @@ public class TicketSales extends javax.swing.JFrame {
     private DefaultTableModel modelo;
     private BuyTicketFacade buyTicketFacade;
     private EventDAO gestionEventos;
-    private CRUDHistorial crudHistorial;
+    private HistorialDAO crudHistorial;
     private Cliente usuarioActual;
 
     public TicketSales() {
@@ -33,7 +33,7 @@ public class TicketSales extends javax.swing.JFrame {
 
             gestionEventos = new EventDAO();
             buyTicketFacade = new BuyTicketFacade(gestionEventos);
-            crudHistorial = new CRUDHistorial();
+            crudHistorial = new HistorialDAO();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
                 "Error al inicializar los controladores: " + e.getMessage(),
@@ -399,8 +399,8 @@ public class TicketSales extends javax.swing.JFrame {
         return;
     }
 
-    int idCliente = usuarioActual.getId(); // Obtén el ID del cliente logueado
-    Controller.CRUDHistorial crudHistorial = new Controller.CRUDHistorial();
+    int idCliente = usuarioActual.getidCliente(); // Obtén el ID del cliente logueado
+    Controller.HistorialDAO crudHistorial = new Controller.HistorialDAO();
 
     // Crear la ventana de VerHistorial y pasar el idCliente
     VerHistorial ventanaHistorial = new VerHistorial(crudHistorial, idCliente);

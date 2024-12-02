@@ -214,7 +214,7 @@ public class GUICliente extends javax.swing.JFrame {
         List<Cliente> clientes = clienteCRUD.leerClientes();
         for (Cliente cliente : clientes) {
             tableModel.addRow(new Object[]{
-                 cliente.getId(), cliente.getNombre(),
+                 cliente.getidCliente(), cliente.getNombre(),
                  cliente.getCorreo(), cliente.getContraseña()
             });
         }

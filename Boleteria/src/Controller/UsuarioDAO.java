@@ -26,7 +26,7 @@ public class UsuarioDAO {
             nuevoCliente.setContraseña(nuevoUsuario.getContrasena());
             
             clienteDAO.crearCliente(nuevoCliente); // Insertar en la base de datos.
-            nuevoUsuario.setId(nuevoCliente.getId()); // Establecer el ID generado por la base de datos.
+            nuevoUsuario.setId(nuevoCliente.getidCliente()); // Establecer el ID generado por la base de datos.
         } else {
             throw new UnsupportedOperationException("Solo se soporta la creación de clientes.");
         }
@@ -39,7 +39,7 @@ public class UsuarioDAO {
         
         for (Cliente cliente : clientes) {
             ClaseUsuario usuario = new ClaseUsuario();
-            usuario.setId(cliente.getId());
+            usuario.setId(cliente.getidCliente());
             usuario.setCorreo(cliente.getCorreo());
             usuario.setContrasena(cliente.getContraseña());
             usuario.setRolId(3); // Asumimos que todos son clientes.
@@ -53,7 +53,7 @@ public class UsuarioDAO {
         Cliente cliente = clienteDAO.leerCliente(id);
         if (cliente != null) {
             ClaseUsuario usuario = new ClaseUsuario();
-            usuario.setId(cliente.getId());
+            usuario.setId(cliente.getidCliente());
             usuario.setCorreo(cliente.getCorreo());
             usuario.setContrasena(cliente.getContraseña());
             usuario.setRolId(3); // Suponemos que todos son clientes.

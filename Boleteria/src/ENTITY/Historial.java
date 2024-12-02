@@ -48,7 +48,7 @@ public class Historial {
         this.correoCliente = correoCliente;
     }
 
-    public int getIdcliente() {
+    public int getidcliente() {
         return idcliente;
     }
 
