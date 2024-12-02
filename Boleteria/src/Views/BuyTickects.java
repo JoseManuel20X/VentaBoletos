@@ -2,7 +2,7 @@ package Views;
 
 import Controller.BuyTicketFacade;
 import Controller.CRUDHistorial;
-import Controller.EventController;
+import Controller.EventDAO;
 import ENTITY.ClaseUsuario;
 import ENTITY.Cliente;
 import ENTITY.Event;
@@ -21,11 +21,10 @@ import java.io.IOException;
  * @author Manuel
  */
 public class BuyTickects extends javax.swing.JFrame {
-private Event eventoSeleccionado;
+  private Event eventoSeleccionado;
     private BuyTicketFacade buyTickect;
-    private ENTITY.Cliente usuarioActual; 
- 
-    
+    private Cliente usuarioActual;
+
     public BuyTickects(Event evento, BuyTicketFacade buyTickect, Cliente usuarioActual) {
         this.eventoSeleccionado = evento;
         this.buyTickect = buyTickect;
@@ -34,12 +33,11 @@ private Event eventoSeleccionado;
         mostrarDetallesEvento(evento);
     }
 
-    // Muestra los detalles del evento seleccionado en los campos de texto
+    // Muestra los detalles del evento en los campos correspondientes
     public void mostrarDetallesEvento(Event evento) {
         txtEventoResumen.setText(evento.getName());
         txtTotalResumen.setText(String.valueOf(evento.getPrice()));
     }
-
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -192,47 +190,66 @@ private Event eventoSeleccionado;
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-      String nombreCliente = txtName.getText();
-    
-    if (nombreCliente.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe ingresar su nombre para la compra.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
+     String nombreCliente = txtName.getText();
+
+        if (nombreCliente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar su nombre para la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int cantidad;
+        try {
+            cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Seleccione una cantidad válida.");
+            return;
+        }
+
+        String numeroTarjeta = txtTarjeta.getText();
+        if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16 || !numeroTarjeta.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Ingrese un número de tarjeta válido de 16 dígitos.");
+            return;
+        }
+
+        // Comprar ticket usando EventDAO
+        EventDAO eventController = new EventDAO();
+        boolean compraExitosa;
+        try {
+            compraExitosa = eventController.buyTicket(eventoSeleccionado.getId(), cantidad);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al procesar la compra: " + e.getMessage());
+            return;
+        }
+
+        if (compraExitosa) {
+            registrarCompraEnHistorial(cantidad);
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
+        }
     }
 
-    int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
-    String numeroTarjeta = txtTarjeta.getText();
-    if (numeroTarjeta.isEmpty() || numeroTarjeta.length() != 16) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de tarjeta válido de 16 dígitos.");
-        return;
-    }
-
-    // Comprar ticket usando EventController
-    EventController eventController = new EventController();
-    boolean compraExitosa = eventController.buyTicket(eventoSeleccionado.getId(), cantidad, numeroTarjeta);
-
-    if (compraExitosa) {
-        // Registrar la compra en el historial del usuario actual
+    private void registrarCompraEnHistorial(int cantidad) {
+        // Crear registro en el historial
         CRUDHistorial crudHistorial = new CRUDHistorial();
         Historial nuevoHistorial = new Historial(
-            eventoSeleccionado.getName(),        // Nombre del evento
-            usuarioActual.getCorreo(),           // Correo del cliente
-            usuarioActual.getId(),               // ID del cliente actual
-            0,                                   // ID del historial (se genera automáticamente)
-            cantidad                             // Cantidad de tickets comprados
+                eventoSeleccionado.getName(),
+                usuarioActual.getCorreo(),
+                usuarioActual.getId(),
+                0,
+                cantidad
         );
         crudHistorial.crearHistorial(usuarioActual.getId(), nuevoHistorial);
 
-        // Detalles de la compra para mostrar
+        // Mostrar detalles de la compra
         String detallesCompra = "Compra realizada con éxito.\n\n"
                 + "Detalles de la Compra:\n"
                 + "Evento: " + eventoSeleccionado.getName() + "\n"
                 + "Cantidad de tickets: " + cantidad + "\n"
                 + "Precio unitario: " + eventoSeleccionado.getPrice() + "\n"
                 + "Total: " + (eventoSeleccionado.getPrice() * cantidad) + "\n"
-                + "Número de tarjeta: **** **** **** " + numeroTarjeta.substring(12) + "\n";
+                + "Número de tarjeta: **** **** **** " + txtTarjeta.getText().substring(12) + "\n";
 
-        // Opción para descargar PDF o cerrar
-        int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea ver el historial de compras?",
+        int opcion = JOptionPane.showOptionDialog(this, detallesCompra + "\n¿Desea descargar el recibo en PDF?",
                 "Confirmación de Compra", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, new String[]{"Descargar PDF", "Cerrar"}, "Descargar PDF");
 
@@ -240,40 +257,26 @@ private Event eventoSeleccionado;
             exportarPDF(detallesCompra);
         }
         dispose();
-    } else {
-        JOptionPane.showMessageDialog(this, "No hay suficientes tickets disponibles o el evento no existe.");
-    }
     }//GEN-LAST:event_btnComprarActionPerformed
     
     private void exportarPDF(String detallesCompra) {
         Document document = new Document();
         try {
-            // Crear el PDF en la ruta especificada
             String rutaPDF = "ReciboCompra.pdf";
             PdfWriter.getInstance(document, new FileOutputStream(rutaPDF));
             document.open();
-            String nombre =txtName.getText();;
 
-            // Título del recibo
-            Paragraph titulo = new Paragraph("Recibo de Compra del usuario "+ nombre);
+            Paragraph titulo = new Paragraph("Recibo de Compra del usuario " + txtName.getText());
             titulo.setAlignment(Element.ALIGN_CENTER);
             document.add(titulo);
-
-            // Espacio
             document.add(new Paragraph(" "));
-
-            // Detalles de la compra
             Paragraph detalles = new Paragraph(detallesCompra);
             detalles.setAlignment(Element.ALIGN_LEFT);
             document.add(detalles);
 
-            // Cerrar el documento
             document.close();
-
-            // Mostrar mensaje de éxito y abrir el PDF para vista previa
             JOptionPane.showMessageDialog(this, "Recibo PDF generado exitosamente.");
             java.awt.Desktop.getDesktop().open(new java.io.File(rutaPDF));
-
         } catch (DocumentException | IOException e) {
             JOptionPane.showMessageDialog(this, "Error al generar el recibo PDF.");
             e.printStackTrace();
@@ -281,13 +284,8 @@ private Event eventoSeleccionado;
     }
     
     private void cbxCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCantidadActionPerformed
-        // Obtener el precio unitario del evento
-        double precioUnitario = eventoSeleccionado.getPrice();
-
-        // Obtener la cantidad seleccionada en el combo box
+         double precioUnitario = eventoSeleccionado.getPrice();
         int cantidad = Integer.parseInt(cbxCantidad.getSelectedItem().toString());
-
-        // Calcular el total y actualizar el campo de texto txtTotalResumen
         double total = precioUnitario * cantidad;
         txtTotalResumen.setText(String.valueOf(total));
     }//GEN-LAST:event_cbxCantidadActionPerformed

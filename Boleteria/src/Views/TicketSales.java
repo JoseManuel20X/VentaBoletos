@@ -3,16 +3,19 @@ package Views;
 import Controller.*;
 import ENTITY.Cliente;
 import ENTITY.Event;
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TicketSales extends javax.swing.JFrame {
     private TableRowSorter<DefaultTableModel> trs;
     private DefaultTableModel modelo;
     private BuyTicketFacade buyTicketFacade;
-    private EventController gestionEventos;
+    private EventDAO gestionEventos;
     private CRUDHistorial crudHistorial;
     private Cliente usuarioActual;
 
@@ -28,7 +31,7 @@ public class TicketSales extends javax.swing.JFrame {
             ClienteDAO clienteDAO = new ClienteDAO();
             UsuarioDAO usuarioCRUD = new UsuarioDAO(clienteDAO);
 
-            gestionEventos = new EventController();
+            gestionEventos = new EventDAO();
             buyTicketFacade = new BuyTicketFacade(gestionEventos);
             crudHistorial = new CRUDHistorial();
         } catch (Exception e) {
@@ -349,7 +352,9 @@ public class TicketSales extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID de evento no válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }   catch (SQLException ex) {
+                Logger.getLogger(TicketSales.class.getName()).log(Level.SEVERE, null, ex);
+            }
     } else {
         JOptionPane.showMessageDialog(this, "Por favor, seleccione un evento para comprar boletos.");
     }

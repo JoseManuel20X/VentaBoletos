@@ -3,20 +3,21 @@ package Controller;
 import ENTITY.Event;
 import ENTITY.Tickect;
 import ENTITY.ClaseUsuario;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class BuyTicketFacade {
-    private EventController eventoController;
+    private EventDAO eventoController;
     private List<Tickect> historial;
 
-    public BuyTicketFacade(EventController eventoController) {
+    public BuyTicketFacade(EventDAO eventoController) {
         this.eventoController = eventoController;
         this.historial = new ArrayList<>();
     }
 
-    public boolean comprarTique(ClaseUsuario usuario, int idEvento, int cantidad, String numeroTarjeta) {
+    public boolean comprarTique(ClaseUsuario usuario, int idEvento, int cantidad, String numeroTarjeta) throws SQLException {
         Event evento = obtenerEventoPorId(idEvento);
         
         // Verificar recursivamente la disponibilidad de boletos
@@ -48,12 +49,12 @@ public class BuyTicketFacade {
     }
 
     // Método para obtener todos los eventos disponibles
-    public List<Event> obtenerEventosDisponibles() {
+    public List<Event> obtenerEventosDisponibles() throws SQLException {
         return eventoController.leerEventos();
     }
 
     // Método para obtener un evento por su ID
-    public Event obtenerEventoPorId(int idEvento) {
+    public Event obtenerEventoPorId(int idEvento) throws SQLException {
         return eventoController.leerEvento(idEvento);
     }
 
@@ -76,7 +77,7 @@ public class BuyTicketFacade {
     }
 
     // Método recursivo para completar la compra
-    private boolean completarCompraRecursivo(ClaseUsuario usuario, Event evento, int cantidad) {
+    private boolean completarCompraRecursivo(ClaseUsuario usuario, Event evento, int cantidad) throws SQLException {
         if (cantidad == 0) {
             // Condición base: todos los boletos han sido descontados
             Tickect tique = new Tickect(usuario, evento, cantidad);

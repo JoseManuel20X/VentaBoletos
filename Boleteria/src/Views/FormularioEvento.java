@@ -1,10 +1,13 @@
 package Views;
 
-import Controller.EventController;
+import Controller.EventDAO;
 import ENTITY.Event;
 import static java.lang.Integer.parseInt;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,14 +19,14 @@ public class FormularioEvento extends javax.swing.JDialog {
  // Variable para almacenar el estado de confirmación.
     private boolean confirmar;
 
-    // Instancia de EventController para gestionar operaciones con eventos.
-    private EventController gestionEventos;
+    // Instancia de EventDAO para gestionar operaciones con eventos.
+    private EventDAO gestionEventos;
 
     // ID del evento que se está editando o consultando.
     private int eventoId;
 
     // Constructor para crear o editar un evento.
-    public FormularioEvento(java.awt.Frame parent, boolean modal, EventController gestionEventos) {
+    public FormularioEvento(java.awt.Frame parent, boolean modal, EventDAO gestionEventos) {
         super(parent, modal); // Llama al constructor de la clase base (JDialog).
         this.gestionEventos = gestionEventos; // Inicializa el controlador de eventos.
         initComponents();
@@ -263,7 +266,11 @@ public class FormularioEvento extends javax.swing.JDialog {
 
         // Crear el nuevo evento
         Event nuevoEvent = new Event(1, nombre, fecha, enclosure, precioCast, tickectsCast, descripción);
-        gestionEventos.crearEvento(nuevoEvent);
+        try {
+            gestionEventos.crearEvento(nuevoEvent);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormularioEvento.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JOptionPane.showMessageDialog(this, "Se ha registrado correctamente el Evento", "Registrado correctamente", JOptionPane.INFORMATION_MESSAGE);
         this.setVisible(false);
     }//GEN-LAST:event_btnGuardarActionPerformed

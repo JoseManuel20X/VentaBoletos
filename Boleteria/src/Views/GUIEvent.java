@@ -1,11 +1,14 @@
 package Views;
 
 
-import Controller.EventController;
+import Controller.EventDAO;
 import ENTITY.Event;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.DocumentListener;
 
 /**
@@ -15,13 +18,13 @@ import javax.swing.event.DocumentListener;
 
 public class GUIEvent extends javax.swing.JFrame {
     private DefaultTableModel modelo;
-    private EventController gestionEventos;
+    private EventDAO gestionEventos;
     
-    public GUIEvent() {
+    public GUIEvent() throws SQLException {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.gestionEventos = new EventController();
+        this.gestionEventos = new EventDAO();
 
         // Define los nombres de las columnas para la tabla de eventos
         String[] nombreColumnas = new String[]{"ID", "Nombre", "Fecha", "Recinto", "Precio","Tickets Disp","Descripción"};
@@ -50,7 +53,7 @@ public class GUIEvent extends javax.swing.JFrame {
         }
     }
 
-     private void cargarDatosEnTabla() {
+     private void cargarDatosEnTabla() throws SQLException {
         List<Event> eventos = gestionEventos.leerEventos();
         System.out.println("Eventos en GUI: " + eventos );
         
@@ -70,7 +73,7 @@ public class GUIEvent extends javax.swing.JFrame {
         }
     }
      
-     private void actualizarTabla() {
+     private void actualizarTabla() throws SQLException {
         this.modelo.setRowCount(0);
          List<Event> eventos = this.gestionEventos.leerEventos();
 
@@ -89,7 +92,7 @@ public class GUIEvent extends javax.swing.JFrame {
         } 
     }
 
-    private void agregarEvento(Event nuevoEvento) {
+    private void agregarEvento(Event nuevoEvento) throws SQLException {
         gestionEventos.crearEvento(nuevoEvento);
         Object[] fila = new Object[]{
             nuevoEvento.getId(),
@@ -103,7 +106,7 @@ public class GUIEvent extends javax.swing.JFrame {
         modelo.addRow(fila);
     }
 
-    private void eliminarEvento() {
+    private void eliminarEvento() throws SQLException {
         int selectedRow = this.tbEventos.getSelectedRow();
         if (selectedRow != -1) {
             int id = (int) modelo.getValueAt(selectedRow, 0);
@@ -114,42 +117,74 @@ public class GUIEvent extends javax.swing.JFrame {
         }
     }
 
-    private void editarEvento() {
-        int filaSeleccionada = this.tbEventos.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            int id = (int) this.tbEventos.getValueAt(filaSeleccionada, 0);
-            Event evento = gestionEventos.leerEvento(id);
-            if (evento != null) {
-                EditarEvento dialog = new EditarEvento(this, true, evento, gestionEventos);
-                dialog.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "No se encontró el evento seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un evento para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
+   private void editarEvento() {
+    int filaSeleccionada = tbEventos.getSelectedRow();
+
+    // Verificar si se seleccionó una fila
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un evento para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
     }
+
+    try {
+        // Obtener el ID del evento seleccionado
+        int id = (int) tbEventos.getValueAt(filaSeleccionada, 0);
+        Event evento = gestionEventos.leerEvento(id);
+
+        // Validar si se encontró el evento
+        if (evento == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró el evento seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear y mostrar el diálogo de edición
+        EditarEvento dialog = new EditarEvento(evento, gestionEventos);
+        dialog.setVisible(true);
+
+        // Refrescar la tabla tras la edición
+        actualizarTabla();
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar editar el evento: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
     private void agregarBusqueda() {
         txtBusqueda.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
-                filtrarEventos();
+                try {
+                    filtrarEventos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             @Override
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
-                filtrarEventos();
+                try {
+                    filtrarEventos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
-                filtrarEventos();
+                try {
+                    filtrarEventos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
-    private void filtrarEventos() {
+    private void filtrarEventos() throws SQLException {
         String filtro = txtBusqueda.getText().toLowerCase();
         modelo.setRowCount(0);
         List<Event> eventos = gestionEventos.leerEventos();
@@ -174,8 +209,8 @@ public class GUIEvent extends javax.swing.JFrame {
     
     
     private void formu() {
-       // Crear una instancia de EventController (suponiendo que ya la tienes en tu código)
-    EventController gestionEventos = new EventController();
+       // Crear una instancia de EventDAO (suponiendo que ya la tienes en tu código)
+    EventDAO gestionEventos = new EventDAO();
 
     // Llamar al constructor de FormularioEvento con los parámetros correctos
     FormularioEvento form = new FormularioEvento(null, true, gestionEventos);
@@ -292,18 +327,34 @@ public class GUIEvent extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         this.formu();
-        this.actualizarTabla();
+        try {
+            this.actualizarTabla();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        this.eliminarEvento();
-        this.actualizarTabla();
+        try {
+            // TODO add your handling code here:
+            this.eliminarEvento();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.actualizarTabla();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         this.editarEvento();
-        this.actualizarTabla();
+        try {
+            this.actualizarTabla();
+        } catch (SQLException ex) {
+            Logger.getLogger(GUIEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
